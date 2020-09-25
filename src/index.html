@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>VoxelCraft</title>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+		/>
+		<link type="text/css" rel="stylesheet" href="main.css" />
+		<link rel="icon" href="favicon.ico" type="image/ico" />
+	</head>
+	<body>
+		<link
+			href="//fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+		<script
+			src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
+			crossorigin
+		></script>
+		<script src="https://unpkg.com/htm@2.2.1" crossorigin></script>
+
+		<div id="react"></div>
+
+		<div id="info">
+			<!-- <strong>1-9</strong>: change texture, <strong>L click</strong>: add voxel, -->
+			<strong>L click</strong>: add voxel, <strong>R click</strong>: remove voxel
+		</div>
+
+		<div id="canvas"></div>
+
+		<script type="module" src="voxel.js"></script>
+	</body>
+</html>

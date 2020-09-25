@@ -1,0 +1,262 @@
+body {
+  overflow: hidden;
+  color: #444;
+  margin: 0;
+  background-color: #000;
+  font-family: Lato;
+  font-size: 13px;
+  line-height: 24px;
+  overscroll-behavior: none;
+}
+
+a {
+  text-decoration: none;
+  color: #5c77ff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+canvas {
+  display: block;
+}
+
+#canvas {
+  position: relative;
+  z-index: 1;
+}
+
+#info {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  z-index: 2;
+}
+
+a,
+button,
+input,
+select {
+  pointer-events: auto;
+}
+
+.dg.ac {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 2 !important; /* TODO Solve this in HTML */
+}
+
+#overlay {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+#overlay button {
+  background: #ffffff;
+  border: 0;
+  color: #000000;
+  padding: 16px 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* GUI */
+#react {
+  position: relative;
+}
+
+.gui {
+  padding: 1em;
+  background-color: #333;
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 0;
+  width: 14em;
+  height: 100vh;
+  z-index: 2;
+  overflow: auto;
+}
+
+.gui__selected-block {
+  margin: 0.1em 0.2em;
+  padding: 2px;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  border: 2px solid transparent;
+}
+
+.gui__selected-block--selected {
+  border: 2px solid #5c77ff;
+}
+
+.gui__button,
+.gui__button--inline {
+  border: 1px solid #444;
+  padding: 0.5em 1em;
+  display: block;
+  color: white;
+  cursor: pointer;
+}
+
+.gui__button:hover,
+.gui__button--inline:hover {
+  background-color: black;
+  border-color: #5c77ff;
+  color: #5c77ff;
+  text-decoration: none;
+}
+
+.gui__button--inline {
+  display: inline-block;
+}
+
+.gui__button--active {
+  color: #5c77ff;
+  border-color: #5c77ff;
+}
+
+.gui__saved-list {
+  padding: 0 0 0 0;
+  list-style: none;
+}
+
+.gui__saved-list li {
+  display: flex;
+}
+
+.gui__saved-list li .gui__button {
+  flex: 1;
+}
+.gui__saved-list li .gui__button.gui__button--close {
+  flex: 0;
+}
+
+.gui__transforms {
+  padding-bottom: 3em;
+}
+
+/* modal */
+.modal-window * {
+  box-sizing: border-box;
+}
+
+.modal-window {
+  position: fixed;
+  background-image: linear-gradient(to right, #952bff 0, #5c77ff 100%);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-window--opened {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-window > div {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  max-height: 600px;
+  overflow-y: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2em;
+  background: #ffffff;
+}
+
+.modal-window header {
+  font-weight: bold;
+}
+
+.modal-window h1 {
+  font-size: 150%;
+  margin: 0 0 15px;
+}
+
+.modal-close {
+  color: #aaa;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 70px;
+  text-decoration: none;
+}
+
+.modal-close:hover {
+  color: black;
+}
+
+.modal-window__code-wrapper {
+  position: relative;
+}
+
+.modal-window__code {
+  width: 100%;
+  height: 140px;
+  overflow-y: scroll;
+  font-size: 0.8em;
+  border: 1px solid #952bff;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.modal-window__copy {
+  background: #952bff;
+  border: 1px solid #952bff;
+  color: white;
+  padding: 0.5em;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+
+.modal-window__copy:hover {
+  background: black;
+  color: white;
+  padding: 0.5em;
+  float: right;
+  text-decoration: none;
+}
