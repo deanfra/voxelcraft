@@ -5,7 +5,10 @@ const {createElement, useState, useEffect} = React
 const html = htm.bind(createElement)
 
 const TemplateLink = (props) => {
-	const click = () => props.onClick(props.tpl.id)
+	const click = (e) => {
+		e.preventDefault()
+		props.onClick(props.tpl.id)
+	}
 	const del = (e) => {
 		e.preventDefault()
 		props.del(props.tpl.id)
@@ -24,7 +27,8 @@ const TemplateLoader = (props) => {
 		setTemplates(store.saved)
 	}, [])
 
-	const save = () => {
+	const save = (e) => {
+		e.preventDefault()
 		storage.save(props.state.objects)
 		const store = storage.fetchAll()
 		setTemplates(store.saved)

@@ -1,6 +1,5 @@
 import * as THREE from '../lib/three.module.js'
 import {OrbitControls} from './jsm/controls/OrbitControls.js'
-import toCommand from './utils/converter.js'
 import {blockNames} from './config.js'
 import GUI from './gui/gui.js'
 
@@ -14,6 +13,8 @@ let cubeGeo, cubeMaterials
 let objects = []
 let mirrorX = false
 let modalOpen = false
+
+let touchTimer, touchTime, touchX, touchY
 
 // Record mouse movement
 const mouseMovement = {x: 0, y: 0}
@@ -36,6 +37,7 @@ function init() {
 	var rollOverGeo = new THREE.BoxBufferGeometry(50, 50, 50)
 	rollOverMaterial = new THREE.MeshBasicMaterial({color: 0xff0000, opacity: 0.5, transparent: true})
 	rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial)
+	rollOverMesh.position.set(9999, 9999, 9999)
 	state.scene.add(rollOverMesh)
 
 	cubeGeo = new THREE.BoxBufferGeometry(50, 50, 50)
@@ -90,6 +92,8 @@ function init() {
 	document.addEventListener('mousemove', onDocumentMouseMove)
 	document.addEventListener('mouseup', onDocumentMouseUp)
 	document.addEventListener('mousedown', onDocumentMouseDown, {passive: false})
+	document.addEventListener('touchstart', onDocumentTouchStart, {passive: false})
+	document.addEventListener('touchend', onDocumentMouseUp, false)
 	// document.addEventListener('keydown', onDocumentKeyDown)
 
 	window.addEventListener('resize', onWindowResize)
@@ -108,13 +112,26 @@ function recordStartPosition(event) {
 	mouseMovement.moveX = 0
 	mouseMovement.moveY = 0
 }
+
 function recordMovement(event) {
-	mouseMovement.moveX += Math.abs(mouseMovement.x - event.clientX)
-	mouseMovement.moveY += Math.abs(mouseMovement.y - event.clientY)
+	const clientX = event.clientX
+	const clientY = event.clientY
+	mouseMovement.moveX += Math.abs(mouseMovement.x - clientX)
+	mouseMovement.moveY += Math.abs(mouseMovement.y - clientY)
+}
+
+function onDocumentTouchStart(event) {
+	touchTime = 0
+	touchTimer = setInterval(() => {
+		touchTime += 1
+	}, 1)
+	const target = (!!event.targetTouches && event.targetTouches[0]) || {}
+	touchX = target.clientX
+	touchY = target.clientY
 }
 
 function onDocumentMouseDown(event) {
-	event.preventDefault()
+	event.preventDefault() // prevent scrolling
 	recordStartPosition(event)
 	window.addEventListener('mousemove', recordMovement)
 }
@@ -142,13 +159,16 @@ function onDocumentMouseMove(event) {
 function onDocumentMouseUp(event) {
 	event.preventDefault()
 
+	clearInterval(touchTimer)
 	const {moveX, moveY} = mouseMovement
-	const mouseHasMoved = moveX > 15 || moveX < -15 || moveY > 15 || moveY < -15
+	const mouseHasMoved = moveX > 15 || moveX < -15 || moveY > 15 || moveY < -15 || touchTime > 75
 	if (state.modalOpen || mouseHasMoved) {
 		return
 	}
 
-	const {clientX, clientY} = event
+	const clientX = event.clientX || touchX
+	const clientY = event.clientY || touchY
+
 	const {innerWidth, innerHeight} = window
 	mouse.set((clientX / innerWidth) * 2 - 1, -(clientY / innerHeight) * 2 + 1)
 

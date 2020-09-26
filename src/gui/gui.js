@@ -9,17 +9,20 @@ const {createElement, useState} = React
 const html = htm.bind(createElement)
 
 function GUI({state}) {
-	const clear = () => clearBlocks(state)
-	const generate = () => setShowModal(true)
-	const random = () => randomBlocks(state)
-	const house = () => generateHouse(state)
-	const tower = () => generateTower(state)
+	const pd = (e) => (fn) => e.preventDefault() && fn
+
+	const clear = (e) => pd(e)(clearBlocks(state))
+	const generate = (e) => pd(e)(setShowModal(true))
+	const random = (e) => pd(e)(randomBlocks(state))
+	const house = (e) => pd(e)(generateHouse(state))
+	const tower = (e) => pd(e)(generateTower(state))
 
 	const [showModal, setShowModal] = useState(false)
 
 	const [mirrorX, setMirrorX] = useState(state.mirrorX)
 	const mirrorXClass = `gui__button--inline ${mirrorX ? 'gui__button--active' : ''}`
-	const clickMirrorX = () => {
+	const clickMirrorX = (e) => {
+		e.preventDefault()
 		setMirrorX(!mirrorX)
 		state.mirrorX = !mirrorX
 	}
@@ -40,7 +43,7 @@ function GUI({state}) {
 				<h3>↘️ Move model</h3>
 				<${TransformControls} state=${state} />
 			</div>
-			<${CommandModal} state=${state} show=${showModal} onClose=${() => setShowModal(false)} />
+			<${CommandModal} state=${state} show=${showModal} onClose=${(e) => pd(e)(setShowModal(false))} />
 		</div>
 	`
 }
