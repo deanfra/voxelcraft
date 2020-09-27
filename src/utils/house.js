@@ -3,7 +3,7 @@ import {arrayFrom, sample, randomBetween} from './randomizer.js'
 import {blockExists, toCoordinate, isEnclosed} from './blocks.js'
 
 // Random rooms
-const roomCount = 5
+const roomCount = 3
 
 // does this block sit at the start or the end of an array
 const isFrame = (block, start, length) => block === start || block === start + length - 1
@@ -13,18 +13,19 @@ const house = (mirrorX) => {
 	const blocks = []
 	const blockLookup = {}
 
-	const planks = sample(blockNames.filter((name) => name.match('planks')))
+	const planks = blockNames.filter((name) => name.match('planks'))
+	const walls = sample([...planks, 'cobblestone'])
 	const wood = sample(blockNames.filter((name) => name.match('wood')))
 
 	rooms.forEach(() => {
 		// const planksSelection = [planks]
 
 		const roomXStart = randomBetween(-3, 3)
-		const roomYStart = randomBetween(1, 3)
+		const roomYStart = 1
 		const roomZStart = randomBetween(-3, 3)
 
-		const roomXLength = randomBetween(3, 5)
-		const roomYLength = randomBetween(3, 7)
+		const roomXLength = randomBetween(3, 6)
+		const roomYLength = randomBetween(4, 6)
 		const roomZLength = randomBetween(3, 7)
 
 		arrayFrom(roomXLength).forEach((ix) => {
@@ -41,7 +42,7 @@ const house = (mirrorX) => {
 					// if at least two blocks sit in a frame position
 					const placeFrame = [frameX, frameY, frameZ].filter((frame) => !!frame).length > 1
 
-					const block = placeFrame ? wood : planks
+					const block = placeFrame ? wood : walls
 
 					if (!blockExists(x, y, z, blockLookup)) {
 						blocks.push({
@@ -61,6 +62,33 @@ const house = (mirrorX) => {
 						})
 					}
 				})
+			})
+		})
+
+		arrayFrom(roomZLength + 2).forEach((iz) => {
+			let halfCounter = 0
+			arrayFrom(roomXLength + 2).forEach((ix) => {
+				const roofX = roomXStart - 1 + ix
+				const isHalf = ix < (roomXLength + 1) / 2
+				const roofZ = roomZStart - 1 + iz
+				let roofY = roomYStart + (roomYLength - 1)
+				if (isHalf) {
+					roofY += ix
+				} else {
+					roofY += (roomXLength + 2) / 2 - (ix + 1 - (roomXLength + 2) / 2)
+				}
+				if (!blockExists(roofX, roofY, roofZ, blockLookup)) {
+					// generate roof
+					blocks.push({
+						x: toCoordinate(roofX),
+						y: toCoordinate(roofY),
+						z: toCoordinate(roofZ),
+						block: 'oak_planks',
+					})
+				}
+				if (isHalf) {
+					halfCounter = halfCounter + 1
+				}
 			})
 		})
 	})
