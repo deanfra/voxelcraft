@@ -15,8 +15,10 @@ const TransformControls = (props) => {
 	const flipx = (e) => pd(e)(transform.flipx(props.state))
 	const flipy = (e) => pd(e)(transform.flipy(props.state))
 	const flipz = (e) => pd(e)(transform.flipz(props.state))
+	const rotateY = (e) => pd(e)(transform.rotateYObjects(props.state))
 
 	return html`<div class="gui__transforms">
+		<a href="#" class="gui__button gui__button" onClick=${rotateY}>rotate Y</a><br />
 		<a href="#" class="gui__button gui__button--inline" onClick=${left}>- x</a>
 		<a href="#" class="gui__button gui__button--inline" onClick=${right}>+ x</a><br />
 		<a href="#" class="gui__button gui__button--inline" onClick=${down}>- y</a>

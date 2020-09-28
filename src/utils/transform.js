@@ -32,6 +32,22 @@ const flipz = (state) => {
 	)
 }
 
+const rotateY = (x, z) => {
+	return {z: x, x: invert(z)}
+}
+
+const rotateYObjects = (state) => {
+	state.objects.forEach((obj) => {
+		const z = obj.position.z
+		const x = obj.position.x
+		if (isntPlane(obj)) {
+			const rotation = rotateY(x, z)
+			obj.position.z = rotation.z
+			obj.position.x = rotation.x
+		}
+	})
+}
+
 export default {
 	up,
 	down,
@@ -39,6 +55,8 @@ export default {
 	right,
 	inward,
 	outward,
+	rotateYObjects,
+	rotateY,
 	flipx,
 	flipy,
 	flipz,

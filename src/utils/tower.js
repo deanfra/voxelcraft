@@ -1,6 +1,6 @@
 import {blockNames} from '../config.js'
 import {arrayFrom, sample, randomBetween} from './randomizer.js'
-import {blockExists, toCoordinate, isEnclosed} from './blocks.js'
+import {blockExists, toCoordinate, isNonEnclosed} from './blocks.js'
 
 // Random panels
 const panelCount = 80
@@ -39,18 +39,18 @@ const tower = (mirrorX) => {
 
 					if (!blockExists(x, y, z, blockLookup)) {
 						blocks.push({
-							x: toCoordinate(x),
-							y: toCoordinate(y),
-							z: toCoordinate(z),
+							x,
+							y,
+							z,
 							block,
 						})
 					}
 
 					if (mirrorX && !blockExists(xx, y, z, blockLookup)) {
 						blocks.push({
-							x: toCoordinate(xx),
-							y: toCoordinate(y),
-							z: toCoordinate(z),
+							x: xx,
+							y,
+							z,
 							block,
 						})
 					}
@@ -59,11 +59,16 @@ const tower = (mirrorX) => {
 		})
 	})
 
-	const nonEnclosedBlocks = blocks.filter(({x, y, z}) => isEnclosed(x, y, z, blockLookup))
+	const nonEnclosedBlocks = blocks.filter(({x, y, z}) => isNonEnclosed(x, y, z, blockLookup))
 
 	console.log(`Generated: ${panels.length} panels & ${nonEnclosedBlocks.length} blocks`)
 
-	return nonEnclosedBlocks
+	return nonEnclosedBlocks.map(({x, y, z, block}) => ({
+		block,
+		y: toCoordinate(y),
+		x: toCoordinate(x),
+		z: toCoordinate(z),
+	}))
 }
 
 export default tower

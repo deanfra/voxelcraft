@@ -54,18 +54,18 @@ export const populateLookup = (x, y, z, lookup) => {
 	lookup[x][y][z] = true
 }
 
-export const isEnclosed = (x, y, z, lookup) =>
+export const isNonEnclosed = (x, y, z, lookup) =>
 	!(
-		lookup[toBlock(x)][toBlock(y)][toBlock(z) - 1] &&
-		lookup[toBlock(x)][toBlock(y)][toBlock(z) + 1] &&
-		lookup[toBlock(x)][toBlock(y) - 1] &&
-		lookup[toBlock(x)][toBlock(y) - 1][toBlock(z)] &&
-		lookup[toBlock(x)][toBlock(y) + 1] &&
-		lookup[toBlock(x)][toBlock(y) + 1][toBlock(z)] &&
-		lookup[toBlock(x) + 1] &&
-		lookup[toBlock(x) + 1][toBlock(y)] &&
-		lookup[toBlock(x) + 1][toBlock(y)][toBlock(z)] &&
-		lookup[toBlock(x) - 1] &&
-		lookup[toBlock(x) - 1][toBlock(y)] &&
-		lookup[toBlock(x) - 1][toBlock(y)][toBlock(z)]
+		lookup[x][y][z - 1] &&
+		lookup[x][y][z + 1] &&
+		lookup[x][y - 1] &&
+		lookup[x][y - 1][z] &&
+		lookup[x][y + 1] &&
+		lookup[x][y + 1][z] &&
+		lookup[x + 1] &&
+		lookup[x + 1][y] &&
+		lookup[x + 1][y][z] &&
+		lookup[x - 1] &&
+		lookup[x - 1][y] &&
+		lookup[x - 1][y][z]
 	)

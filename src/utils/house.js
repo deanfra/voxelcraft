@@ -1,6 +1,13 @@
 import {blockNames} from '../config.js'
 import {arrayFrom, sample, randomBetween} from './randomizer.js'
-import {blockExists, toCoordinate, isEnclosed} from './blocks.js'
+import {blockExists, toCoordinate, isNonEnclosed} from './blocks.js'
+import transform from './transform.js'
+
+// TODO:
+// - Doors
+// - Chimneys
+// - Windows
+// - Stair roofs (big one)
 
 // Random rooms
 const roomCount = 3
@@ -9,8 +16,8 @@ const roomCount = 3
 const isFrame = (block, start, length) => block === start || block === start + length - 1
 
 const house = (mirrorX) => {
+	let blocks = []
 	const rooms = arrayFrom(randomBetween(2, roomCount))
-	const blocks = []
 	const blockLookup = {}
 
 	const planks = blockNames.filter((name) => name.match('planks'))
@@ -19,6 +26,7 @@ const house = (mirrorX) => {
 
 	rooms.forEach(() => {
 		// const planksSelection = [planks]
+		let roomBlocks = []
 
 		const roomXStart = randomBetween(-3, 3)
 		const roomYStart = 1
@@ -41,32 +49,18 @@ const house = (mirrorX) => {
 					const frameZ = isFrame(z, roomZStart, roomZLength)
 					// if at least two blocks sit in a frame position
 					const placeFrame = [frameX, frameY, frameZ].filter((frame) => !!frame).length > 1
-
 					const block = placeFrame ? wood : walls
+					roomBlocks.push({x, y, z, block})
 
-					if (!blockExists(x, y, z, blockLookup)) {
-						blocks.push({
-							x: toCoordinate(x),
-							y: toCoordinate(y),
-							z: toCoordinate(z),
-							block,
-						})
-					}
-
-					if (mirrorX && !blockExists(xx, y, z, blockLookup)) {
-						blocks.push({
-							x: toCoordinate(xx),
-							y: toCoordinate(y),
-							z: toCoordinate(z),
-							block,
-						})
+					if (mirrorX) {
+						roomBlocks.push({x: xx, y, z, block})
 					}
 				})
 			})
 		})
 
+		// generate roof
 		arrayFrom(roomZLength + 2).forEach((iz) => {
-			let halfCounter = 0
 			arrayFrom(roomXLength + 2).forEach((ix) => {
 				const roofX = roomXStart - 1 + ix
 				const isHalf = ix < (roomXLength + 1) / 2
@@ -77,27 +71,37 @@ const house = (mirrorX) => {
 				} else {
 					roofY += (roomXLength + 2) / 2 - (ix + 1 - (roomXLength + 2) / 2)
 				}
-				if (!blockExists(roofX, roofY, roofZ, blockLookup)) {
-					// generate roof
-					blocks.push({
-						x: toCoordinate(roofX),
-						y: toCoordinate(roofY),
-						z: toCoordinate(roofZ),
-						block: 'oak_planks',
-					})
-				}
-				if (isHalf) {
-					halfCounter = halfCounter + 1
-				}
+				roomBlocks.push({
+					x: roofX,
+					y: roofY,
+					z: roofZ,
+					block: 'oak_planks',
+				})
 			})
 		})
+
+		// apply room rotation
+		if (sample([0, 1])) {
+			roomBlocks = roomBlocks.map(({x, y, z, block}) => {
+				const rotated = transform.rotateY(x, z)
+				return {block, y, x: rotated.x, z: rotated.z}
+			})
+		}
+
+		blocks = blocks.concat(roomBlocks)
 	})
 
-	const nonEnclosedBlocks = blocks.filter(({x, y, z}) => isEnclosed(x, y, z, blockLookup))
+	const uniqueBlocks = blocks.filter(({x, y, z}) => !blockExists(x, y, z, blockLookup))
+	const nonEnclosedBlocks = uniqueBlocks.filter(({x, y, z}) => isNonEnclosed(x, y, z, blockLookup))
 
 	console.log(`Generated: ${rooms.length} rooms & ${nonEnclosedBlocks.length} blocks`)
 
-	return nonEnclosedBlocks
+	return nonEnclosedBlocks.map(({x, y, z, block}) => ({
+		block,
+		y: toCoordinate(y),
+		x: toCoordinate(x),
+		z: toCoordinate(z),
+	}))
 }
 
 export default house
