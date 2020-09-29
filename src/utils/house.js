@@ -32,29 +32,25 @@ const house = (mirrorX) => {
 		const roomYStart = 1
 		const roomZStart = randomBetween(-3, 3)
 
-		const roomXLength = randomBetween(3, 6)
-		const roomYLength = randomBetween(4, 6)
+		const roomXLength = randomBetween(3, 7)
+		const roomYLength = randomBetween(4, 5)
 		const roomZLength = randomBetween(3, 7)
 
 		arrayFrom(roomXLength).forEach((ix) => {
 			arrayFrom(roomYLength).forEach((iy) => {
 				arrayFrom(roomZLength).forEach((iz) => {
 					const x = roomXStart + ix
-					const xx = x - x * 2
 					const y = roomYStart + iy
 					const z = roomZStart + iz
 
 					const frameX = isFrame(x, roomXStart, roomXLength)
 					const frameY = isFrame(y, roomYStart, roomYLength)
 					const frameZ = isFrame(z, roomZStart, roomZLength)
+
 					// if at least two blocks sit in a frame position
 					const placeFrame = [frameX, frameY, frameZ].filter((frame) => !!frame).length > 1
 					const block = placeFrame ? wood : walls
 					roomBlocks.push({x, y, z, block})
-
-					if (mirrorX) {
-						roomBlocks.push({x: xx, y, z, block})
-					}
 				})
 			})
 		})
@@ -63,9 +59,10 @@ const house = (mirrorX) => {
 		arrayFrom(roomZLength + 2).forEach((iz) => {
 			arrayFrom(roomXLength + 2).forEach((ix) => {
 				const roofX = roomXStart - 1 + ix
-				const isHalf = ix < (roomXLength + 1) / 2
 				const roofZ = roomZStart - 1 + iz
 				let roofY = roomYStart + (roomYLength - 1)
+
+				const isHalf = ix < (roomXLength + 1) / 2
 				if (isHalf) {
 					roofY += ix
 				} else {
@@ -77,15 +74,43 @@ const house = (mirrorX) => {
 					z: roofZ,
 					block: 'oak_planks',
 				})
+
+				//fill the triangle below roof - above frame
+				const isAboveHouseFrame =
+					(roofZ === roomZStart || roofZ === roomZStart + roomZLength - 1) &&
+					roofX >= roomXStart + 1 &&
+					roofX <= roomXStart + roomXLength - 1
+				if (isAboveHouseFrame) {
+					let fillerYPosition = roofY
+					// step down from roof until we hit the frame
+					while (fillerYPosition > roomYStart + roomYLength || fillerYPosition > 3) {
+						roomBlocks.push({
+							x: roofX,
+							y: fillerYPosition,
+							z: roofZ,
+							block: walls,
+						})
+						fillerYPosition = fillerYPosition - 1
+					}
+				}
 			})
 		})
 
 		// apply room rotation
 		if (sample([0, 1])) {
-			roomBlocks = roomBlocks.map(({x, y, z, block}) => {
+			const rotatedBlocks = roomBlocks.map(({x, y, z, block}) => {
 				const rotated = transform.rotateY(x, z)
 				return {block, y, x: rotated.x, z: rotated.z}
 			})
+			roomBlocks = rotatedBlocks
+		}
+
+		if (mirrorX) {
+			const mirroredBlocks = roomBlocks.map(({x, y, z, block}) => {
+				const xx = x - x * 2
+				return {block, y, x: xx, z}
+			})
+			roomBlocks = roomBlocks.concat(mirroredBlocks)
 		}
 
 		blocks = blocks.concat(roomBlocks)
