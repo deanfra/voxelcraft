@@ -19,7 +19,7 @@ let touchTimer, touchTime, touchX, touchY
 // Record mouse movement
 const mouseMovement = {x: 0, y: 0}
 
-let state = {scene, objects, cubeMaterials, mirrorX, modalOpen}
+let state = {scene, render, objects, cubeMaterials, mirrorX, modalOpen}
 
 init()
 render()
@@ -199,9 +199,9 @@ function onDocumentMouseUp(event) {
 				createVoxel(cubeGeo, intersect, state.cubeMaterials[selectedMaterial], selectedMaterial)
 			}
 		}
-
-		render()
 	}
+
+	render()
 }
 
 const createVoxel = (geo, intersect, material, name) => {

@@ -5,8 +5,15 @@ const BlockSelect = (name, selected, onclick) => {
 	const className = `gui__selected-block ${
 		name === selected ? ' gui__selected-block--selected' : ''
 	}`
-	return html`<a href="#" onClick=${(e) => onclick(e, name)} class="${className}">
-		<img src="./textures/${name}.png" />
+	const label = name.replace(/_/g, ' ')
+	return html`<a
+		href="#"
+		title="${label}"
+		aria-label="${label} block"
+		onClick=${(e) => onclick(e, name)}
+		class="${className}"
+	>
+		<img src="./textures/${name}.png" alt="${label}" />
 	</a>`
 }
 

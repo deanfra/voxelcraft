@@ -38,6 +38,7 @@ const TemplateLoader = (props) => {
 		clearBlocks(props.state)
 		const savedBlocks = storage.fetch(id)
 		if (savedBlocks) fillBlocks(savedBlocks.blocks, props.state)
+		props.state.render()
 	}
 
 	const del = (id) => {
