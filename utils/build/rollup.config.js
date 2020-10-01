@@ -1,4 +1,6 @@
 import copy from 'rollup-plugin-copy'
+import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
 
 export default {
 	input: 'src/voxel.js',
@@ -18,6 +20,10 @@ export default {
 				{src: 'src/textures', dest: 'build'},
 				{src: 'src/favicon.ico', dest: 'build'},
 			],
+		}),
+		commonjs(),
+		babel({
+			exclude: 'node_modules/**',
 		}),
 	],
 }
