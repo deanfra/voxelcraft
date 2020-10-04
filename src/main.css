@@ -108,10 +108,11 @@ select {
 
 .gui__selected-block {
   margin: 0.1em 0.2em;
-  padding: 2px;
+  padding: 0px;
   display: inline-block;
-  height: 16px;
-  width: 16px;
+  background-color: transparent;
+  height: 20px;
+  width: 20px;
   border: 2px solid transparent;
 }
 
@@ -121,7 +122,10 @@ select {
 
 .gui__button,
 .gui__button--inline {
+  text-transform: inherit;
+  background-color: transparent;
   border: 1px solid #444;
+  font-size: 1em;
   padding: 0.5em 1em;
   display: block;
   color: white;
@@ -259,4 +263,15 @@ select {
   padding: 0.5em;
   float: right;
   text-decoration: none;
+}
+
+/* house settings */
+.settings-house {
+  background: black;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  padding: 1em;
+  min-width: 1em;
+  min-height: 1em;
 }

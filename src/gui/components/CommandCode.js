@@ -10,14 +10,11 @@ const CommandCode = ({code, i}) => {
 		copyToClipboard(textareaId)
 		setCopied(true)
 		setTimeout(() => setCopied(false), 3000)
-		return false
 	}
 
 	return html`
 		<div class="modal-window__code-wrapper">
-			<a href="#" class="modal-window__copy" onClick=${onClick} href="#">
-				${copied ? 'Copied!' : 'Copy'}
-			</a>
+			<button class="modal-window__copy" onClick=${onClick}>${copied ? 'Copied!' : 'Copy'}</button>
 			<textarea class="modal-window__code" id=${textareaId} value=${code}></textarea>
 		</div>
 	`

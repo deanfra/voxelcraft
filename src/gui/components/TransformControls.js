@@ -7,32 +7,37 @@ const TransformControls = (props) => {
 	const pd = (fn) => {
 		fn(props.state)
 		props.state.render()
-		return false
 	}
 
-	const down = (e) => pd(transform.down)
-	const up = (e) => pd(transform.up)
-	const left = (e) => pd(transform.left)
-	const right = (e) => pd(transform.right)
-	const inward = (e) => pd(transform.inward)
-	const outward = (e) => pd(transform.outward)
-	const flipx = (e) => pd(transform.flipx)
-	const flipy = (e) => pd(transform.flipy)
-	const flipz = (e) => pd(transform.flipz)
-	const rotateY = (e) => pd(transform.rotateYObjects)
+	const down = () => pd(transform.down)
+	const up = () => pd(transform.up)
+	const left = () => pd(transform.left)
+	const right = () => pd(transform.right)
+	const inward = () => pd(transform.inward)
+	const outward = () => pd(transform.outward)
+	const flipx = () => pd(transform.flipx)
+	const flipy = () => pd(transform.flipy)
+	const flipz = () => pd(transform.flipz)
+	const rotateY = () => pd(transform.rotateYObjects)
 
 	return html`<div class="gui__transforms">
-		<a href="#" class="gui__button gui__button" onClick=${rotateY}>rotate Y</a><br />
-		<a href="#" class="gui__button gui__button--inline" onClick=${left}>- x</a>
-		<a href="#" class="gui__button gui__button--inline" onClick=${right}>+ x</a><br />
-		<a href="#" class="gui__button gui__button--inline" onClick=${down}>- y</a>
-		<a href="#" class="gui__button gui__button--inline" onClick=${up}>+ y</a><br />
-		<a href="#" class="gui__button gui__button--inline" onClick=${outward}>- z</a>
-		<a href="#" class="gui__button gui__button--inline" onClick=${inward}>+ z</a><br />
+		<a href="#" class="gui__button gui__button" onTouchEnd=${rotateY} onClick=${rotateY}>rotate Y</a
+		><br />
+		<a href="#" class="gui__button gui__button--inline" onTouchEnd=${left} onClick=${left}>- x</a>
+		<a href="#" class="gui__button gui__button--inline" onTouchEnd=${right} onClick=${right}>+ x</a
+		><br />
+		<a href="#" class="gui__button gui__button--inline" onTouchEnd=${down} onClick=${down}>- y</a>
+		<a href="#" class="gui__button gui__button--inline" onTouchEnd=${up} onClick=${up}>+ y</a><br />
+		<a href="#" class="gui__button gui__button--inline" onTouchEnd=${outward} onClick=${outward}
+			>- z</a
+		>
+		<a href="#" class="gui__button gui__button--inline" onTouchEnd=${inward} onClick=${inward}
+			>+ z</a
+		><br />
 		<h3>↪️ Flip</h3>
-		<a href="#" class="gui__button gui__button--inline" onClick=${flipx}>x</a>
-		<a href="#" class="gui__button gui__button--inline" onClick=${flipy}>y</a>
-		<a href="#" class="gui__button gui__button--inline" onClick=${flipz}>z</a>
+		<a href="#" class="gui__button gui__button--inline" onTouchEnd=${flipx} onClick=${flipx}>x</a>
+		<a href="#" class="gui__button gui__button--inline" onTouchEnd=${flipy} onClick=${flipy}>y</a>
+		<a href="#" class="gui__button gui__button--inline" onTouchEnd=${flipz} onClick=${flipz}>z</a>
 	</div>`
 }
 

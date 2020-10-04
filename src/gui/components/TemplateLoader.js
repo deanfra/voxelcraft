@@ -7,16 +7,14 @@ const html = htm.bind(createElement)
 const TemplateLink = (props) => {
 	const click = () => {
 		props.onClick(props.tpl.id)
-		return false
 	}
 	const del = () => {
 		props.del(props.tpl.id)
-		return false
 	}
 
 	return html`<li>
-		<a class="gui__button" href="#" onClick=${click}>${props.tpl.name}</a>
-		<a class="gui__button gui__button--close" href="#" onClick=${del}>⨯</a>
+		<button class="gui__button" onTouchEnd=${click} onClick=${click}>${props.tpl.name}</button>
+		<button class="gui__button gui__button--close" onTouchEnd=${del} onClick=${del}>⨯</button>
 	</li>`
 }
 
@@ -49,10 +47,15 @@ const TemplateLoader = (props) => {
 	return html`<ul class="gui__saved-list">
 		${templates.map(
 			(tpl) =>
-				html`<${TemplateLink} tpl=${tpl} onClick=${(id) => load(id)} del=${(id) => del(id)} />`,
+				html`<${TemplateLink}
+					tpl=${tpl}
+					onTouchEnd=${(id) => load(id)}
+					onClick=${(id) => load(id)}
+					del=${(id) => del(id)}
+				/>`,
 		)}
 		<li>
-			<a class="gui__button text-center" href="#" onClick=${save}>+ Save</a>
+			<button class="gui__button text-center" onTouchEnd=${save} onClick=${save}>+ Save</button>
 		</li>
 	</ul>`
 }

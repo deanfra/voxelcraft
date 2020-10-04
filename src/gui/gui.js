@@ -12,7 +12,6 @@ function GUI({state}) {
 	const pd = (fn) => {
 		fn(state)
 		state.render()
-		return false
 	}
 	const clear = () => pd(clearBlocks)
 	const generate = () => pd(setShowModal(true))
@@ -34,19 +33,27 @@ function GUI({state}) {
 		<div>
 			<div class="gui">
 				<${BlockSelector} blockNames=${blockNames} />
-				<a href="#" class=${mirrorXClass} onClick=${clickMirrorX}>${(mirrorX && '🔘') || '⚫️'} Mirror</s>
-				<a href="#" class="gui__button--inline" onClick=${clear}>Clear</a>
-				<a href="#" class="gui__button--inline" onClick=${generate}>Export to Minecraft</a>
+				<button class=${mirrorXClass} onTouchEnd=${clickMirrorX} onClick=${clickMirrorX}>
+					${(mirrorX && '🔘') || '⚫️'} Mirror
+				</button>
+				<button class="gui__button--inline" onTouchEnd=${clear} onClick=${clear}>Clear</button>
+				<button class="gui__button--inline" onTouchEnd=${generate} onClick=${generate}>
+					Export to Minecraft
+				</button>
 				<h3>✨ Random</h3>
-				<a href="#" class="gui__button--inline" onClick=${house}>House</a>
-				<a href="#" class="gui__button--inline" onClick=${tower}>Building</a>
-				<a href="#" class="gui__button--inline" onClick=${random}>Panels</a>
+				<button class="gui__button--inline" onTouchEnd=${house} onClick=${house}>House</button>
+				<button class="gui__button--inline" onTouchEnd=${tower} onClick=${tower}>Building</button>
+				<button class="gui__button--inline" onTouchEnd=${random} onClick=${random}>Panels</button>
 				<h3>💾 Load/Save</h3>
 				<${TemplateLoader} state=${state} />
 				<h3>↘️ Move model</h3>
 				<${TransformControls} state=${state} />
 			</div>
-			<${CommandModal} state=${state} show=${showModal} onClose=${(e) => pd(e)(setShowModal(false))} />
+			<${CommandModal}
+				state=${state}
+				show=${showModal}
+				onClose=${(e) => pd(e)(setShowModal(false))}
+			/>
 		</div>
 	`
 }
