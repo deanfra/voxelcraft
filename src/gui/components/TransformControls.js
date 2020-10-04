@@ -4,23 +4,22 @@ const {createElement} = React
 const html = htm.bind(createElement)
 
 const TransformControls = (props) => {
-	const pd = (e) => (fn) => {
-		e.preventDefault()
-		e.stopPropagation()
+	const pd = (fn) => {
 		fn(props.state)
 		props.state.render()
+		return false
 	}
 
-	const down = (e) => pd(e)(transform.down)
-	const up = (e) => pd(e)(transform.up)
-	const left = (e) => pd(e)(transform.left)
-	const right = (e) => pd(e)(transform.right)
-	const inward = (e) => pd(e)(transform.inward)
-	const outward = (e) => pd(e)(transform.outward)
-	const flipx = (e) => pd(e)(transform.flipx)
-	const flipy = (e) => pd(e)(transform.flipy)
-	const flipz = (e) => pd(e)(transform.flipz)
-	const rotateY = (e) => pd(e)(transform.rotateYObjects)
+	const down = (e) => pd(transform.down)
+	const up = (e) => pd(transform.up)
+	const left = (e) => pd(transform.left)
+	const right = (e) => pd(transform.right)
+	const inward = (e) => pd(transform.inward)
+	const outward = (e) => pd(transform.outward)
+	const flipx = (e) => pd(transform.flipx)
+	const flipy = (e) => pd(transform.flipy)
+	const flipz = (e) => pd(transform.flipz)
+	const rotateY = (e) => pd(transform.rotateYObjects)
 
 	return html`<div class="gui__transforms">
 		<a href="#" class="gui__button gui__button" onClick=${rotateY}>rotate Y</a><br />

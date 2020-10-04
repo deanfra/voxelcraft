@@ -9,16 +9,16 @@ const {createElement, useState} = React
 const html = htm.bind(createElement)
 
 function GUI({state}) {
-	const pd = (e) => (fn) => {
-		e.preventDefault()
+	const pd = (fn) => {
 		fn(state)
 		state.render()
+		return false
 	}
-	const clear = (e) => pd(e)(clearBlocks)
-	const generate = (e) => pd(e)(setShowModal(true))
-	const random = (e) => pd(e)(randomBlocks)
-	const house = (e) => pd(e)(generateHouse)
-	const tower = (e) => pd(e)(generateTower)
+	const clear = () => pd(clearBlocks)
+	const generate = () => pd(setShowModal(true))
+	const random = () => pd(randomBlocks)
+	const house = () => pd(generateHouse)
+	const tower = () => pd(generateTower)
 
 	const [showModal, setShowModal] = useState(false)
 

@@ -21,7 +21,7 @@ const house = (mirrorX) => {
 	const blockLookup = {}
 
 	const planks = blockNames.filter((name) => name.match('planks'))
-	const walls = sample([...planks, 'cobblestone'])
+	const walls = sample([...planks, 'cobblestone', 'terracotta', 'white_terracotta'])
 	const wood = sample(blockNames.filter((name) => name.match('wood')))
 
 	rooms.forEach(() => {

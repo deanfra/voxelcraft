@@ -6,12 +6,11 @@ const html = htm.bind(createElement)
 const CommandCode = ({code, i}) => {
 	const textareaId = `command-code-textarea_${i + 1}`
 	const [copied, setCopied] = useState(false)
-	const onClick = (e) => {
-		e.preventDefault()
-		e.stopPropagation()
+	const onClick = () => {
 		copyToClipboard(textareaId)
 		setCopied(true)
 		setTimeout(() => setCopied(false), 3000)
+		return false
 	}
 
 	return html`

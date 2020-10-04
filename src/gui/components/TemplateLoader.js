@@ -5,13 +5,13 @@ const {createElement, useState, useEffect} = React
 const html = htm.bind(createElement)
 
 const TemplateLink = (props) => {
-	const click = (e) => {
-		e.preventDefault()
+	const click = () => {
 		props.onClick(props.tpl.id)
+		return false
 	}
-	const del = (e) => {
-		e.preventDefault()
+	const del = () => {
 		props.del(props.tpl.id)
+		return false
 	}
 
 	return html`<li>

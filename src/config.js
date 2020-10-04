@@ -17,6 +17,8 @@ export const blockNames = [
 	'oak_wood',
 	'oak_planks',
 	'spruce_planks',
+	'terracotta',
+	'white_terracotta',
 ]
 
 export const exampleStorage = {

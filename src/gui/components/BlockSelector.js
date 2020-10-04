@@ -10,7 +10,7 @@ const BlockSelect = (name, selected, onclick) => {
 		href="#"
 		title="${label}"
 		aria-label="${label} block"
-		onClick=${(e) => onclick(e, name)}
+		onClick=${() => onclick(name)}
 		class="${className}"
 	>
 		<img src="./textures/${name}.png" alt="${label}" />
@@ -19,9 +19,9 @@ const BlockSelect = (name, selected, onclick) => {
 
 const BlockSelector = (props) => {
 	const [selectedBlock, setSelectedBlock] = useState('cobblestone')
-	const onclick = (e, name) => {
-		e.preventDefault()
+	const onclick = (name) => {
 		setSelectedBlock(name)
+		return false
 	}
 
 	return html`<div>

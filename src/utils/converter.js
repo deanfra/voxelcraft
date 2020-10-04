@@ -1,6 +1,5 @@
 import {toBlock} from './blocks.js'
 
-let offsetX = 0
 let offsetY = 0
 let wrappingCharacters = 540 // the summon code around the blocks
 let commandLimit = 32500 - wrappingCharacters // the max characters per-iteration
@@ -17,8 +16,6 @@ const toCommand = (objects) => {
 		block,
 	}))
 
-	// get the highest X value
-	offsetX = (coordinates.map((b) => toBlock(b.x)).sort((a, b) => b - a)[0] || 0) + 1
 	// get the lowest Y value
 	offsetY = coordinates.map((b) => toBlock(b.y)).sort((a, b) => a - b)[0] || 0
 
@@ -33,7 +30,7 @@ const getBlockStrings = (blocks) => {
 	let blockSets = []
 
 	blocks.forEach(({x, y, z, block}) => {
-		const string = `{id:command_block_minecart,Command:'setblock ~${x + offsetX} ~${
+		const string = `{id:command_block_minecart,Command:'setblock ~${x} ~${
 			y - offsetY
 		} ~${z} ${block}'}`
 
