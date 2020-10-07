@@ -29,6 +29,7 @@ const tower = (mirrorX) => {
 		const panelZLength = randomBetween(3, 6)
 
 		// potential spot for tower placement, either end of x and z axis
+		const circleDiameter = sample([3, 4, 5, 5])
 		const xCenter = sample([panelXStart, panelXStart + panelXLength])
 		const zCenter = sample([panelZStart, panelZStart + panelZLength])
 
@@ -54,8 +55,8 @@ const tower = (mirrorX) => {
 				// push a circle
 				const circleConfig = {
 					thickness: isBottom || isTop ? 'filled' : 'thin',
-					width: 5,
-					height: 5,
+					width: circleDiameter,
+					height: circleDiameter,
 				}
 
 				const circleBlocks = shapes.circle(circleConfig)

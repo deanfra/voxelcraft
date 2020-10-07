@@ -1,5 +1,7 @@
 // Sourced from @donatj from https://github.com/donatj/Circle-Generator
 
+const isEven = (num) => num % 2 === 0
+
 let distance = function (x, z, ratio) {
 	return Math.sqrt(Math.pow(z * ratio, 2) + Math.pow(x, 2))
 }
@@ -31,17 +33,17 @@ const circle = (config) => {
 	let width_r = (config.width || 9) / 2
 	let height_r = (config.height || 9) / 2
 	let ratio = width_r / height_r
-	let xCenter = config.xCenter || 0
 
+	// let xCenter = config.xCenter || 0
 	// let ifilled = 0
 
-	if ((width_r * 2) % 2 == 0) {
+	if (isEven(config.width)) {
 		maxblocks_x = Math.ceil(width_r - 0.5) * 2 + 1
 	} else {
 		maxblocks_x = Math.ceil(width_r) * 2
 	}
 
-	if ((height_r * 2) % 2 == 0) {
+	if (isEven(config.height)) {
 		maxblocks_y = Math.ceil(height_r - 0.5) * 2 + 1
 	} else {
 		maxblocks_y = Math.ceil(height_r) * 2
@@ -72,6 +74,15 @@ const circle = (config) => {
 			}
 		}
 	}
+
+	// correct to grid positions if even width
+	if (isEven(config.width)) {
+		blocks = blocks.map(({x, z}) => ({
+			x: x + 0.5,
+			z: z - 0.5,
+		}))
+	}
+
 	return blocks
 }
 
