@@ -4,14 +4,15 @@ import {blockExists, toCoordinate, isNonEnclosed} from './blocks.js'
 import shapes from './shapes.js'
 
 // Random rooms
-const panelCount = 3
+const panelCount = 5
 
 const tower = (mirrorX) => {
-	const rooms = arrayFrom(randomBetween(1, panelCount)) // [1,2,3..]
+	const rooms = arrayFrom(randomBetween(1, panelCount))
 	const blocks = []
 	const blockLookup = {}
 
-	const main = sample(blockNames)
+	const selectedMaterial = document.querySelector('#GUISelectedBlock').value
+	const main = selectedMaterial
 	const secondary = sample(blockNames)
 	const tertiary = sample(blockNames)
 
@@ -20,13 +21,13 @@ const tower = (mirrorX) => {
 		const randomTertiary = sample([main, secondary, tertiary])
 		const blockSelection = [main, main, main, randomSecondary, randomTertiary]
 
-		const panelXStart = randomBetween(-3, 3)
+		const panelXStart = randomBetween(-4, 3)
 		const panelYStart = randomBetween(1, 4)
-		const panelZStart = randomBetween(-3, 3)
+		const panelZStart = randomBetween(-4, 3)
 
-		const panelXLength = randomBetween(3, 6)
-		const panelYLength = randomBetween(3, 6)
-		const panelZLength = randomBetween(3, 6)
+		const panelXLength = randomBetween(3, 7)
+		const panelYLength = randomBetween(3, 7)
+		const panelZLength = randomBetween(3, 7)
 
 		// potential spot for tower placement, either end of x and z axis
 		const circleDiameter = sample([3, 4, 5, 5])
