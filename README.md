@@ -16,13 +16,13 @@ Possible features and improvements to come:
 - [ ] Shape mode
 - [ ] Larger grid area
 - [ ] More UI controls for randomizers
-- [ ] Frames for house generation
-- [ ] Roofs for house generation
 - [ ] Windows for house & building generation
 - [ ] Stairs (with orientation)
 - [ ] Slabs (with orientation)
 - [ ] Logs with orientation
-- [ ] Mirror Voxels y/z
+- [ ] Mirror Voxels on y/z axis
+- [x] Frames for house generation
+- [x] Roofs for house generation
 - [x] Mirror Voxels x
 - [x] Flip model x/y/z
 - [x] Move model x/y/z
