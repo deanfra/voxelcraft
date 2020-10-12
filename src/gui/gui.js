@@ -9,15 +9,15 @@ const {createElement, useState} = React
 const html = htm.bind(createElement)
 
 function GUI({state}) {
-	const pd = (fn) => {
+	const runAndRender = (fn) => {
 		fn(state)
 		state.render()
 	}
-	const clear = () => pd(clearBlocks)
-	const generate = () => pd(setShowModal(true))
-	const random = () => pd(randomBlocks)
-	const house = () => pd(generateHouse)
-	const tower = () => pd(generateTower)
+	const clear = () => runAndRender(clearBlocks)
+	const generate = () => runAndRender(setShowModal(true))
+	const random = () => runAndRender(randomBlocks)
+	const house = () => runAndRender(generateHouse)
+	const tower = () => runAndRender(generateTower)
 
 	const [showModal, setShowModal] = useState(false)
 
@@ -52,7 +52,7 @@ function GUI({state}) {
 			<${CommandModal}
 				state=${state}
 				show=${showModal}
-				onClose=${(e) => pd(e)(setShowModal(false))}
+				onClose=${() => setShowModal(false)}
 			/>
 		</div>
 	`

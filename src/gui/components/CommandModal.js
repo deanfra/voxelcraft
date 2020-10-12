@@ -15,7 +15,7 @@ const CommandModal = ({state, show, onClose}) => {
 	return html` <div class="modal-window ${show ? 'modal-window--opened' : ''}">
 		<div>
 			<h1>🎁 Your command block code${generated.length > 1 ? 's' : ''}</h1>
-			<a href="#" title="Close" class="modal-close" onClick=${onClose}>Close</a>
+			<a href="#" title="Close" class="modal-close" onTouchEnd=${onClose} onClick=${onClose}>Close</a>
 			${generated.map(
 				(code, i) => html`<div>
 					${generated.length > 1 ? html`<small>Block ${i + 1}/${generated.length}</small>` : ''}
