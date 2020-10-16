@@ -1,5 +1,5 @@
-import storage from '../../utils/localstorage.js'
-import {clearBlocks, fillBlocks} from '../../utils/blocks.js'
+import storage from '../../utils/localstorage'
+import {clearBlocks, fillBlocks} from '../../utils/blocks'
 
 const {createElement, useState, useEffect} = React
 const html = htm.bind(createElement)

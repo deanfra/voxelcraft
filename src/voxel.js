@@ -1,7 +1,7 @@
-import * as THREE from '../lib/three.module.js'
+import * as THREE from 'three'
 import {OrbitControls} from './jsm/controls/OrbitControls.js'
-import {blockNames} from './config.js'
-import GUI from './gui/gui.js'
+import {blockNames} from './config'
+import GUI from './gui/gui'
 
 let camera, scene, canvas, controls
 let plane

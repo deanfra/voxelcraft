@@ -1,4 +1,4 @@
-import transform from '../../utils/transform.js'
+import transform from '../../utils/transform'
 
 const {createElement} = React
 const html = htm.bind(createElement)

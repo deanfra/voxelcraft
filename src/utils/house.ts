@@ -1,7 +1,7 @@
-import {blockNames} from '../config.js'
-import {arrayFrom, sample, randomBetween} from './randomizer.js'
-import {blockExists, toCoordinate, isNonEnclosed} from './blocks.js'
-import transform from './transform.js'
+import {blockNames} from '../config'
+import {arrayFrom, sample, randomBetween} from './randomizer'
+import {blockExists, toCoordinate, isNonEnclosed} from './blocks'
+import transform from './transform'
 
 // TODO:
 // - Doors
@@ -13,10 +13,10 @@ import transform from './transform.js'
 const roomCount = 3
 
 // does this block sit at the start or the end of an array
-const isFrame = (block, start, length) => block === start || block === start + length - 1
+const isFrame = (block:any, start:any, length:any) => block === start || block === start + length - 1
 
-const house = (mirrorX) => {
-	let blocks = []
+const house = (mirrorX:any) => {
+	let blocks:any = []
 	const rooms = arrayFrom(randomBetween(2, roomCount))
 	const blockLookup = {}
 
@@ -24,9 +24,9 @@ const house = (mirrorX) => {
 	const walls = sample([...planks, 'cobblestone', 'terracotta', 'white_terracotta'])
 	const wood = sample(blockNames.filter((name) => name.match('wood')))
 
-	rooms.forEach(() => {
+	rooms.forEach((iRoom) => {
 		// const planksSelection = [planks]
-		let roomBlocks = []
+		let roomBlocks:any = []
 
 		const roomXStart = randomBetween(-3, 3)
 		const roomYStart = 1
@@ -56,11 +56,13 @@ const house = (mirrorX) => {
 		})
 
 		// generate roof
+		// const roofYIncrementer = 0
 		arrayFrom(roomZLength + 2).forEach((iz) => {
 			arrayFrom(roomXLength + 2).forEach((ix) => {
 				const roofX = roomXStart - 1 + ix
 				const roofZ = roomZStart - 1 + iz
 				let roofY = roomYStart + (roomYLength - 1)
+				// let roofY = roomYStart + (roomYLength - 1) + roofYIncrementer
 
 				const isHalf = ix < (roomXLength + 1) / 2
 				if (isHalf) {
@@ -96,9 +98,27 @@ const house = (mirrorX) => {
 			})
 		})
 
+		// chimney
+		const isFirstRoom = iRoom === 0
+		const chimneyChance = sample([0, 1])
+		if (isFirstRoom && chimneyChance) {
+			const chimneyX = sample([roomXStart - 1, roomXStart + roomXLength])
+			const chimneyZ = Math.floor(roomZStart + roomZLength - roomZLength / 2) // halfway
+			const chimneyBlocks:any = []
+			arrayFrom(roomYLength + 3).forEach((iy) => {
+				chimneyBlocks.push({
+					x: chimneyX,
+					y: roomYStart + iy,
+					z: chimneyZ,
+					block: 'cobblestone',
+				})
+			})
+			roomBlocks = chimneyBlocks.concat(roomBlocks)
+		}
+
 		// apply room rotation
 		if (sample([0, 1])) {
-			const rotatedBlocks = roomBlocks.map(({x, y, z, block}) => {
+			const rotatedBlocks = roomBlocks.map(({x, y, z, block}:any) => {
 				const rotated = transform.rotateY(x, z)
 				return {block, y, x: rotated.x, z: rotated.z}
 			})
@@ -106,7 +126,7 @@ const house = (mirrorX) => {
 		}
 
 		if (mirrorX) {
-			const mirroredBlocks = roomBlocks.map(({x, y, z, block}) => {
+			const mirroredBlocks = roomBlocks.map(({x, y, z, block}:any) => {
 				const xx = x - x * 2
 				return {block, y, x: xx, z}
 			})
@@ -116,12 +136,12 @@ const house = (mirrorX) => {
 		blocks = blocks.concat(roomBlocks)
 	})
 
-	const uniqueBlocks = blocks.filter(({x, y, z}) => !blockExists(x, y, z, blockLookup))
-	const nonEnclosedBlocks = uniqueBlocks.filter(({x, y, z}) => isNonEnclosed(x, y, z, blockLookup))
+	const uniqueBlocks = blocks.filter(({x, y, z}:any) => !blockExists(x, y, z, blockLookup))
+	const nonEnclosedBlocks = uniqueBlocks.filter(({x, y, z}:any) => isNonEnclosed(x, y, z, blockLookup))
 
 	console.log(`Generated: ${rooms.length} rooms & ${nonEnclosedBlocks.length} blocks`)
 
-	return nonEnclosedBlocks.map(({x, y, z, block}) => ({
+	return nonEnclosedBlocks.map(({x, y, z, block}:any) => ({
 		block,
 		y: toCoordinate(y),
 		x: toCoordinate(x),

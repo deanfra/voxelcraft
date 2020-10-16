@@ -1,6 +1,12 @@
 import copy from 'rollup-plugin-copy'
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
+import typescript from 'rollup-plugin-typescript';
+import resolve from 'rollup-plugin-node-resolve';
+
+const extensions = [
+  '.js', '.jsx', '.ts', '.tsx',
+];
 
 export default {
 	input: 'src/voxel.js',
@@ -21,8 +27,11 @@ export default {
 				{src: 'src/favicon.ico', dest: 'build'},
 			],
 		}),
+		resolve(),
+		typescript(),
 		commonjs(),
 		babel({
+			extensions,
 			exclude: 'node_modules/**',
 		}),
 	],

@@ -1,9 +1,9 @@
-import {blockNames} from '../config.js'
-import BlockSelector from './components/BlockSelector.js'
-import CommandModal from './components/CommandModal.js'
-import TemplateLoader from './components/TemplateLoader.js'
-import TransformControls from './components/TransformControls.js'
-import {clearBlocks, randomBlocks, generateHouse, generateTower} from '../utils/blocks.js'
+import {blockNames} from '../config'
+import BlockSelector from './components/BlockSelector'
+import CommandModal from './components/CommandModal'
+import TemplateLoader from './components/TemplateLoader'
+import TransformControls from './components/TransformControls'
+import {clearBlocks, randomBlocks, generateHouse, generateTower} from '../utils/blocks'
 
 const {createElement, useState} = React
 const html = htm.bind(createElement)

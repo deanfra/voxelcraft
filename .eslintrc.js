@@ -3,7 +3,10 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+    jest: true,
   },
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -13,3 +16,4 @@ module.exports = {
     sourceType: 'module',
   },
 };
+

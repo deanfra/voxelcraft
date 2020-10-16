@@ -1,17 +1,18 @@
-import {blockNames} from '../config.js'
-import {arrayFrom, sample, randomBetween} from './randomizer.js'
-import {blockExists, toCoordinate, isNonEnclosed} from './blocks.js'
-import shapes from './shapes.js'
+import {blockNames} from '../config'
+import {arrayFrom, sample, randomBetween} from './randomizer'
+import {blockExists, toCoordinate, isNonEnclosed} from './blocks'
+import shapes from './shapes'
 
 // Random rooms
 const panelCount = 5
 
-const tower = (mirrorX) => {
+const tower = (mirrorX:any) => {
 	const rooms = arrayFrom(randomBetween(1, panelCount))
-	const blocks = []
-	const blockLookup = {}
+	const blocks:any = []
+	const blockLookup:any = {}
 
-	const selectedMaterial = document.querySelector('#GUISelectedBlock').value
+	const doc = document as any
+	const selectedMaterial = doc.querySelector('#GUISelectedBlock').value
 	const main = selectedMaterial
 	const secondary = sample(blockNames)
 	const tertiary = sample(blockNames)
@@ -79,11 +80,11 @@ const tower = (mirrorX) => {
 		})
 	})
 
-	const nonEnclosedBlocks = blocks.filter(({x, y, z}) => isNonEnclosed(x, y, z, blockLookup))
+	const nonEnclosedBlocks = blocks.filter(({x, y, z}:any) => isNonEnclosed(x, y, z, blockLookup))
 
 	console.log(`Generated: ${rooms.length} rooms & ${nonEnclosedBlocks.length} blocks`)
 
-	return nonEnclosedBlocks.map(({x, y, z, block}) => ({
+	return nonEnclosedBlocks.map(({x, y, z, block}:any) => ({
 		block,
 		y: toCoordinate(y),
 		x: toCoordinate(x),

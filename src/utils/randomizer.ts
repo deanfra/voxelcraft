@@ -1,24 +1,24 @@
-import {blockNames} from '../config.js'
-import {blockExists, toCoordinate} from './blocks.js'
+import {blockNames} from '../config'
+import {blockExists, toCoordinate} from './blocks'
 
-export const sample = (arr) => arr[randomBetween(1, arr.length) - 1]
-export const randomBetween = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
-export const arrayFrom = (num) => Array.from(Array(num).keys())
+export const sample = (arr:any) => arr[randomBetween(1, arr.length) - 1]
+export const randomBetween = (min:any, max:any) => Math.floor(Math.random() * (max - min + 1) + min)
+export const arrayFrom = (num:any) => Array.from(Array(num).keys())
 
 // Random panels
 const panelCount = 33
 
-const random = (mirrorX) => {
+const random = (mirrorX:any) => {
 	const panels = arrayFrom(randomBetween(13, panelCount)) // [1,2,3..]
-	const blocks = []
-	const blockLookup = {}
+	const blocks:any = []
+	const blockLookup:any = {}
 
 	const main = sample(blockNames)
 	const secondary = sample(blockNames)
 	const tertiary = sample(blockNames)
 
 	panels.forEach(() => {
-		const axis = {[sample(['x', 'y', 'z'])]: true}
+		const axis: any = {[sample(['x', 'y', 'z'])]: true}
 		const randomMain = sample([main, secondary, tertiary])
 		const randomSecondary = sample([main, secondary, tertiary])
 		const randomTertiary = sample([main, secondary, tertiary])

@@ -1,4 +1,4 @@
-import copyToClipboard from '../../utils/copyToClipboard.js'
+import copyToClipboard from '../../utils/copy'
 
 const {createElement, useState} = React
 const html = htm.bind(createElement)

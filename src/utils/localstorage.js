@@ -1,4 +1,4 @@
-import {exampleStorage} from '../config.js'
+import {exampleStorage} from '../config'
 
 const namespace = 'voxelcraft__storage'
 const newStore = exampleStorage

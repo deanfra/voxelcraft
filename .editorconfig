@@ -6,9 +6,10 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 
-[*.{js,ts,html}]
+[*.{js,jsx,ts,tsx,html}]
 charset = utf-8
-indent_style = tab
+indent_style = space
+indent_size = 2
 
 [*.{js,ts}]
 trim_trailing_whitespace = true

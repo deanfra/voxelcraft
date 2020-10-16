@@ -1,5 +1,5 @@
-import toCommand from '../../utils/converter.js'
-import CommandCode from './CommandCode.js'
+import toCommand from '../../utils/converter'
+import CommandCode from './CommandCode'
 
 const {createElement, useState, useEffect} = React
 const html = htm.bind(createElement)

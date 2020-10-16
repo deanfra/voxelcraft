@@ -1,3 +1,7 @@
+jest.mock("three")
+
+import { Mesh, State } from "../interfaces"
+
 const {
 	clearBlocks,
 	toCoordinate,
@@ -7,16 +11,15 @@ const {
 	isNonEnclosed,
 } = require('./blocks')
 
-let state
 let removeMock = jest.fn()
 
 describe('clearBlocks', () => {
-	describe('block is in the state object', () => {
-		let mockObject = {name: 'bricks'}
-		state = {
+	describe('block is in the state object', () => { 
+		let mockObject = {name: 'bricks'} as Mesh
+		let state = {
 			objects: [{name: 'plane'}, mockObject],
 			scene: {remove: removeMock},
-		}
+		} as State
 
 		it('removes it from the scene', () => {
 			clearBlocks(state)

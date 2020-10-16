@@ -1,14 +1,14 @@
 // Sourced from @donatj from https://github.com/donatj/Circle-Generator
 
-const isEven = (num) => num % 2 === 0
+const isEven = (num:any) => num % 2 === 0
 
-let distance = function (x, z, ratio) {
+let distance = function (x:any, z:any, ratio:any) {
 	return Math.sqrt(Math.pow(z * ratio, 2) + Math.pow(x, 2))
 }
-let filled = function (x, z, radius, ratio) {
+let filled = function (x:any, z:any, radius:any, ratio:any) {
 	return distance(x, z, ratio) <= radius
 }
-let fatfilled = function (x, z, radius, ratio) {
+let fatfilled = function (x:any, z:any, radius:any, ratio:any) {
 	return (
 		filled(x, z, radius, ratio) &&
 		!(
@@ -24,7 +24,7 @@ let fatfilled = function (x, z, radius, ratio) {
 	)
 }
 
-const circle = (config) => {
+const circle = (config:any) => {
 	let blocks = []
 
 	let maxblocks_x
