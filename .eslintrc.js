@@ -4,6 +4,7 @@ module.exports = {
     es6: true,
     node: true,
     jest: true,
+    react: true,
   },
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
