@@ -37,7 +37,7 @@ Possible features and improvements to come:
 
 `npm run start`
 
-You can run a dev server on: `localhost:8080/src`
+You can run a dev server on: `localhost:8080/build`
 
 ### Build
 
