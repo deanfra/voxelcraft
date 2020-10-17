@@ -22,7 +22,7 @@ export const fillBlocks = (blocks: Vector[], state: State) => {
 
 export const clearBlocks = (state: State) => {
 	state.objects.forEach((o:Mesh) => {
-		if (o.name !== 'plane') state.scene.remove(o)
+		if (o.name !== 'plane') state.scene.remove(o as THREE.Object3D)
 	})
 
 	state.objects.splice(1, state.objects.length - 1)

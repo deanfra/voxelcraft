@@ -3,8 +3,8 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+    // fixes: describe is not defined
     jest: true,
-    react: true,
   },
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],

@@ -240,12 +240,12 @@ function onDocumentMouseUp(event: MouseEvent) {
 		// delete cube
 		if (event.button === 2) {
 			if (intersects[0].object !== plane) {
-				if(intersects[0].object.parent && intersects[0].object.parent.children.length) {
-					intersects[0].object.parent.children.forEach(child => state.scene.remove(child))
-				} else {
-					state.scene.remove(intersects[0].object)
-					state.objects.splice(state.objects.indexOf(intersects[0].object), 1)
-				}
+				// if(intersects[0].object.parent && intersects[0].object.parent.children.length) {
+					// intersects[0].object.parent.children.forEach(child => state.scene.remove(child))
+				// } else {
+				state.scene.remove(intersects[0].object)
+				state.objects.splice(state.objects.indexOf(intersects[0].object), 1)
+				// }
 			}
 		} else {
 			// GET MATERIAL

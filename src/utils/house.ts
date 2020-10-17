@@ -2,7 +2,7 @@ import {blockNames} from '../config'
 import {arrayFrom, sample, randomBetween} from './randomizer'
 import {blockExists, toCoordinate, isNonEnclosed} from './blocks'
 import transform from './transform'
-import { Mesh, Vector, VectorLookup } from '../interfaces'
+import { Vector, VectorLookup } from '../interfaces'
 
 // TODO:
 // - Doors
@@ -25,7 +25,8 @@ const house = (mirrorX:boolean): Vector[]  => {
 	const walls = sample([...planks, 'cobblestone', 'terracotta', 'white_terracotta'])
 	const wood = sample(blockNames.filter((name) => name.match('wood')))
 
-	rooms.forEach((iRoom) => {
+	rooms.forEach(() => {
+	// rooms.forEach((iRoom) => {
 		// const planksSelection = [planks]
 		let roomBlocks:Vector[] = []
 
