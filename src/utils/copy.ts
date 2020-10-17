@@ -1,4 +1,4 @@
-const copy = (id: string) => {
+const copy = (id: string): boolean => {
 	let textArea = document.getElementById(id) as HTMLInputElement
 	let result
 	textArea.focus()

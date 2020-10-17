@@ -1,24 +1,25 @@
 import {blockNames} from '../config'
+import {Vector, VectorLookup} from '../interfaces'
 import {blockExists, toCoordinate} from './blocks'
 
-export const sample = (arr:any) => arr[randomBetween(1, arr.length) - 1]
-export const randomBetween = (min:any, max:any) => Math.floor(Math.random() * (max - min + 1) + min)
-export const arrayFrom = (num:any) => Array.from(Array(num).keys())
+export const sample = <T>(arr:T[]): T => arr[randomBetween(1, arr.length) - 1]
+export const randomBetween = (min:number, max:number): number => Math.floor(Math.random() * (max - min + 1) + min)
+export const arrayFrom = (num:number): number[] => Array.from(Array(num).keys())
 
 // Random panels
 const panelCount = 33
 
-const random = (mirrorX:any) => {
+const random = (mirrorX:boolean) => {
 	const panels = arrayFrom(randomBetween(13, panelCount)) // [1,2,3..]
-	const blocks:any = []
-	const blockLookup:any = {}
+	const blocks:Vector[] = []
+	const blockLookup:VectorLookup = {}
 
 	const main = sample(blockNames)
 	const secondary = sample(blockNames)
 	const tertiary = sample(blockNames)
 
 	panels.forEach(() => {
-		const axis: any = {[sample(['x', 'y', 'z'])]: true}
+		const axis: {[key: string]: boolean} = {[sample(['x', 'y', 'z'])]: true}
 		const randomMain = sample([main, secondary, tertiary])
 		const randomSecondary = sample([main, secondary, tertiary])
 		const randomTertiary = sample([main, secondary, tertiary])

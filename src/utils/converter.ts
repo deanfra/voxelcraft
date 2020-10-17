@@ -1,15 +1,16 @@
+import {Vector, Mesh} from '../interfaces'
 import {toBlock} from './blocks'
 
 // let offsetY = 0
 let wrappingCharacters = 540 // the summon code around the blocks
 let commandLimit = 32500 - wrappingCharacters // the max characters per-iteration
 
-const toCommand = (objects: any) => {
-	const coordinates = objects
-		.filter((o: any) => o.name !== 'plane')
-		.map((o: any) => ({...o.position, block: o.name}))
+const toCommand = (objects: Mesh[]) => {
+	const vectors: Vector[] = objects
+		.filter((o: Mesh) => o.name !== 'plane')
+		.map((o: Mesh) => ({...o.position, block: o.name}))
 
-	const blocks = coordinates.map(({x, y, z, block}: any) => ({
+	const blocks: Vector[] = vectors.map(({x, y, z, block}) => ({
 		x: toBlock(x),
 		y: toBlock(y),
 		z: toBlock(z),
@@ -20,16 +21,16 @@ const toCommand = (objects: any) => {
 	// offsetY = coordinates.map((b) => toBlock(b.y)).sort((a, b) => a - b)[0] || 0
 
 	const blockSets = getBlockStrings(blocks)
-	const output = blockSets.map((strings: string[]) => getCommand(strings))
+	const output: string[] = blockSets.map((strings: string[]) => getCommand(strings))
 
 	return output
 }
 
-const getBlockStrings = (blocks: any) => {
-	let blockSet: any = []
-	let blockSets: any = []
+const getBlockStrings = (blocks: Vector[]): string[][] => {
+	let blockSet: string[] = []
+	let blockSets: string[][] = []
 
-	blocks.forEach(({x, y, z, block}: any) => {
+	blocks.forEach(({x, y, z, block}) => {
 		const string = `{id:command_block_minecart,Command:'setblock ~${x} ~${y} ~${z} ${block}'}`
 
 		if (blockSet.join(',').length + string.length > commandLimit) {
@@ -48,7 +49,7 @@ const getBlockStrings = (blocks: any) => {
 	return blockSets
 }
 
-const getCommand = (strings: string[]) =>
+const getCommand = (strings: string[]): string =>
 	'summon falling_block ~ ~1 ~ {Time:1,BlockState:{Name:redstone_block},Passengers:[' +
 	'{id:falling_block,Passengers:[' +
 	'{id:falling_block,Time:1,BlockState:{Name:activator_rail},Passengers:[' +

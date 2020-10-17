@@ -1,14 +1,21 @@
 // Sourced from @donatj from https://github.com/donatj/Circle-Generator
 
-const isEven = (num:any) => num % 2 === 0
+type Block = {x: number, z: number}
+type Config = {
+	thickness: string
+	width: number
+	height: number
+}
 
-let distance = function (x:any, z:any, ratio:any) {
+const isEven = (num:number) => num % 2 === 0
+
+let distance = function (x:number, z:number, ratio:number) {
 	return Math.sqrt(Math.pow(z * ratio, 2) + Math.pow(x, 2))
 }
-let filled = function (x:any, z:any, radius:any, ratio:any) {
+let filled = function (x:number, z:number, radius:number, ratio:number) {
 	return distance(x, z, ratio) <= radius
 }
-let fatfilled = function (x:any, z:any, radius:any, ratio:any) {
+let fatfilled = function (x:number, z:number, radius:number, ratio:number): boolean {
 	return (
 		filled(x, z, radius, ratio) &&
 		!(
@@ -24,15 +31,15 @@ let fatfilled = function (x:any, z:any, radius:any, ratio:any) {
 	)
 }
 
-const circle = (config:any) => {
-	let blocks = []
+const circle = (config: Config): Block[] => {
+	let blocks: Block[] = []
 
-	let maxblocks_x
-	let maxblocks_y
-	let thick_t = config.thickness || 'thin'
-	let width_r = (config.width || 9) / 2
-	let height_r = (config.height || 9) / 2
-	let ratio = width_r / height_r
+	let maxblocks_x: number
+	let maxblocks_y: number
+	let thick_t: string = config.thickness || 'thin'
+	let width_r: number = (config.width || 9) / 2
+	let height_r: number = (config.height || 9) / 2
+	let ratio: number = width_r / height_r
 
 	// let xCenter = config.xCenter || 0
 	// let ifilled = 0
@@ -51,7 +58,7 @@ const circle = (config:any) => {
 
 	for (let z = -maxblocks_y / 2 + 1; z <= maxblocks_y / 2 - 1; z++) {
 		for (let x = -maxblocks_x / 2 + 1; x <= maxblocks_x / 2 - 1; x++) {
-			let xfilled
+			let xfilled: boolean
 
 			if (thick_t == 'thick') {
 				xfilled = fatfilled(x, z, width_r, ratio)

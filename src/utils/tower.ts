@@ -2,17 +2,18 @@ import {blockNames} from '../config'
 import {arrayFrom, sample, randomBetween} from './randomizer'
 import {blockExists, toCoordinate, isNonEnclosed} from './blocks'
 import shapes from './shapes'
+import { Vector, VectorLookup } from '../interfaces'
 
 // Random rooms
 const panelCount = 5
 
-const tower = (mirrorX:any) => {
+const tower = (mirrorX:boolean): Vector[] => {
 	const rooms = arrayFrom(randomBetween(1, panelCount))
-	const blocks:any = []
-	const blockLookup:any = {}
+	const blocks:Vector[] = []
+	const blockLookup:VectorLookup = {}
 
 	const doc = document as any
-	const selectedMaterial = doc.querySelector('#GUISelectedBlock').value
+	const selectedMaterial: string = doc.querySelector('#GUISelectedBlock').value
 	const main = selectedMaterial
 	const secondary = sample(blockNames)
 	const tertiary = sample(blockNames)
@@ -80,11 +81,11 @@ const tower = (mirrorX:any) => {
 		})
 	})
 
-	const nonEnclosedBlocks = blocks.filter(({x, y, z}:any) => isNonEnclosed(x, y, z, blockLookup))
+	const nonEnclosedBlocks = blocks.filter(({x, y, z}) => isNonEnclosed(x, y, z, blockLookup))
 
 	console.log(`Generated: ${rooms.length} rooms & ${nonEnclosedBlocks.length} blocks`)
 
-	return nonEnclosedBlocks.map(({x, y, z, block}:any) => ({
+	return nonEnclosedBlocks.map(({x, y, z, block}) => ({
 		block,
 		y: toCoordinate(y),
 		x: toCoordinate(x),

@@ -1,53 +1,56 @@
 import {exampleStorage} from '../config'
+import { Mesh, Template } from '../interfaces'
+
+type LocalStore = {
+	saved: Template[]
+}
 
 const namespace = 'voxelcraft__storage'
 const newStore = exampleStorage
 
-const saveToLocalStorage = (objects) => {
-	const title = prompt('Enter your template name')
+const saveToLocalStorage = (objects: Mesh[]): void => {
+	const title = prompt('Enter your template name') as string
 	const store = fetchAllFromLocalStorage()
 	const positions = objects
 		.filter((o) => o.name !== 'plane')
 		.map(({position: {x, y, z}, name}) => ({x, y, z, block: name}))
 
-	store.saved.push({
+	const template: Template = {
 		name: title,
 		id: Math.floor(Math.random() * 10000000000).toString(),
 		blocks: positions,
-	})
+	}
+
+	store.saved.push(template)
 
 	window.localStorage.setItem(namespace, JSON.stringify(store))
 }
 
-const deleteFromLocalStorage = (id) => {
+const deleteFromLocalStorage = (id: string): void => {
 	const store = fetchAllFromLocalStorage()
 
 	if (store && !!store.saved) {
 		let updatedSaved = store.saved.concat([])
-		store.saved = updatedSaved.filter((saved) => saved.id !== id)
+		store.saved = updatedSaved.filter((saved: Template) => saved.id !== id)
 		window.localStorage.setItem(namespace, JSON.stringify(store))
 	}
 }
 
-const fetchSavedFromLocalStorage = (id) => {
+const fetchSavedFromLocalStorage = (id: string): Template | undefined => {
 	const mockId = id || 'uuid-uuid-uuid-uuid'
 	const store = fetchAllFromLocalStorage()
-
-	if (store && !!store.saved) {
-		const found = store.saved.find((o) => o.id === mockId)
-		return found || null
-	} else {
-		return null
-	}
+	const found = store.saved.find((o) => o.id === mockId)
+	return found || undefined
 }
 
-const fetchAllFromLocalStorage = () => {
+const fetchAllFromLocalStorage = (): LocalStore => {
 	const dataString = window.localStorage.getItem(namespace)
 	const parsed = dataString ? JSON.parse(dataString) : newStore
+	parsed.saved = parsed.saved || [] 
 	return parsed
 }
 
-const clearLocalStorage = () => {
+const clearLocalStorage = (): void => {
 	window.localStorage.setItem(namespace, '[]')
 }
 
