@@ -31,6 +31,8 @@ function GUI({state}) {
 
 	return html`
 		<div>
+			<!--<div class="settings-house">button</div>-->
+
 			<div class="gui">
 				<${BlockSelector} blockNames=${blockNames} />
 				<button class=${mirrorXClass} onTouchEnd=${clickMirrorX} onClick=${clickMirrorX}>

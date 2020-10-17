@@ -9,7 +9,7 @@ const extensions = [
 ];
 
 export default {
-	input: 'src/voxel.js',
+	input: 'src/voxel.ts',
 	output: [
 		{
 			format: 'umd',

@@ -2,24 +2,73 @@ import * as THREE from 'three'
 import {OrbitControls} from './jsm/controls/OrbitControls.js'
 import {blockNames} from './config'
 import GUI from './gui/gui'
+import { State, Mesh, Materials } from './interfaces/index.js'
 
-let camera, scene, canvas, controls
-let plane
-let mouse, raycaster
+let camera: any // THREE.Camera
+let scene: THREE.Scene = {} as THREE.Scene
+let canvas: THREE.WebGLRenderer
+let controls
+let plane: THREE.Mesh
+let mouse: THREE.Vector2
+let raycaster: THREE.Raycaster
+let rollOverMesh: THREE.Mesh
+let rollOverMaterial: THREE.MeshBasicMaterial
+let cubeGeo: THREE.BoxBufferGeometry
+let cubeMaterials: Materials = {}
 
-let rollOverMesh, rollOverMaterial
-let cubeGeo, cubeMaterials
-
-let objects = []
+let objects: Mesh[] = []
 let mirrorX = false
 let modalOpen = false
 
-let touchTimer, touchTime, touchX, touchY
+let touchTimer: NodeJS.Timeout
+let touchTime: number
+let touchX: number
+let touchY: number
+
+// const doc = document as Document
 
 // Record mouse movement
-const mouseMovement = {x: 0, y: 0}
+const mouseMovement = {x: 0, y: 0, moveX:0, moveY: 0}
 
-let state = {scene, render, objects, cubeMaterials, mirrorX, modalOpen}
+let state: State = {scene, render, objects, cubeMaterials, mirrorX, modalOpen}
+
+/*
+const drawStair = (state) => {
+	const stairConfig = {
+		w: 25,
+		l: 50,
+		h: 25
+	};
+
+	const positionX = 0
+	const positionY = 12.5
+	const positionZ = -12.5
+
+	const topStair = new THREE.Mesh(new THREE.CubeGeometry(stairConfig.l, stairConfig.w, stairConfig.h), state.cubeMaterials['oak_planks']);
+	topStair.position.x = positionX;
+	topStair.position.y = positionY;
+	topStair.position.z = positionZ;
+	
+	const bottomStair = new THREE.Mesh(new THREE.CubeGeometry(stairConfig.l, stairConfig.w, stairConfig.h*2), state.cubeMaterials['oak_planks']);
+	bottomStair.position.x = positionX;
+	bottomStair.position.y = positionY + -25;
+	bottomStair.position.z = positionZ + 12.5;
+
+	const maskMaterial = new THREE.MeshBasicMaterial({color: 0xff0000, opacity: 0, transparent: true})
+	const stairMask = new THREE.Mesh(new THREE.CubeGeometry(stairConfig.l, stairConfig.w*2, stairConfig.h*2), maskMaterial);
+	topStair.position.x = positionX;
+	topStair.position.y = positionY;
+	topStair.position.z = positionZ;
+
+	var stair = new THREE.Group();
+	stair.add( topStair );
+	stair.add( bottomStair );
+	stair.add( stairMask );
+	// stair.rotation.y = (.9 - .125) * 2
+
+	return stair
+};
+*/
 
 init()
 render()
@@ -82,18 +131,19 @@ function init() {
 	canvas.setSize(window.innerWidth, window.innerHeight)
 
 	// Camera
-	controls = new OrbitControls(camera, canvas.domElement)
+	controls = new OrbitControls(camera, canvas.domElement) as any
 	controls.update()
 	controls.addEventListener('change', render)
 
-	document.querySelector('#canvas').appendChild(canvas.domElement)
+	const canvasEl = document.querySelector('#canvas') as Element
+	canvasEl.appendChild(canvas.domElement)
 
 	// Events
 	document.addEventListener('mousemove', onDocumentMouseMove)
 	document.addEventListener('mouseup', onDocumentMouseUp)
 	document.addEventListener('mousedown', onDocumentMouseDown, {passive: false})
 	document.addEventListener('touchstart', onDocumentTouchStart, {passive: false})
-	document.addEventListener('touchend', onDocumentMouseUp, false)
+	document.addEventListener('touchend', onDocumentTouchEnd, false)
 	// document.addEventListener('keydown', onDocumentKeyDown)
 
 	window.addEventListener('resize', onWindowResize)
@@ -106,21 +156,21 @@ function onWindowResize() {
 	canvas.setSize(window.innerWidth, window.innerHeight)
 }
 
-function recordStartPosition(event) {
+function recordStartPosition(event: MouseEvent) {
 	mouseMovement.x = event.clientX
 	mouseMovement.y = event.clientY
 	mouseMovement.moveX = 0
 	mouseMovement.moveY = 0
 }
 
-function recordMovement(event) {
+function recordMovement(event: MouseEvent) {
 	const clientX = event.clientX
 	const clientY = event.clientY
 	mouseMovement.moveX += Math.abs(mouseMovement.x - clientX)
 	mouseMovement.moveY += Math.abs(mouseMovement.y - clientY)
 }
 
-function onDocumentTouchStart(event) {
+function onDocumentTouchStart(event: TouchEvent) {
 	touchTime = 0
 	touchTimer = setInterval(() => {
 		touchTime += 1
@@ -130,13 +180,13 @@ function onDocumentTouchStart(event) {
 	touchY = target.clientY
 }
 
-function onDocumentMouseDown(event) {
+function onDocumentMouseDown(event: MouseEvent) {
 	event.preventDefault() // prevent scrolling
 	recordStartPosition(event)
 	window.addEventListener('mousemove', recordMovement)
 }
 
-function onDocumentMouseMove(event) {
+function onDocumentMouseMove(event: MouseEvent) {
 	event.preventDefault()
 
 	const {clientX, clientY} = event
@@ -145,18 +195,21 @@ function onDocumentMouseMove(event) {
 
 	raycaster.setFromCamera(mouse, camera)
 
-	var intersects = raycaster.intersectObjects(objects)
+	var intersects = raycaster.intersectObjects(objects as THREE.Object3D[])
 
-	if (intersects.length > 0) {
-		var intersect = intersects[0]
-		rollOverMesh.position.copy(intersect.point).add(intersect.face.normal)
+	if (intersects.length > 0 && intersects[0].face) {
+		rollOverMesh.position.copy(intersects[0].point).add(intersects[0].face.normal)
 		rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25)
 	}
 
 	render()
 }
 
-function onDocumentMouseUp(event) {
+function onDocumentTouchEnd(event: TouchEvent) {
+	onDocumentMouseUp((event as unknown) as MouseEvent)
+}
+
+function onDocumentMouseUp(event: MouseEvent) {
 	event.preventDefault()
 
 	clearInterval(touchTimer)
@@ -173,7 +226,11 @@ function onDocumentMouseUp(event) {
 	mouse.set((clientX / innerWidth) * 2 - 1, -(clientY / innerHeight) * 2 + 1)
 
 	raycaster.setFromCamera(mouse, camera)
-	var intersects = raycaster.intersectObjects(objects)
+
+	// const allObjects = objects.flatMap(obj => obj.children.length ? obj.children : obj)
+	// var intersects = raycaster.intersectObjects(allObjects)
+
+	var intersects = raycaster.intersectObjects(objects as THREE.Object3D[])
 
 	if (intersects.length > 0) {
 		// GET MIRROR
@@ -182,13 +239,18 @@ function onDocumentMouseUp(event) {
 
 		// delete cube
 		if (event.button === 2) {
-			if (intersect.object !== plane) {
-				state.scene.remove(intersect.object)
-				state.objects.splice(state.objects.indexOf(intersect.object), 1)
+			if (intersects[0].object !== plane) {
+				if(intersects[0].object.parent && intersects[0].object.parent.children.length) {
+					intersects[0].object.parent.children.forEach(child => state.scene.remove(child))
+				} else {
+					state.scene.remove(intersects[0].object)
+					state.objects.splice(state.objects.indexOf(intersects[0].object), 1)
+				}
 			}
 		} else {
 			// GET MATERIAL
-			const selectedMaterial = document.querySelector('#GUISelectedBlock').value
+			const selectBlock = document.querySelector('#GUISelectedBlock') as HTMLInputElement
+			const selectedMaterial = selectBlock.value
 			// create cube
 			createVoxel(cubeGeo, intersect, state.cubeMaterials[selectedMaterial], selectedMaterial)
 
@@ -197,6 +259,7 @@ function onDocumentMouseUp(event) {
 				const x = intersect.point.x
 				intersect.point.x = x - x * 2
 				createVoxel(cubeGeo, intersect, state.cubeMaterials[selectedMaterial], selectedMaterial)
+				// createStair(cubeGeo, intersect, state.cubeMaterials[selectedMaterial], selectedMaterial)
 			}
 		}
 	}
@@ -204,14 +267,26 @@ function onDocumentMouseUp(event) {
 	render()
 }
 
-const createVoxel = (geo, intersect, material, name) => {
+const createVoxel = (geo: THREE.BoxBufferGeometry, intersect: THREE.Intersection, material: THREE.MeshLambertMaterial, name: string) => {
 	var voxel = new THREE.Mesh(geo, material)
-	voxel.position.copy(intersect.point).add(intersect.face.normal)
+	const face = intersect.face as THREE.Face3
+	voxel.position.copy(intersect.point).add(face.normal)
 	voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25)
 	voxel.name = name
 	state.scene.add(voxel)
 	state.objects.push(voxel)
 }
+
+/*
+const createStair = (geo, intersect, material, name) => {
+	const stair = drawStair(state, material, name)
+	stair.position.copy(intersect.point).add(intersect.face.normal)
+	stair.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25)
+	stair.name = name
+	state.scene.add(stair)
+	state.objects.push(stair)
+}
+*/
 
 function render() {
 	canvas.render(state.scene, camera)
