@@ -7,6 +7,9 @@ import { Vector, VectorLookup } from '../interfaces'
 // Random rooms
 const panelCount = 5
 
+// does this block sit at the start or the end of an array
+const isFrame = (block:number, start:number, length:number) => block === start || block === start + length - 1
+
 const castle = (mirrorX:boolean): Vector[] => {
 	const rooms = arrayFrom(randomBetween(1, panelCount))
 	const blocks:Vector[] = []
@@ -19,10 +22,6 @@ const castle = (mirrorX:boolean): Vector[] => {
 	const tertiary = sample(blockNames)
 
 	rooms.forEach(() => {
-		const randomSecondary = sample([main, secondary, tertiary])
-		const randomTertiary = sample([main, secondary, tertiary])
-		const blockSelection = [main, main, main, randomSecondary, randomTertiary]
-
 		const panelXStart = randomBetween(-4, 3)
 		const panelYStart = randomBetween(1, 4)
 		const panelZStart = randomBetween(-4, 3)
@@ -31,7 +30,7 @@ const castle = (mirrorX:boolean): Vector[] => {
 		const panelYLength = randomBetween(3, 7)
 		const panelZLength = randomBetween(3, 7)
 
-		// potential spot for tower placement, either end of x and z axis
+		// potential spot for bastion placement, either end of x and z axis
 		const circleDiameter = sample([3, 4, 5, 5])
 		const xCenter = sample([panelXStart, panelXStart + panelXLength])
 		const zCenter = sample([panelZStart, panelZStart + panelZLength])
@@ -39,10 +38,17 @@ const castle = (mirrorX:boolean): Vector[] => {
 		arrayFrom(panelXLength).forEach((ix) => {
 			arrayFrom(panelYLength).forEach((iy) => {
 				arrayFrom(panelZLength).forEach((iz) => {
-					const block = sample(blockSelection)
 					const x = panelXStart + ix
 					const y = panelYStart + iy
 					const z = panelZStart + iz
+
+					const frameX = isFrame(x, panelXStart, panelXLength)
+					const frameY = isFrame(y, panelYStart, panelYLength)
+					const frameZ = isFrame(z, panelZStart, panelZLength)
+
+					// if at least two blocks sit in a frame position
+					const placeFrame = [frameX, frameY, frameZ].filter((frame) => !!frame).length > 1
+					const block = placeFrame ? secondary : sample([main, main, main, main, tertiary])
 
 					if (!blockExists(x, y, z, blockLookup)) {
 						blocks.push({x, y, z, block})
@@ -51,21 +57,23 @@ const castle = (mirrorX:boolean): Vector[] => {
 					if (mirrorX && !blockExists(-x, y, z, blockLookup)) {
 						blocks.push({x: -x, y, z, block})
 					}
-				})
+				}) // z
 
 				const isBottom = panelYStart + iy === panelYStart
-				const isTop = panelYStart + iy === panelYStart + panelYLength - 2
-				// push a circle
+				const isTop = panelYStart + iy === panelYStart + panelYLength - 1
+
+				// draw a bastion at Y increment
 				const circleConfig = {
+					// Create a floor at the top & bottom of the bastion
 					thickness: isBottom || isTop ? 'filled' : 'thin',
 					width: circleDiameter,
 					height: circleDiameter,
 				}
 
-				const circleBlocks = shapes.circle(circleConfig)
-				circleBlocks.forEach(({x, z}) => {
-					const block = sample(blockSelection)
-					const cY = panelYStart + iy + 2
+				const bastionBlocks = shapes.circle(circleConfig)
+				bastionBlocks.forEach(({x, z}) => {
+					const block = isBottom ? secondary : main
+					const cY = panelYStart + iy
 					const cX = xCenter + x
 					const cZ = zCenter + z
 
@@ -77,8 +85,27 @@ const castle = (mirrorX:boolean): Vector[] => {
 						blocks.push({x: -cX, y: cY, z: cZ, block})
 					}
 				})
-			})
-		})
+
+				// Draw a parapet at the top of the bastion
+				if(isTop) {
+					const parapetBlocks = shapes.circle({...circleConfig, thickness: 'thin'})
+					parapetBlocks.forEach(({x, z}) => {
+						const block = secondary
+						const cY = panelYStart + iy
+						const cX = xCenter + x
+						const cZ = zCenter + z
+
+						if (!blockExists(cX, cY+1, cZ, blockLookup)) {
+							blocks.push({x: cX, y: cY+1, z: cZ, block})
+						}
+
+						if (mirrorX && !blockExists(-cX, cY+1, cZ, blockLookup)) {
+							blocks.push({x: -cX, y: cY+1, z: cZ, block})
+						}
+					})
+				}
+			}) // y
+		}) // x
 	})
 
 	const nonEnclosedBlocks = blocks.filter(({x, y, z}) => isNonEnclosed(x, y, z, blockLookup))
