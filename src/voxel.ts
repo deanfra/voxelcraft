@@ -1,3 +1,8 @@
+/** ~~~~ welcome to the monolith ~~~~
+ * enjoy your scrolling, if you feel like some housekeeping, it would be so cool if you
+ * could help refactor this big boy up a bit
+**/
+
 import * as THREE from 'three'
 import {OrbitControls} from './jsm/controls/OrbitControls.js'
 import {blockNames} from './config'
@@ -60,7 +65,7 @@ const drawStair = (state) => {
 	topStair.position.y = positionY;
 	topStair.position.z = positionZ;
 
-	var stair = new THREE.Group();
+	let stair = new THREE.Group();
 	stair.add( topStair );
 	stair.add( bottomStair );
 	stair.add( stairMask );
@@ -83,13 +88,11 @@ function init() {
 	state.scene.background = new THREE.Color(0xf0f0f0)
 
 	// roll-over helpers
-	var rollOverGeo = new THREE.BoxBufferGeometry(50, 50, 50)
+	const rollOverGeo = new THREE.BoxBufferGeometry(50, 50, 50)
 	rollOverMaterial = new THREE.MeshBasicMaterial({color: 0xff0000, opacity: 0.5, transparent: true})
 	rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial)
 	rollOverMesh.position.set(9999, 9999, 9999)
 	state.scene.add(rollOverMesh)
-
-	cubeGeo = new THREE.BoxBufferGeometry(50, 50, 50)
 
 	// Materials
 	state.cubeMaterials = blockNames.reduce((acc, cur) => {
@@ -102,26 +105,36 @@ function init() {
 	}, {})
 
 	// grid
-	var gridHelper = new THREE.GridHelper(1000, 20)
+	const gridHelper = new THREE.GridHelper(1000, 20)
 	state.scene.add(gridHelper)
 
-	//
 	raycaster = new THREE.Raycaster()
 	mouse = new THREE.Vector2()
 
-	var geometry = new THREE.PlaneBufferGeometry(1000, 1000)
-	geometry.rotateX(-Math.PI / 2)
+	const planeGeo = new THREE.PlaneBufferGeometry(1000, 1000)
+	planeGeo.rotateX(-Math.PI / 2)
 
-	plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({visible: false}))
+	plane = new THREE.Mesh(planeGeo, new THREE.MeshBasicMaterial({visible: false}))
 	plane.name = 'plane'
 	state.scene.add(plane)
 	state.objects.push(plane)
 
+	cubeGeo = new THREE.BoxBufferGeometry(50, 50, 50)
+	
+	// Draw a command block as a helper to where the design will generate
+	const commandBlock = new THREE.Mesh(rollOverGeo, new THREE.MeshLambertMaterial({
+		map: new THREE.TextureLoader().load('textures/command_block.png'), 
+		opacity: 0.5,
+		transparent: true
+	}))
+	commandBlock.position.set(25,-75,25)
+	state.scene.add(commandBlock)
+
 	// lights
-	var ambientLight = new THREE.AmbientLight(0x606060)
+	const ambientLight = new THREE.AmbientLight(0x606060)
 	state.scene.add(ambientLight)
 
-	var directionalLight = new THREE.DirectionalLight(0xffffff)
+	const directionalLight = new THREE.DirectionalLight(0xffffff)
 	directionalLight.position.set(1, 0.75, 0.5).normalize()
 	state.scene.add(directionalLight)
 
@@ -195,7 +208,7 @@ function onDocumentMouseMove(event: MouseEvent) {
 
 	raycaster.setFromCamera(mouse, camera)
 
-	var intersects = raycaster.intersectObjects(objects as THREE.Object3D[])
+	let intersects = raycaster.intersectObjects(objects as THREE.Object3D[])
 
 	if (intersects.length > 0 && intersects[0].face) {
 		rollOverMesh.position.copy(intersects[0].point).add(intersects[0].face.normal)
@@ -228,9 +241,9 @@ function onDocumentMouseUp(event: MouseEvent) {
 	raycaster.setFromCamera(mouse, camera)
 
 	// const allObjects = objects.flatMap(obj => obj.children.length ? obj.children : obj)
-	// var intersects = raycaster.intersectObjects(allObjects)
+	// let intersects = raycaster.intersectObjects(allObjects)
 
-	var intersects = raycaster.intersectObjects(objects as THREE.Object3D[])
+	let intersects = raycaster.intersectObjects(objects as THREE.Object3D[])
 
 	if (intersects.length > 0) {
 		// GET MIRROR
@@ -268,7 +281,7 @@ function onDocumentMouseUp(event: MouseEvent) {
 }
 
 const createVoxel = (geo: THREE.BoxBufferGeometry, intersect: THREE.Intersection, material: THREE.MeshLambertMaterial, name: string) => {
-	var voxel = new THREE.Mesh(geo, material)
+	let voxel = new THREE.Mesh(geo, material)
 	const face = intersect.face as THREE.Face3
 	voxel.position.copy(intersect.point).add(face.normal)
 	voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25)

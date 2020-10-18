@@ -23,7 +23,7 @@ const CommandModal = ({state, show, onClose}: Props) => {
 			<a href="#" title="Close" className="modal-close" onTouchEnd={onClose} onClick={onClose}>Close</a>
 			{generated.map(
 				(code, i) => <div>
-					{generated.length > 1 ? <small>Block ${i + 1}/${generated.length}</small> : ''}
+					{generated.length > 1 ? <small>Block {i + 1}/{generated.length}</small> : ''}
 					<CommandCode i={i} code={code} />
 				</div>
 			)}

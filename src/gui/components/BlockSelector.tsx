@@ -17,7 +17,7 @@ const BlockSelect = (name: string, selected: string, onclick: (n: string) => voi
 		onClick={() => onclick(name)}
 		className={className}
 	>
-		<img src={`./textures/${name}.png`} alt="${label}" />
+		<img src={`./textures/${name}.png`} alt={`${label}`} />
 	</button>
 }
 

@@ -16,7 +16,7 @@ const CommandCode = ({code, i}: Props) => {
 	}
 
 	return <div className="modal-window__code-wrapper">
-			<button className="modal-window__copy" onClick={onClick}>${copied ? 'Copied!' : 'Copy'}</button>
+			<button className="modal-window__copy" onClick={onClick}>{copied ? 'Copied!' : 'Copy'}</button>
 			<textarea className="modal-window__code" id={textareaId} value={code}></textarea>
 		</div>
 	
