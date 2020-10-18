@@ -1,13 +1,13 @@
 import {blockNames} from '../config'
-import {arrayFrom, sample, randomBetween} from './randomizer'
-import {blockExists, toCoordinate, isNonEnclosed} from './blocks'
-import shapes from './shapes'
+import {arrayFrom, sample, randomBetween} from './panels'
+import {blockExists, toCoordinate, isNonEnclosed} from '../utils/blocks'
+import shapes from '../utils/shapes'
 import { Vector, VectorLookup } from '../interfaces'
 
 // Random rooms
 const panelCount = 5
 
-const tower = (mirrorX:boolean): Vector[] => {
+const castle = (mirrorX:boolean): Vector[] => {
 	const rooms = arrayFrom(randomBetween(1, panelCount))
 	const blocks:Vector[] = []
 	const blockLookup:VectorLookup = {}
@@ -93,4 +93,4 @@ const tower = (mirrorX:boolean): Vector[] => {
 	}))
 }
 
-export default tower
+export default castle

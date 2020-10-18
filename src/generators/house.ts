@@ -1,7 +1,7 @@
 import {blockNames} from '../config'
-import {arrayFrom, sample, randomBetween} from './randomizer'
-import {blockExists, toCoordinate, isNonEnclosed} from './blocks'
-import transform from './transform'
+import {arrayFrom, sample, randomBetween} from './panels'
+import {blockExists, toCoordinate, isNonEnclosed} from '../utils/blocks'
+import transform from '../utils/transform'
 import { Vector, VectorLookup } from '../interfaces'
 
 // TODO:

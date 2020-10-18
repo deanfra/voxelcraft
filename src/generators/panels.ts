@@ -1,6 +1,6 @@
 import {blockNames} from '../config'
 import {Vector, VectorLookup} from '../interfaces'
-import {blockExists, toCoordinate} from './blocks'
+import {blockExists, toCoordinate} from '../utils/blocks'
 
 export const sample = <T>(arr:T[]): T => arr[randomBetween(1, arr.length) - 1]
 export const randomBetween = (min:number, max:number): number => Math.floor(Math.random() * (max - min + 1) + min)

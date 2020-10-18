@@ -6,7 +6,7 @@ import BlockSelector from './components/BlockSelector'
 import CommandModal from './components/CommandModal'
 import TemplateLoader from './components/TemplateLoader'
 import TransformControls from './components/TransformControls'
-import {clearBlocks, randomBlocks, generateHouse, generateTower} from '../utils/blocks'
+import {clearBlocks, randomBlocks, generateHouse, generateCastle} from '../utils/blocks'
 import { State } from '../interfaces';
 
 type Props = {
@@ -22,7 +22,7 @@ function GUI({state}: Props) {
 	const generate = () => runAndRender(setShowModal(true))
 	const random = () => runAndRender(randomBlocks)
 	const house = () => runAndRender(generateHouse)
-	const tower = () => runAndRender(generateTower)
+	const castle = () => runAndRender(generateCastle)
 
 	const [showModal, setShowModal] = useState(false)
 
@@ -49,7 +49,7 @@ function GUI({state}: Props) {
 				</button>
 				<h3>✨ Random</h3>
 				<button className="gui__button--inline" onTouchEnd={house} onClick={house}>House</button>
-				<button className="gui__button--inline" onTouchEnd={tower} onClick={tower}>Building</button>
+				<button className="gui__button--inline" onTouchEnd={castle} onClick={castle}>Castle</button>
 				<button className="gui__button--inline" onTouchEnd={random} onClick={random}>Panels</button>
 				<h3>💾 Load/Save</h3>
 				<TemplateLoader state={state} />
