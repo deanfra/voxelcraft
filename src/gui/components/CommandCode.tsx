@@ -1,5 +1,6 @@
 import copyToClipboard from '../../utils/copy'
 import React, {useState} from 'react';
+import { modalCopyClass, modalCodeClass } from '../styles';
 
 type Props = {
 	code: string
@@ -15,9 +16,9 @@ const CommandCode = ({code, i}: Props) => {
 		setTimeout(() => setCopied(false), 3000)
 	}
 
-	return <div className="modal-window__code-wrapper">
-			<button className="modal-window__copy" onClick={onClick}>{copied ? 'Copied!' : 'Copy'}</button>
-			<textarea className="modal-window__code" id={textareaId} value={code}></textarea>
+	return <div className={`relative`}>
+			<button className={modalCopyClass} onClick={onClick}>{copied ? 'Copied!' : 'Copy'}</button>
+			<textarea className={modalCodeClass} id={textareaId} value={code}></textarea>
 		</div>
 	
 }

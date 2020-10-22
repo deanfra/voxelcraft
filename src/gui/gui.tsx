@@ -9,9 +9,12 @@ import TransformControls from './components/TransformControls'
 import {clearBlocks, randomBlocks, generateHouse, generateCastle} from '../utils/blocks'
 import { State } from '../interfaces';
 
+import { btnClass, btnHoverClass, guiClass, h3Class } from './styles'
+
 type Props = {
 	state: State
 }
+
 
 function GUI({state}: Props) {
 	const runAndRender = (fn: any) => {
@@ -27,7 +30,7 @@ function GUI({state}: Props) {
 	const [showModal, setShowModal] = useState(false)
 
 	const [mirrorX, setMirrorX] = useState(state.mirrorX)
-	const mirrorXClass = `gui__button--inline ${mirrorX ? 'gui__button--active' : ''}`
+	const mirrorXClass = `${btnClass} ${mirrorX ? btnHoverClass : ''}`
 
 	const clickMirrorX = (e: any) => {
 		e.preventDefault()
@@ -38,22 +41,27 @@ function GUI({state}: Props) {
 	// <div className="settings-house">button</div>
 	return (
 		<div>
-			<div className="gui">
+			<div className={`gui ${guiClass}`}>
 				<BlockSelector blockNames={blockNames} />
 				<button className={mirrorXClass} onTouchEnd={clickMirrorX} onClick={clickMirrorX}>
-					{(mirrorX && '🔘') || '⚫️'} Mirror
+					Mirror {(mirrorX && 'on') || 'off'} 
 				</button>
-				<button className="gui__button--inline" onTouchEnd={clear} onClick={clear}>Clear</button>
-				<button className="gui__button--inline" onTouchEnd={generate} onClick={generate}>
-					Export to Minecraft
-				</button>
-				<h3>✨ Random</h3>
-				<button className="gui__button--inline" onTouchEnd={house} onClick={house}>House</button>
-				<button className="gui__button--inline" onTouchEnd={castle} onClick={castle}>Castle</button>
-				<button className="gui__button--inline" onTouchEnd={random} onClick={random}>Panels</button>
-				<h3>💾 Load/Save</h3>
+				<button className={btnClass} onTouchEnd={clear} onClick={clear}>Clear</button>
+				<div className="flex">
+					<button className={`${btnClass} flex-1`} onTouchEnd={generate} onClick={generate}>
+						Export to Minecraft
+					</button>
+				</div>
+
+				<h3 className={h3Class}>✨ Random</h3>
+				<button className={btnClass} onTouchEnd={house} onClick={house}>House</button>
+				<button className={btnClass} onTouchEnd={castle} onClick={castle}>Castle</button>
+				<button className={btnClass} onTouchEnd={random} onClick={random}>Panels</button>
+
+				<h3 className={h3Class}>💾 Load/Save</h3>
 				<TemplateLoader state={state} />
-				<h3>↘️ Move model</h3>
+
+				<h3 className={h3Class}>↘️ Move model</h3>
 				<TransformControls state={state} />
 			</div>
 			<CommandModal

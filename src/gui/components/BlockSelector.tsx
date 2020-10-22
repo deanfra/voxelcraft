@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
+import { btnBlockClass, btnBlockSelectedClass } from '../styles';
 
 type Props = {
 	blockNames: string[]
 }
 
 const BlockSelect = (name: string, selected: string, onclick: (n: string) => void) => {
-	const className = `gui__selected-block ${
-		name === selected ? ' gui__selected-block--selected' : ''
-	}`
+	const className = `${btnBlockClass} ${name === selected ? btnBlockSelectedClass : ''}`
 	const label = name.replace(/_/g, ' ')
 
 	return <button

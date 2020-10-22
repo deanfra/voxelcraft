@@ -2,6 +2,7 @@ import storage from '../../utils/localstorage'
 import {clearBlocks, fillBlocks} from '../../utils/blocks'
 import React, {useState, useEffect} from 'react';
 import { State, Template } from '../../interfaces';
+import { btnClass, listItemClass } from '../styles';
 
 type LoaderProps = {
 	state: State
@@ -22,9 +23,9 @@ const TemplateLink = (props: LinkProps) => {
 		props.del(props.tpl.id)
 	}
 
-	return <li>
-		<button className="gui__button" onTouchEnd={click} onClick={click}>{props.tpl.name}</button>
-		<button className="gui__button gui__button--close" onTouchEnd={del} onClick={del}>⨯</button>
+	return <li className={listItemClass}>
+		<button className={`${btnClass} flex-1`} onTouchEnd={click} onClick={click}>{props.tpl.name}</button>
+		<button className={btnClass} onTouchEnd={del} onClick={del}>⨯</button>
 	</li>
 }
 
@@ -55,7 +56,7 @@ const TemplateLoader = (props: LoaderProps) => {
 		setTemplates(templates.filter((tpl) => tpl.id !== id))
 	}
 
-	return <ul className="gui__saved-list">
+	return <ul>
 		{templates.map(
 			(tpl) =>
 				<TemplateLink
@@ -65,8 +66,8 @@ const TemplateLoader = (props: LoaderProps) => {
 					del={(id: string) => del(id)}
 				/>
 		)}
-		<li>
-			<button className="gui__button text-center" onTouchEnd={save} onClick={save}>+ Save</button>
+		<li className={listItemClass}>
+			<button className={`${btnClass} flex-1`} onTouchEnd={save} onClick={save}>+ Save</button>
 		</li>
 	</ul>
 }
