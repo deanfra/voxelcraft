@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import panels from '../generators/panels'
 import house from '../generators/house'
 import castle from '../generators/castle'
-import { State, Vector, VectorLookup, Mesh } from '../interfaces'
+import { State, Vector, VectorLookup, Mesh, PanelConfig } from '../interfaces'
 
 type VectorUnit = number
 type BlockUnit = number
@@ -29,18 +29,21 @@ export const clearBlocks = (state: State) => {
 }
 
 export const randomBlocks = (state: State) => {
+	const generatedRandomPanels = panels(state.mirrorX)
 	clearBlocks(state)
-	fillBlocks(panels(state.mirrorX), state)
+	fillBlocks(generatedRandomPanels, state)
 }
 
 export const generateHouse = (state: State) => {
+	const generatedHouse = house(state.mirrorX)
 	clearBlocks(state)
-	fillBlocks(house(state.mirrorX), state)
+	fillBlocks(generatedHouse, state)
 }
 
-export const generateCastle = (state: State) => {
+export const generateCastle = (state: State, config: PanelConfig[]) => {
+	const generatedCastle = castle(config)
 	clearBlocks(state)
-	fillBlocks(castle(state.mirrorX), state)
+	fillBlocks(generatedCastle, state)
 }
 
 export const toCoordinate = (xyz: number): VectorUnit => xyz * 50 - 25

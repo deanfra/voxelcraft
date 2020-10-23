@@ -19,3 +19,9 @@ export type Template = {
   blocks: Vector[];
 }
 
+export type PanelConfig = {
+	id: string,
+	type: string,
+	value: number | string | boolean,
+	label: string
+}

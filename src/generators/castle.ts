@@ -2,33 +2,46 @@ import {blockNames} from '../config'
 import {arrayFrom, sample, randomBetween} from './panels'
 import {blockExists, toCoordinate, isNonEnclosed} from '../utils/blocks'
 import shapes from '../utils/shapes'
-import { Vector, VectorLookup } from '../interfaces'
+import { PanelConfig, Vector, VectorLookup } from '../interfaces'
 
-// Random rooms
-const panelCount = 5
+type Config = {[key:string]: string | number | boolean}
 
 // does this block sit at the start or the end of an array
 const isFrame = (block:number, start:number, length:number) => block === start || block === start + length - 1
 
-const castle = (mirrorX:boolean): Vector[] => {
-	const rooms = arrayFrom(randomBetween(1, panelCount))
+const castle = (castleConfig: PanelConfig[]): Vector[] => {
+	// array to object
+	const config: Config = castleConfig.reduce(
+		(acc: Config, cur: PanelConfig) => ({[cur.id]: cur.value, ...acc}), {}
+	)
+
+	const minRooms = parseInt(config.minRooms as string, 10)
+	const maxRooms = parseInt(config.maxRooms as string, 10)
+	const rooms = arrayFrom(randomBetween(minRooms, maxRooms))
+
+	const minRoomLength = parseInt(config.minRoomLength as string, 10)
+	const maxRoomLength = parseInt(config.maxRoomLength as string, 10)
+	const horizSpread = parseInt(config.horizontalSpread as string, 10)
+	const vertSpread = parseInt(config.verticalSpread as string, 10)
+
 	const blocks:Vector[] = []
 	const blockLookup:VectorLookup = {}
 
 	const doc = document as any
 	const selectedMaterial: string = doc.querySelector('#GUISelectedBlock').value
+	// const secondSelectedMaterial: string = doc.querySelector('#GUISelectedBlock2').value
+
 	const main = selectedMaterial
 	const secondary = sample(blockNames)
-	const tertiary = sample(blockNames)
 
 	rooms.forEach(() => {
-		const panelXStart = randomBetween(-4, 3)
-		const panelYStart = randomBetween(1, 4)
-		const panelZStart = randomBetween(-4, 3)
+		const panelXStart = randomBetween(-horizSpread, horizSpread)
+		const panelYStart = randomBetween(1, vertSpread)
+		const panelZStart = randomBetween(-horizSpread, horizSpread)
 
-		const panelXLength = randomBetween(3, 7)
-		const panelYLength = randomBetween(3, 7)
-		const panelZLength = randomBetween(3, 7)
+		const panelXLength = randomBetween(minRoomLength, maxRoomLength)
+		const panelYLength = randomBetween(minRoomLength, maxRoomLength)
+		const panelZLength = randomBetween(minRoomLength, maxRoomLength)
 
 		// potential spot for bastion placement, either end of x and z axis
 		const circleDiameter = sample([3, 4, 5, 5])
@@ -48,13 +61,13 @@ const castle = (mirrorX:boolean): Vector[] => {
 
 					// if at least two blocks sit in a frame position
 					const placeFrame = [frameX, frameY, frameZ].filter((frame) => !!frame).length > 1
-					const block = placeFrame ? secondary : sample([main, main, main, main, tertiary])
+					const block = placeFrame ? secondary : main
 
 					if (!blockExists(x, y, z, blockLookup)) {
 						blocks.push({x, y, z, block})
 					}
 
-					if (mirrorX && !blockExists(-x, y, z, blockLookup)) {
+					if (config.mirrorX && !blockExists(-x, y, z, blockLookup)) {
 						blocks.push({x: -x, y, z, block})
 					}
 				}) // z
@@ -62,48 +75,50 @@ const castle = (mirrorX:boolean): Vector[] => {
 				const isBottom = panelYStart + iy === panelYStart
 				const isTop = panelYStart + iy === panelYStart + panelYLength - 1
 
-				// draw a bastion at Y increment
-				const circleConfig = {
-					// Create a floor at the top & bottom of the bastion
-					thickness: isBottom || isTop ? 'filled' : 'thin',
-					width: circleDiameter,
-					height: circleDiameter,
-				}
-
-				const bastionBlocks = shapes.circle(circleConfig)
-				bastionBlocks.forEach(({x, z}) => {
-					const block = isBottom ? secondary : main
-					const cY = panelYStart + iy
-					const cX = xCenter + x
-					const cZ = zCenter + z
-
-					if (!blockExists(cX, cY, cZ, blockLookup)) {
-						blocks.push({x: cX, y: cY, z: cZ, block})
+				if(config.bastions) {
+					// draw a bastion at Y increment
+					const circleConfig = {
+						// Create a floor at the top & bottom of the bastion
+						thickness: isBottom || isTop ? 'filled' : 'thin',
+						width: circleDiameter,
+						height: circleDiameter,
 					}
 
-					if (mirrorX && !blockExists(-cX, cY, cZ, blockLookup)) {
-						blocks.push({x: -cX, y: cY, z: cZ, block})
-					}
-				})
-
-				// Draw a parapet at the top of the bastion
-				if(isTop) {
-					const parapetBlocks = shapes.circle({...circleConfig, thickness: 'thin'})
-					parapetBlocks.forEach(({x, z}) => {
-						const block = secondary
+					const bastionBlocks = shapes.circle(circleConfig)
+					bastionBlocks.forEach(({x, z}) => {
+						const block = isBottom ? secondary : main
 						const cY = panelYStart + iy
 						const cX = xCenter + x
 						const cZ = zCenter + z
 
-						if (!blockExists(cX, cY+1, cZ, blockLookup)) {
-							blocks.push({x: cX, y: cY+1, z: cZ, block})
+						if (!blockExists(cX, cY, cZ, blockLookup)) {
+							blocks.push({x: cX, y: cY, z: cZ, block})
 						}
 
-						if (mirrorX && !blockExists(-cX, cY+1, cZ, blockLookup)) {
-							blocks.push({x: -cX, y: cY+1, z: cZ, block})
+						if (config.mirrorX && !blockExists(-cX, cY, cZ, blockLookup)) {
+							blocks.push({x: -cX, y: cY, z: cZ, block})
 						}
 					})
-				}
+
+					// Draw a parapet at the top of the bastion
+					if(isTop) {
+						const parapetBlocks = shapes.circle({...circleConfig, thickness: 'thin'})
+						parapetBlocks.forEach(({x, z}) => {
+							const block = secondary
+							const cY = panelYStart + iy
+							const cX = xCenter + x
+							const cZ = zCenter + z
+
+							if (!blockExists(cX, cY+1, cZ, blockLookup)) {
+								blocks.push({x: cX, y: cY+1, z: cZ, block})
+							}
+
+							if (config.mirrorX && !blockExists(-cX, cY+1, cZ, blockLookup)) {
+								blocks.push({x: -cX, y: cY+1, z: cZ, block})
+							}
+						})
+					}
+				} // bastion
 			}) // y
 		}) // x
 	})

@@ -1,49 +1,58 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
+import {clearBlocks, randomBlocks, generateHouse, generateCastle} from '../utils/blocks'
+import { PanelConfig, State } from '../interfaces';
+import castleConfig from '../generators/castleConfig';
 import {blockNames} from '../config'
+
 import BlockSelector from './components/BlockSelector'
 import CommandModal from './components/CommandModal'
+import ConfigPanel from './components/ConfigPanel';
 import TemplateLoader from './components/TemplateLoader'
 import TransformControls from './components/TransformControls'
-import {clearBlocks, randomBlocks, generateHouse, generateCastle} from '../utils/blocks'
-import { State } from '../interfaces';
 
-import { btnClass, btnHoverClass, guiClass, h3Class } from './styles'
+import { btnClass, btnHoverClass, panelClass, h3Class } from './styles'
 
 type Props = {
 	state: State
 }
-
 
 function GUI({state}: Props) {
 	const runAndRender = (fn: any) => {
 		fn(state)
 		state.render()
 	}
+
+	const [showCastlePanel, setShowCastlePanel] = useState(false)
+	const toggleCastlePanel = () => setShowCastlePanel(!showCastlePanel)
+
 	const clear = () => runAndRender(clearBlocks)
 	const generate = () => runAndRender(setShowModal(true))
 	const random = () => runAndRender(randomBlocks)
 	const house = () => runAndRender(generateHouse)
-	const castle = () => runAndRender(generateCastle)
+
+	const castle = (config: PanelConfig[]) => {
+		generateCastle(state, config)
+		state.render()
+	}
 
 	const [showModal, setShowModal] = useState(false)
+	const btnToggleClass = (active: boolean) => `${btnClass} ${active ? btnHoverClass : ''}`
 
+	// mirrorX
 	const [mirrorX, setMirrorX] = useState(state.mirrorX)
-	const mirrorXClass = `${btnClass} ${mirrorX ? btnHoverClass : ''}`
-
 	const clickMirrorX = (e: any) => {
 		e.preventDefault()
 		setMirrorX(!mirrorX)
 		state.mirrorX = !mirrorX
 	}
 
-	// <div className="settings-house">button</div>
 	return (
-		<div>
-			<div className={`gui ${guiClass}`}>
+		<>
+			<menu className={`${panelClass}`}>
 				<BlockSelector blockNames={blockNames} />
-				<button className={mirrorXClass} onTouchEnd={clickMirrorX} onClick={clickMirrorX}>
+				<button className={btnToggleClass(mirrorX)} onTouchEnd={clickMirrorX} onClick={clickMirrorX}>
 					Mirror {(mirrorX && 'on') || 'off'} 
 				</button>
 				<button className={btnClass} onTouchEnd={clear} onClick={clear}>Clear</button>
@@ -55,7 +64,7 @@ function GUI({state}: Props) {
 
 				<h3 className={h3Class}>✨ Random</h3>
 				<button className={btnClass} onTouchEnd={house} onClick={house}>House</button>
-				<button className={btnClass} onTouchEnd={castle} onClick={castle}>Castle</button>
+				<button className={btnToggleClass(showCastlePanel)} onTouchEnd={toggleCastlePanel} onClick={toggleCastlePanel}>Castle</button>
 				<button className={btnClass} onTouchEnd={random} onClick={random}>Panels</button>
 
 				<h3 className={h3Class}>💾 Load/Save</h3>
@@ -63,13 +72,22 @@ function GUI({state}: Props) {
 
 				<h3 className={h3Class}>↘️ Move model</h3>
 				<TransformControls state={state} />
-			</div>
+			</menu>
+
+			<ConfigPanel
+				config={castleConfig}
+				title="🏰 Generate Castle"
+				actionLabel="Generate"
+				action={castle}
+				visible={showCastlePanel}
+			/>
+			
 			<CommandModal
 				state={state}
 				show={showModal}
 				onClose={() => setShowModal(false)}
 			/>
-		</div>
+		</>
 	)
 }
 

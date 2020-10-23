@@ -154,8 +154,8 @@ function init() {
 	// Events
 	document.addEventListener('mousemove', onDocumentMouseMove)
 	document.addEventListener('mouseup', onDocumentMouseUp)
-	document.addEventListener('mousedown', onDocumentMouseDown, {passive: false})
-	document.addEventListener('touchstart', onDocumentTouchStart, {passive: false})
+	document.addEventListener('mousedown', onDocumentMouseDown)
+	document.addEventListener('touchstart', onDocumentTouchStart)
 	document.addEventListener('touchend', onDocumentTouchEnd, false)
 	// document.addEventListener('keydown', onDocumentKeyDown)
 
@@ -194,9 +194,9 @@ function onDocumentTouchStart(event: TouchEvent) {
 }
 
 function onDocumentMouseDown(event: MouseEvent) {
-	event.preventDefault() // prevent scrolling
+	// event.preventDefault() // BUG: this prevents input focus
 	recordStartPosition(event)
-	window.addEventListener('mousemove', recordMovement)
+	document.addEventListener('mousemove', recordMovement)
 }
 
 function onDocumentMouseMove(event: MouseEvent) {
@@ -223,7 +223,7 @@ function onDocumentTouchEnd(event: TouchEvent) {
 }
 
 function onDocumentMouseUp(event: MouseEvent) {
-	event.preventDefault()
+	// event.preventDefault() // BUG: this prevents input focus
 
 	clearInterval(touchTimer)
 	const {moveX, moveY} = mouseMovement
