@@ -7,11 +7,12 @@ type Props = {
   action: (config: PanelConfig[]) => void
   actionLabel: string
   config: PanelConfig[]
+  onClose: () => void
   title: string
   visible: boolean
 }
 
-const ConfigPanel = ({config, title, actionLabel, action, visible}: Props) => {
+const ConfigPanel = ({config, title, actionLabel, action, visible, onClose}: Props) => {
   const [configState, setConfigState] = useState(config)
   
   const valueChange = (valId: string, value: string | number | boolean) => {
@@ -22,7 +23,10 @@ const ConfigPanel = ({config, title, actionLabel, action, visible}: Props) => {
   }
 
   return <menu className={`${panelClass} ${drawerClass} ${visible ? '' : panelClassHidden}`}>
-    <h3 className={h3Class}>{title}</h3>
+    <h3 className={h3Class}>
+      {title}
+      <button className="float-right text-lg" onClick={onClose} onTouchEnd={onClose}>⨯</button>
+    </h3>
 
     {configState.map(({id, label, value, type}) => (
       <p key={`config-${id}`} className="mb-2">

@@ -75,10 +75,11 @@ function GUI({state}: Props) {
 			</menu>
 
 			<ConfigPanel
-				config={castleConfig}
-				title="🏰 Generate Castle"
-				actionLabel="Generate"
 				action={castle}
+				actionLabel="Generate"
+				config={castleConfig}
+				onClose={() => {setShowCastlePanel(false)}}
+				title="🏰 Generate Castle"
 				visible={showCastlePanel}
 			/>
 			
