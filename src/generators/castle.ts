@@ -1,4 +1,3 @@
-import {blockNames} from '../config'
 import {arrayFrom, sample, randomBetween} from './panels'
 import {blockExists, toCoordinate, isNonEnclosed} from '../utils/blocks'
 import shapes from '../utils/shapes'
@@ -15,6 +14,7 @@ const castle = (castleConfig: PanelConfig[]): Vector[] => {
 		(acc: Config, cur: PanelConfig) => ({[cur.id]: cur.value, ...acc}), {}
 	)
 
+	// config params
 	const minRooms = parseInt(config.minRooms as string, 10)
 	const maxRooms = parseInt(config.maxRooms as string, 10)
 	const minRoomLength = parseInt(config.minRoomLength as string, 10)
@@ -24,11 +24,12 @@ const castle = (castleConfig: PanelConfig[]): Vector[] => {
 	const horizSpread = parseInt(config.horizontalSpread as string, 10)
 	const vertSpread = parseInt(config.verticalSpread as string, 10)
 
-	const blocks:Vector[] = []
-	const blockLookup:VectorLookup = {}
-
 	const selectedMaterial: string = config.material1 as string
 	const secondSelectedMaterial: string = config.material2 as string
+	// config
+
+	const blocks:Vector[] = []
+	const blockLookup:VectorLookup = {}
 
 	rooms.forEach(() => {
 		const panelXStart = randomBetween(-horizSpread, horizSpread)

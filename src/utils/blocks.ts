@@ -34,8 +34,8 @@ export const randomBlocks = (state: State) => {
 	fillBlocks(generatedRandomPanels, state)
 }
 
-export const generateHouse = (state: State) => {
-	const generatedHouse = house(state.mirrorX)
+export const generateHouse = (state: State, config: PanelConfig[]) => {
+	const generatedHouse = house(config)
 	clearBlocks(state)
 	fillBlocks(generatedHouse, state)
 }

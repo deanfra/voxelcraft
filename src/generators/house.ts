@@ -1,42 +1,53 @@
-import {blockNames} from '../config'
 import {arrayFrom, sample, randomBetween} from './panels'
 import {blockExists, toCoordinate, isNonEnclosed} from '../utils/blocks'
 import transform from '../utils/transform'
-import { Vector, VectorLookup } from '../interfaces'
+import { PanelConfig, Vector, VectorLookup } from '../interfaces'
 
 // TODO:
 // - Doors
 // - Chimneys
 // - Windows
-// - Stair roofs (big one)
+// - Stair roofs (will take a while)
 
-// Random rooms
-const roomCount = 3
+type Config = {[key:string]: string | number | boolean}
 
 // does this block sit at the start or the end of an array
 const isFrame = (block:number, start:number, length:number) => block === start || block === start + length - 1
 
-const house = (mirrorX:boolean): Vector[]  => {
-	let blocks: Vector[] = []
-	const rooms = arrayFrom(randomBetween(2, roomCount))
-	const blockLookup: VectorLookup = {}
+const house = (houseConfig: PanelConfig[]): Vector[]  => {
+	// array to object
+	const config: Config = houseConfig.reduce(
+		(acc: Config, cur: PanelConfig) => ({[cur.id]: cur.value, ...acc}), {}
+	)
 
-	const planks = blockNames.filter((name) => name.match('planks'))
-	const walls = sample([...planks, 'cobblestone', 'terracotta', 'white_terracotta'])
-	const wood = sample(blockNames.filter((name) => name.match('wood')))
+	// config params
+	const minRooms = parseInt(config.minRooms as string, 10)
+	const maxRooms = parseInt(config.maxRooms as string, 10)
+	const minRoomLength = parseInt(config.minRoomLength as string, 10)
+	const maxRoomLength = parseInt(config.maxRoomLength as string, 10)
+	const rooms = arrayFrom(randomBetween(minRooms, maxRooms))
+
+	const horizSpread = parseInt(config.horizontalSpread as string, 10)
+	const vertSpread = parseInt(config.verticalSpread as string, 10)
+
+	const walls: string = config.material1 as string
+	const wood: string = config.material2 as string
+	// config
+
+	let blocks: Vector[] = []
+	const blockLookup: VectorLookup = {}
 
 	rooms.forEach(() => {
 	// rooms.forEach((iRoom) => {
-		// const planksSelection = [planks]
 		let roomBlocks:Vector[] = []
 
-		const roomXStart = randomBetween(-3, 3)
-		const roomYStart = 1
-		const roomZStart = randomBetween(-3, 3)
+		const roomXStart = randomBetween(-horizSpread, horizSpread)
+		const roomYStart = randomBetween(1, vertSpread)
+		const roomZStart = randomBetween(-horizSpread, horizSpread)
 
-		const roomXLength = randomBetween(3, 7)
-		const roomYLength = randomBetween(4, 5)
-		const roomZLength = randomBetween(3, 7)
+		const roomXLength = randomBetween(minRoomLength, maxRoomLength)
+		const roomYLength = randomBetween(minRoomLength+1, maxRoomLength-1)
+		const roomZLength = randomBetween(minRoomLength, maxRoomLength)
 
 		arrayFrom(roomXLength).forEach((ix) => {
 			arrayFrom(roomYLength).forEach((iy) => {
@@ -77,7 +88,7 @@ const house = (mirrorX:boolean): Vector[]  => {
 					x: roofX,
 					y: roofY,
 					z: roofZ,
-					block: 'oak_planks',
+					block: walls,
 				})
 
 				//fill the triangle below roof - above frame
@@ -130,7 +141,7 @@ const house = (mirrorX:boolean): Vector[]  => {
 			roomBlocks = rotatedBlocks
 		}
 
-		if (mirrorX) {
+		if (config.mirrorX) {
 			const mirroredBlocks = roomBlocks.map(({x, y, z, block}) => {
 				const xx = x - x * 2
 				return {block, y, x: xx, z}

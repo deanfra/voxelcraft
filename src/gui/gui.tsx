@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import {clearBlocks, randomBlocks, generateHouse, generateCastle} from '../utils/blocks'
 import { PanelConfig, State } from '../interfaces';
 import castleConfig from '../generators/castleConfig';
+import houseConfig from '../generators/houseConfig';
 import {blockNames} from '../config'
 
 import BlockSelectorGui from './components/BlockSelectorGui';
@@ -25,15 +26,21 @@ function GUI({state}: Props) {
 	}
 
 	const [showCastlePanel, setShowCastlePanel] = useState(false)
+	const [showHousePanel, setShowHousePanel] = useState(false)
 	const toggleCastlePanel = () => setShowCastlePanel(!showCastlePanel)
+	const toggleHousePanel = () => setShowHousePanel(!showHousePanel)
 
 	const clear = () => runAndRender(clearBlocks)
 	const generate = () => runAndRender(setShowModal(true))
 	const random = () => runAndRender(randomBlocks)
-	const house = () => runAndRender(generateHouse)
 
 	const castle = (config: PanelConfig[]) => {
 		generateCastle(state, config)
+		state.render()
+	}
+
+	const house = (config: PanelConfig[]) => {
+		generateHouse(state, config)
 		state.render()
 	}
 
@@ -63,7 +70,7 @@ function GUI({state}: Props) {
 				</div>
 
 				<h3 className={h3Class}>✨ Random</h3>
-				<button className={btnClass} onTouchEnd={house} onClick={house}>House</button>
+				<button className={btnToggleClass(showHousePanel)} onTouchEnd={toggleHousePanel} onClick={toggleHousePanel}>House</button>
 				<button className={btnToggleClass(showCastlePanel)} onTouchEnd={toggleCastlePanel} onClick={toggleCastlePanel}>Castle</button>
 				<button className={btnClass} onTouchEnd={random} onClick={random}>Panels</button>
 
@@ -81,6 +88,15 @@ function GUI({state}: Props) {
 				onClose={() => {setShowCastlePanel(false)}}
 				title="🏰 Generate Castle"
 				visible={showCastlePanel}
+			/>
+			
+			<ConfigPanel
+				action={house}
+				actionLabel="Generate"
+				config={houseConfig}
+				onClose={() => {setShowHousePanel(false)}}
+				title="🏠 Generate house"
+				visible={showHousePanel}
 			/>
 			
 			<CommandModal
