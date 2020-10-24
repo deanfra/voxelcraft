@@ -21,7 +21,9 @@ type Props = {
 
 function GUI({state}: Props) {
 	const runAndRender = (fn: any) => {
-		fn(state)
+		if(fn) {
+			fn(state)
+		}
 		state.render()
 	}
 
