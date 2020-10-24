@@ -17,22 +17,18 @@ const castle = (castleConfig: PanelConfig[]): Vector[] => {
 
 	const minRooms = parseInt(config.minRooms as string, 10)
 	const maxRooms = parseInt(config.maxRooms as string, 10)
-	const rooms = arrayFrom(randomBetween(minRooms, maxRooms))
-
 	const minRoomLength = parseInt(config.minRoomLength as string, 10)
 	const maxRoomLength = parseInt(config.maxRoomLength as string, 10)
+	const rooms = arrayFrom(randomBetween(minRooms, maxRooms))
+
 	const horizSpread = parseInt(config.horizontalSpread as string, 10)
 	const vertSpread = parseInt(config.verticalSpread as string, 10)
 
 	const blocks:Vector[] = []
 	const blockLookup:VectorLookup = {}
 
-	const doc = document as any
-	const selectedMaterial: string = doc.querySelector('#GUISelectedBlock').value
-	// const secondSelectedMaterial: string = doc.querySelector('#GUISelectedBlock2').value
-
-	const main = selectedMaterial
-	const secondary = sample(blockNames)
+	const selectedMaterial: string = config.material1 as string
+	const secondSelectedMaterial: string = config.material2 as string
 
 	rooms.forEach(() => {
 		const panelXStart = randomBetween(-horizSpread, horizSpread)
@@ -61,7 +57,7 @@ const castle = (castleConfig: PanelConfig[]): Vector[] => {
 
 					// if at least two blocks sit in a frame position
 					const placeFrame = [frameX, frameY, frameZ].filter((frame) => !!frame).length > 1
-					const block = placeFrame ? secondary : main
+					const block = placeFrame ? secondSelectedMaterial : selectedMaterial
 
 					if (!blockExists(x, y, z, blockLookup)) {
 						blocks.push({x, y, z, block})
@@ -86,7 +82,7 @@ const castle = (castleConfig: PanelConfig[]): Vector[] => {
 
 					const bastionBlocks = shapes.circle(circleConfig)
 					bastionBlocks.forEach(({x, z}) => {
-						const block = isBottom ? secondary : main
+						const block = isBottom ? secondSelectedMaterial : selectedMaterial
 						const cY = panelYStart + iy
 						const cX = xCenter + x
 						const cZ = zCenter + z
@@ -104,7 +100,7 @@ const castle = (castleConfig: PanelConfig[]): Vector[] => {
 					if(isTop) {
 						const parapetBlocks = shapes.circle({...circleConfig, thickness: 'thin'})
 						parapetBlocks.forEach(({x, z}) => {
-							const block = secondary
+							const block = secondSelectedMaterial
 							const cY = panelYStart + iy
 							const cX = xCenter + x
 							const cZ = zCenter + z

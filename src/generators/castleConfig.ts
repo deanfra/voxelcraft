@@ -2,6 +2,18 @@ import { PanelConfig } from "../interfaces"
 
 const castleConfig: PanelConfig[] = [
 	{
+		id: 'material1',
+		value: 'stone_bricks',
+		type: 'material',
+		label: 'Walls',
+	},
+	{
+		id: 'material2',
+		value: 'polished_andesite',
+		type: 'material',
+		label: 'Edges',
+	},
+	{
 		id: 'bastions',
 		value: true,
 		type: 'boolean',

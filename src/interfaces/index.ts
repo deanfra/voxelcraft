@@ -21,7 +21,7 @@ export type Template = {
 
 export type PanelConfig = {
 	id: string,
-	type: string,
+	type: 'material' | 'boolean' | 'number' | 'string',
 	value: number | string | boolean,
 	label: string
 }

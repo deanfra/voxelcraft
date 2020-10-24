@@ -1,35 +1,23 @@
 import React, {useState} from 'react';
-import { btnBlockClass, btnBlockSelectedClass } from '../styles';
+import BlockSelectorButton from './BlockSelectorButton';
 
 type Props = {
 	blockNames: string[]
-}
-
-const BlockSelect = (name: string, selected: string, onclick: (n: string) => void) => {
-	const className = `${btnBlockClass} ${name === selected ? btnBlockSelectedClass : ''}`
-	const label = name.replace(/_/g, ' ')
-
-	return <button
-		title={label}
-		aria-label={`${label} block`}
-		onTouchEnd={() => onclick(name)}
-		onClick={() => onclick(name)}
-		className={className}
-	>
-		<img src={`./textures/${name}.png`} alt={`${label}`} />
-	</button>
+	onClick: (name: string) => void
 }
 
 const BlockSelector = (props: Props) => {
 	const [selectedBlock, setSelectedBlock] = useState('cobblestone')
 	const onclick = (name: string) => {
 		setSelectedBlock(name)
+		props.onClick(name)
 	}
 
-	return <div>
-		{props.blockNames.map((name) => BlockSelect(name, selectedBlock, onclick))}<br />
-		<input id="GUISelectedBlock" type="hidden" value={selectedBlock} /><br />
-	</div>
+	return <>
+		{props.blockNames.map((name) =>
+			<BlockSelectorButton name={name} selected={selectedBlock === name} onclick={onclick} />
+		)}<br />
+	</>
 }
 
 export default BlockSelector

@@ -6,7 +6,7 @@ import { PanelConfig, State } from '../interfaces';
 import castleConfig from '../generators/castleConfig';
 import {blockNames} from '../config'
 
-import BlockSelector from './components/BlockSelector'
+import BlockSelectorGui from './components/BlockSelectorGui';
 import CommandModal from './components/CommandModal'
 import ConfigPanel from './components/ConfigPanel';
 import TemplateLoader from './components/TemplateLoader'
@@ -51,7 +51,7 @@ function GUI({state}: Props) {
 	return (
 		<>
 			<menu className={`${panelClass}`}>
-				<BlockSelector blockNames={blockNames} />
+				<BlockSelectorGui blockNames={blockNames} />
 				<button className={btnToggleClass(mirrorX)} onTouchEnd={clickMirrorX} onClick={clickMirrorX}>
 					Mirror {(mirrorX && 'on') || 'off'} 
 				</button>
