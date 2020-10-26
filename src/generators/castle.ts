@@ -1,19 +1,12 @@
-import {arrayFrom, sample, randomBetween} from './panels'
+import {arrayFrom, sample, randomBetween} from './slabs'
 import {blockExists, toCoordinate, isNonEnclosed} from '../utils/blocks'
 import shapes from '../utils/shapes'
-import { PanelConfig, Vector, VectorLookup } from '../interfaces'
-
-type Config = {[key:string]: string | number | boolean}
+import { PanelConfigMap, Vector, VectorLookup } from '../interfaces'
 
 // does this block sit at the start or the end of an array
 const isFrame = (block:number, start:number, length:number) => block === start || block === start + length - 1
 
-const castle = (castleConfig: PanelConfig[]): Vector[] => {
-	// array to object
-	const config: Config = castleConfig.reduce(
-		(acc: Config, cur: PanelConfig) => ({[cur.id]: cur.value, ...acc}), {}
-	)
-
+const castle = (config: PanelConfigMap): Vector[] => {
 	// config params
 	const minRooms = parseInt(config.minRooms as string, 10)
 	const maxRooms = parseInt(config.maxRooms as string, 10)

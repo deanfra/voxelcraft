@@ -1,7 +1,7 @@
-import {arrayFrom, sample, randomBetween} from './panels'
+import {arrayFrom, sample, randomBetween} from './slabs'
 import {blockExists, toCoordinate, isNonEnclosed} from '../utils/blocks'
 import transform from '../utils/transform'
-import { PanelConfig, Vector, VectorLookup } from '../interfaces'
+import { PanelConfigMap, Vector, VectorLookup } from '../interfaces'
 
 // TODO:
 // - Doors
@@ -9,17 +9,10 @@ import { PanelConfig, Vector, VectorLookup } from '../interfaces'
 // - Windows
 // - Stair roofs (will take a while)
 
-type Config = {[key:string]: string | number | boolean}
-
 // does this block sit at the start or the end of an array
 const isFrame = (block:number, start:number, length:number) => block === start || block === start + length - 1
 
-const house = (houseConfig: PanelConfig[]): Vector[]  => {
-	// array to object
-	const config: Config = houseConfig.reduce(
-		(acc: Config, cur: PanelConfig) => ({[cur.id]: cur.value, ...acc}), {}
-	)
-
+const house = (config: PanelConfigMap): Vector[]  => {
 	// config params
 	const minRooms = parseInt(config.minRooms as string, 10)
 	const maxRooms = parseInt(config.maxRooms as string, 10)

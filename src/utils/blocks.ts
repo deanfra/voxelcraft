@@ -1,8 +1,9 @@
 import * as THREE from 'three'
-import panels from '../generators/panels'
+import slabs from '../generators/slabs'
 import house from '../generators/house'
 import castle from '../generators/castle'
 import { State, Vector, VectorLookup, Mesh, PanelConfig } from '../interfaces'
+import { arrayToObject } from './array'
 
 type VectorUnit = number
 type BlockUnit = number
@@ -28,20 +29,24 @@ export const clearBlocks = (state: State) => {
 	state.objects.splice(1, state.objects.length - 1)
 }
 
-export const randomBlocks = (state: State) => {
-	const generatedRandomPanels = panels(state.mirrorX)
+// Refactor these three
+export const generateSlabs = (state: State, config: PanelConfig[]) => {
+	const mappedConfig = arrayToObject(config)
+	const generatedRandomSlabs = slabs(mappedConfig)
 	clearBlocks(state)
-	fillBlocks(generatedRandomPanels, state)
+	fillBlocks(generatedRandomSlabs, state)
 }
 
 export const generateHouse = (state: State, config: PanelConfig[]) => {
-	const generatedHouse = house(config)
+	const mappedConfig = arrayToObject(config)
+	const generatedHouse = house(mappedConfig)
 	clearBlocks(state)
 	fillBlocks(generatedHouse, state)
 }
 
 export const generateCastle = (state: State, config: PanelConfig[]) => {
-	const generatedCastle = castle(config)
+	const mappedConfig = arrayToObject(config)
+	const generatedCastle = castle(mappedConfig)
 	clearBlocks(state)
 	fillBlocks(generatedCastle, state)
 }

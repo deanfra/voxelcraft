@@ -4,7 +4,7 @@
 // color
 export const purple = 'purple-600'
 export const darkPurple = 'purple-900'
-export const gray = 'gray-600'
+export const gray = 'gray-700'
 
 export const listItemClass = `flex`
 

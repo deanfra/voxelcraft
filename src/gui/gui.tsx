@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
-import {clearBlocks, randomBlocks, generateHouse, generateCastle} from '../utils/blocks'
+import {clearBlocks, generateSlabs, generateHouse, generateCastle} from '../utils/blocks'
 import { PanelConfig, State } from '../interfaces';
 import castleConfig from '../generators/castleConfig';
 import houseConfig from '../generators/houseConfig';
+import slabsConfig from '../generators/slabsConfig';
 import {blockNames} from '../config'
 
 import BlockSelectorGui from './components/BlockSelectorGui';
@@ -27,14 +28,15 @@ function GUI({state}: Props) {
 		state.render()
 	}
 
-	const [showCastlePanel, setShowCastlePanel] = useState(false)
-	const [showHousePanel, setShowHousePanel] = useState(false)
-	const toggleCastlePanel = () => setShowCastlePanel(!showCastlePanel)
-	const toggleHousePanel = () => setShowHousePanel(!showHousePanel)
-
 	const clear = () => runAndRender(clearBlocks)
 	const generate = () => runAndRender(setShowModal(true))
-	const random = () => runAndRender(randomBlocks)
+
+	const [showCastlePanel, setShowCastlePanel] = useState(false)
+	const [showHousePanel, setShowHousePanel] = useState(false)
+	const [showSlabsPanel, setShowSlabsPanel] = useState(false)
+	const toggleCastlePanel = () => setShowCastlePanel(!showCastlePanel)
+	const toggleHousePanel = () => setShowHousePanel(!showHousePanel)
+	const toggleSlabsPanel = () => setShowSlabsPanel(!showSlabsPanel)
 
 	const castle = (config: PanelConfig[]) => {
 		generateCastle(state, config)
@@ -43,6 +45,11 @@ function GUI({state}: Props) {
 
 	const house = (config: PanelConfig[]) => {
 		generateHouse(state, config)
+		state.render()
+	}
+
+	const slabs = (config: PanelConfig[]) => {
+		generateSlabs(state, config)
 		state.render()
 	}
 
@@ -74,7 +81,7 @@ function GUI({state}: Props) {
 				<h3 className={h3Class}>✨ Random</h3>
 				<button className={btnToggleClass(showHousePanel)} onTouchEnd={toggleHousePanel} onClick={toggleHousePanel}>House</button>
 				<button className={btnToggleClass(showCastlePanel)} onTouchEnd={toggleCastlePanel} onClick={toggleCastlePanel}>Castle</button>
-				<button className={btnClass} onTouchEnd={random} onClick={random}>Panels</button>
+				<button className={btnToggleClass(showSlabsPanel)} onTouchEnd={toggleSlabsPanel} onClick={toggleSlabsPanel}>Slabs</button>
 
 				<h3 className={h3Class}>💾 Load/Save</h3>
 				<TemplateLoader state={state} />
@@ -88,7 +95,7 @@ function GUI({state}: Props) {
 				actionLabel="Generate"
 				config={castleConfig}
 				onClose={() => {setShowCastlePanel(false)}}
-				title="🏰 Generate Castle"
+				title="🏰  Generate Castle"
 				visible={showCastlePanel}
 			/>
 			
@@ -97,8 +104,17 @@ function GUI({state}: Props) {
 				actionLabel="Generate"
 				config={houseConfig}
 				onClose={() => {setShowHousePanel(false)}}
-				title="🏠 Generate house"
+				title="🏠  Generate house"
 				visible={showHousePanel}
+			/>
+			
+			<ConfigPanel
+				action={slabs}
+				actionLabel="Generate"
+				config={slabsConfig}
+				onClose={() => {setShowSlabsPanel(false)}}
+				title="🧱  Generate slabs"
+				visible={showSlabsPanel}
 			/>
 			
 			<CommandModal
