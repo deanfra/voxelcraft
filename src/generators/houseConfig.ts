@@ -14,6 +14,12 @@ const houseConfig: PanelConfig[] = [
 		label: 'Frames',
 	},
 	{
+		id: 'material3',
+		value: 'oak_planks',
+		type: 'material',
+		label: 'Roof',
+	},
+	{
 		id: 'mirrorX',
 		value: false,
 		type: 'boolean',

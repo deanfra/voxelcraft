@@ -23,8 +23,9 @@ const house = (config: PanelConfigMap): Vector[]  => {
 	const horizSpread = parseInt(config.horizontalSpread as string, 10)
 	const vertSpread = parseInt(config.verticalSpread as string, 10)
 
-	const walls: string = config.material1 as string
-	const wood: string = config.material2 as string
+	const wallsMat: string = config.material1 as string
+	const woodMat: string = config.material2 as string
+	const roofMat: string = config.material3 as string
 	// config
 
 	let blocks: Vector[] = []
@@ -55,7 +56,7 @@ const house = (config: PanelConfigMap): Vector[]  => {
 
 					// if at least two blocks sit in a frame position
 					const placeFrame = [frameX, frameY, frameZ].filter((frame) => !!frame).length > 1
-					const block = placeFrame ? wood : walls
+					const block = placeFrame ? woodMat : wallsMat
 					roomBlocks.push({x, y, z, block})
 				})
 			})
@@ -81,7 +82,7 @@ const house = (config: PanelConfigMap): Vector[]  => {
 					x: roofX,
 					y: roofY,
 					z: roofZ,
-					block: walls,
+					block: roofMat,
 				})
 
 				//fill the triangle below roof - above frame
@@ -98,7 +99,7 @@ const house = (config: PanelConfigMap): Vector[]  => {
 							x: roofX,
 							y: fillerYPosition,
 							z: roofZ,
-							block: walls,
+							block: wallsMat,
 						})
 						fillerYPosition = fillerYPosition - 1
 					}
