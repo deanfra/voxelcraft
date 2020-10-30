@@ -86,13 +86,14 @@ const house = (config: PanelConfigMap): Vector[]  => {
 
 				//fill the triangle below roof - above frame
 				const isAboveHouseFrame =
+					// sits front or back
 					(roofZ === roomZStart || roofZ === roomZStart + roomZLength - 1) &&
-					roofX >= roomXStart + 1 &&
-					roofX <= roomXStart + roomXLength - 1
+					// sits anywhere left or right with some overhang
+					(roofX >= roomXStart + 1 && roofX <= roomXStart + roomXLength - 1)
 				if (isAboveHouseFrame) {
 					let fillerYPosition = roofY
 					// step down from roof until we hit the frame
-					while (fillerYPosition > roomYStart + roomYLength || fillerYPosition > 3) {
+					while (fillerYPosition > roomYStart + (roomYLength-1)) {
 						roomBlocks.push({
 							x: roofX,
 							y: fillerYPosition,
