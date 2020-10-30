@@ -34,10 +34,13 @@ function GUI({state}: Props) {
 	const [showCastlePanel, setShowCastlePanel] = useState(false)
 	const [showHousePanel, setShowHousePanel] = useState(false)
 	const [showSlabsPanel, setShowSlabsPanel] = useState(false)
-	const toggleCastlePanel = () => setShowCastlePanel(!showCastlePanel)
-	const toggleHousePanel = () => setShowHousePanel(!showHousePanel)
-	const toggleSlabsPanel = () => setShowSlabsPanel(!showSlabsPanel)
 
+	const untoggleAll = () => {setShowCastlePanel(false); setShowHousePanel(false); setShowSlabsPanel(false)}
+	const toggleCastlePanel = () => {untoggleAll(); setShowCastlePanel(!showCastlePanel)}
+	const toggleHousePanel = () => {untoggleAll(); setShowHousePanel(!showHousePanel)}
+	const toggleSlabsPanel = () => {untoggleAll(); setShowSlabsPanel(!showSlabsPanel)}
+
+	// refactor
 	const castle = (config: PanelConfig[]) => {
 		generateCastle(state, config)
 		state.render()
@@ -79,9 +82,33 @@ function GUI({state}: Props) {
 				</div>
 
 				<h3 className={h3Class}>✨ Random</h3>
-				<button className={btnToggleClass(showHousePanel)} onTouchEnd={toggleHousePanel} onClick={toggleHousePanel}>House</button>
-				<button className={btnToggleClass(showCastlePanel)} onTouchEnd={toggleCastlePanel} onClick={toggleCastlePanel}>Castle</button>
-				<button className={btnToggleClass(showSlabsPanel)} onTouchEnd={toggleSlabsPanel} onClick={toggleSlabsPanel}>Slabs</button>
+				{/* refactor */}
+				<div role="radiogroup">
+					<button
+						role="radio"
+						aria-checked={showHousePanel}
+						className={btnToggleClass(showHousePanel)}
+						onTouchEnd={toggleHousePanel}
+						onClick={toggleHousePanel}>
+							House
+					</button>
+					<button
+						role="radio"
+						aria-checked={showCastlePanel}
+						className={btnToggleClass(showCastlePanel)}
+						onTouchEnd={toggleCastlePanel}
+						onClick={toggleCastlePanel}>
+							Castle
+					</button>
+					<button
+						role="radio"
+						aria-checked={showSlabsPanel}
+						className={btnToggleClass(showSlabsPanel)}
+						onTouchEnd={toggleSlabsPanel}
+						onClick={toggleSlabsPanel}>
+							Slabs
+					</button>
+				</div>
 
 				<h3 className={h3Class}>💾 Load/Save</h3>
 				<TemplateLoader state={state} />
