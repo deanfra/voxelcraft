@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
 import { blockNames } from '../../config';
-import { btnClass, inputClass } from '../styles';
+import { btnClass, btnHoverClass, inputClass } from '../styles';
 import BlockSelector from './BlockSelector';
 import BlockSelectorButton from './BlockSelectorButton';
+import {PanelConfigValue, PanelConfigType} from '../../interfaces/index'
 
-type Value = number | string | boolean
 type Props = {
   id: string
-  type: 'material' | 'boolean' | 'number' | 'string'
-  onChange: (id: string, value: Value) => void
-  value: Value
+  type: PanelConfigType
+  onChange: (id: string, value: PanelConfigValue) => void
+  value: PanelConfigValue
 }
 
 const ConfigField = ({id, value, type, onChange}: Props) => {
-  const [valueState, setValueState] = useState<Value>(value)
+  const [valueState, setValueState] = useState<PanelConfigValue>(value)
   const [showSelector, setShowSelector] = useState<Boolean>(false)
   
-  const change = (newValue: Value) => {
+  const change = (newValue: PanelConfigValue) => {
     setValueState(newValue)
     onChange(id, newValue)
   }
@@ -27,8 +27,8 @@ const ConfigField = ({id, value, type, onChange}: Props) => {
         <button
           onClick={() => change(!valueState)}
           onTouchEnd={() => change(!valueState)}
-          className={btnClass}>
-            {valueState ? 'yes' : 'no'}
+          className={`${btnClass} ${valueState ? btnHoverClass : ''}`}>
+            {valueState ? 'YES' : 'NO'}
         </button>
     }
     {
@@ -45,16 +45,11 @@ const ConfigField = ({id, value, type, onChange}: Props) => {
     }
     {
       type === 'material' &&
-        <div>
-          <p className='text-right'>
-            <BlockSelectorButton
-              name={value as string}
-              selected={false}
-              onclick={() => setShowSelector(!showSelector)} />
-          </p>
+        <>
           {showSelector ?
-            <div>
+            <div className="pb-5 w-3/4">
               <BlockSelector
+                selected={valueState as string}
                 blockNames={blockNames}
                 onClick={(val) => {
                   setShowSelector(false)
@@ -62,9 +57,14 @@ const ConfigField = ({id, value, type, onChange}: Props) => {
                 }}
               />
             </div>
-          : null}
-          
-       </div>
+          : <p className='text-right'>
+              <BlockSelectorButton
+                name={value as string}
+                selected={false}
+                onclick={() => setShowSelector(!showSelector)} />
+            </p>
+          }
+        </>
     }
   </>
 }

@@ -21,7 +21,7 @@ const castleConfig: PanelConfig[] = [
 	},
 	{
 		id: 'mirrorX',
-		value: true,
+		value: false,
 		type: 'boolean',
 		label: 'Symmetrical',
 	},

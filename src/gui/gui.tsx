@@ -70,16 +70,15 @@ function GUI({state}: Props) {
 	return (
 		<>
 			<menu className={`${panelClass}`}>
+				<h3 className={h3Class}>📦 Place Block</h3>
 				<BlockSelectorGui blockNames={blockNames} />
 				<button className={btnToggleClass(mirrorX)} onTouchEnd={clickMirrorX} onClick={clickMirrorX}>
-					Mirror {(mirrorX && 'on') || 'off'} 
+					Mirror
 				</button>
 				<button className={btnClass} onTouchEnd={clear} onClick={clear}>Clear</button>
-				<div className="flex">
-					<button className={`${btnClass} flex-1`} onTouchEnd={generate} onClick={generate}>
-						Export to Minecraft
-					</button>
-				</div>
+				<button className={btnClass} onTouchEnd={generate} onClick={generate}>
+					Export
+				</button>
 
 				<h3 className={h3Class}>✨ Random</h3>
 				{/* refactor */}

@@ -19,10 +19,12 @@ export type Template = {
   blocks: Vector[];
 }
 
-export type PanelConfigMap = {[key:string]: string | number | boolean}
+export type PanelConfigValue = number | string | boolean
+export type PanelConfigMap = {[key:string]: PanelConfigValue}
+export type PanelConfigType = 'material' | 'boolean' | 'number' | 'string'
 export type PanelConfig = {
 	id: string,
-	type: 'material' | 'boolean' | 'number' | 'string',
-	value: number | string | boolean,
 	label: string
+	type: PanelConfigType,
+	value: PanelConfigValue,
 }

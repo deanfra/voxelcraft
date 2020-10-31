@@ -14,7 +14,7 @@ const BlockSelectorGui = (props: Props) => {
 	}
 
 	return <>
-		<BlockSelector blockNames={props.blockNames} onClick={onclick} />
+		<BlockSelector selected={selectedBlock} blockNames={props.blockNames} onClick={onclick} />
 		<input id="GUISelectedBlock" type="hidden" value={selectedBlock} /><br />
 	</>
 }

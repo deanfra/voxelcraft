@@ -3,11 +3,12 @@ import BlockSelectorButton from './BlockSelectorButton';
 
 type Props = {
 	blockNames: string[]
+	selected: string
 	onClick: (name: string) => void
 }
 
 const BlockSelector = (props: Props) => {
-	const [selectedBlock, setSelectedBlock] = useState('cobblestone')
+	const [selectedBlock, setSelectedBlock] = useState(props.selected)
 	const onclick = (name: string) => {
 		setSelectedBlock(name)
 		props.onClick(name)
