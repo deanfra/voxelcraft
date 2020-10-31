@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { sample } from '../../generators/slabs';
 import BlockSelectorButton from './BlockSelectorButton';
 
 type Props = {
@@ -14,7 +15,14 @@ const BlockSelector = (props: Props) => {
 		props.onClick(name)
 	}
 
+	const random = () => {
+		const randomBlock = sample(props.blockNames)
+		setSelectedBlock(randomBlock)
+		props.onClick(randomBlock)
+	}
+
 	return <>
+		<BlockSelectorButton name='random' selected={false} onclick={random} />
 		{props.blockNames.map((name) =>
 			<BlockSelectorButton name={name} selected={selectedBlock === name} onclick={onclick} />
 		)}<br />
