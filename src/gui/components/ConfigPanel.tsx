@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { PanelConfig } from '../../interfaces';
-import { btnClass, drawerClass, h3Class, panelClass, panelClassHidden } from '../styles';
+import { btnClass, drawerClass, h3Class, panelClass, panelClassHidden, configLabel } from '../styles';
 import ConfigField from './ConfigField';
 
 type Props = {
@@ -30,7 +30,7 @@ const ConfigPanel = ({config, title, actionLabel, action, visible, onClose}: Pro
 
     {configState.map(({id, label, value, type}) => (
       <p key={`config-${id}`} className="mb-2">
-        <label className="flex">
+        <label className={configLabel}>
           <span className="flex-1">{label}</span>
           <ConfigField id={id} value={value} type={type} onChange={valueChange} />
         </label>

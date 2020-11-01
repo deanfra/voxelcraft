@@ -5,7 +5,7 @@
 
 import * as THREE from 'three'
 import {OrbitControls} from './jsm/controls/OrbitControls.js'
-import {blockNames} from './config'
+import {blockSwatches} from './config'
 import GUI from './gui/gui'
 import { State, Mesh, Materials } from './interfaces/index.js'
 
@@ -95,11 +95,11 @@ function init() {
 	state.scene.add(rollOverMesh)
 
 	// Materials
-	state.cubeMaterials = blockNames.reduce((acc, cur) => {
+	state.cubeMaterials = blockSwatches.reduce((acc, cur) => {
 		return {
 			...acc,
-			[cur]: new THREE.MeshLambertMaterial({
-				map: new THREE.TextureLoader().load('textures/' + cur + '.png'),
+			[cur.name]: new THREE.MeshLambertMaterial({
+				map: new THREE.TextureLoader().load('textures/' + cur.name + '.png'),
 			}),
 		}
 	}, {})

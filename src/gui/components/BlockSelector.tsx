@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
+import { blockSwatches } from '../../config';
 import { sample } from '../../generators/slabs';
 import BlockSelectorButton from './BlockSelectorButton';
 
 type Props = {
-	blockNames: string[]
 	selected: string
 	onClick: (name: string) => void
 }
@@ -16,16 +16,17 @@ const BlockSelector = (props: Props) => {
 	}
 
 	const random = () => {
-		const randomBlock = sample(props.blockNames)
+		const randomBlock = sample(blockSwatches).name
 		setSelectedBlock(randomBlock)
 		props.onClick(randomBlock)
 	}
 
 	return <>
+		<div className="flex space-between flex-wrap">
 		<BlockSelectorButton name='random' selected={false} onclick={random} />
-		{props.blockNames.map((name) =>
+		{blockSwatches.map(({name}) =>
 			<BlockSelectorButton name={name} selected={selectedBlock === name} onclick={onclick} />
-		)}<br />
+		)}</div><br />
 	</>
 }
 

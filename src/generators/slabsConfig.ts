@@ -5,13 +5,13 @@ const slabsConfig: PanelConfig[] = [
 		id: 'material1',
 		value: 'stone_bricks',
 		type: 'material',
-		label: 'Material 1',
+		label: 'Block 1',
 	},
 	{
 		id: 'material2',
 		value: 'spruce_planks',
 		type: 'material',
-		label: 'Material 2',
+		label: 'Block 2',
 	},
 	{
 		id: 'mirrorX',

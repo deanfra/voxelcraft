@@ -2,11 +2,10 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
 import {clearBlocks, generateSlabs, generateHouse, generateCastle} from '../utils/blocks'
-import { PanelConfig, State } from '../interfaces';
+import {PanelConfig, State} from '../interfaces';
 import castleConfig from '../generators/castleConfig';
 import houseConfig from '../generators/houseConfig';
 import slabsConfig from '../generators/slabsConfig';
-import {blockNames} from '../config'
 
 import BlockSelectorGui from './components/BlockSelectorGui';
 import CommandModal from './components/CommandModal'
@@ -14,7 +13,7 @@ import ConfigPanel from './components/ConfigPanel';
 import TemplateLoader from './components/TemplateLoader'
 import TransformControls from './components/TransformControls'
 
-import { btnClass, btnHoverClass, panelClass, h3Class } from './styles'
+import {btnClass, btnHoverClass, panelClass, h3Class} from './styles'
 
 type Props = {
 	state: State
@@ -71,7 +70,7 @@ function GUI({state}: Props) {
 		<>
 			<menu className={`${panelClass}`}>
 				<h3 className={h3Class}>📦 Place Block</h3>
-				<BlockSelectorGui blockNames={blockNames} />
+				<BlockSelectorGui />
 				<button className={btnToggleClass(mirrorX)} onTouchEnd={clickMirrorX} onClick={clickMirrorX}>
 					Mirror
 				</button>

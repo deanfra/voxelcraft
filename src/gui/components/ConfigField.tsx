@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { blockNames } from '../../config';
 import { btnClass, btnHoverClass, inputClass } from '../styles';
 import BlockSelector from './BlockSelector';
 import BlockSelectorButton from './BlockSelectorButton';
@@ -47,17 +46,16 @@ const ConfigField = ({id, value, type, onChange}: Props) => {
       type === 'material' &&
         <>
           {showSelector ?
-            <div className="pb-5 w-3/4">
+            <div className="w-3/4">
               <BlockSelector
                 selected={valueState as string}
-                blockNames={blockNames}
                 onClick={(val) => {
                   setShowSelector(false)
                   change(val)
                 }}
               />
             </div>
-          : <p className='text-right'>
+          : <p className='w-3/4 text-right'>
               <BlockSelectorButton
                 name={value as string}
                 selected={false}

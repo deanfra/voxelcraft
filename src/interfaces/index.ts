@@ -2,6 +2,7 @@ import * as THREE from 'three'
 
 export type Vector = { x: number, y: number, z: number, block?: string }
 export type VectorLookup = { [key: number]:{ [key: number]:{ [key: number]: boolean }}}
+export type MaterialSwatch = {name: string, type: string, label: string};
 export type Materials = {[key:string]: THREE.MeshLambertMaterial};
 export type Mesh = { position: Vector, name: string }
 export type State = {
