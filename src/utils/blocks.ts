@@ -4,20 +4,15 @@ import house from '../generators/house'
 import castle from '../generators/castle'
 import { State, Vector, VectorLookup, Mesh, PanelConfig } from '../interfaces'
 import { arrayToObject } from './array'
+import addVoxel from '../factories/voxel'
 
 type VectorUnit = number
 type BlockUnit = number
 
 export const fillBlocks = (blocks: Vector[], state: State) => {
-	const cubeGeo = new THREE.BoxBufferGeometry(50, 50, 50)
-
 	blocks.forEach(({x, y, z, block}) => {
-		// create cube
-		var voxel = new THREE.Mesh(cubeGeo, state.cubeMaterials[block as string])
-		voxel.position.set(x, y, z)
-		voxel.name = block as string
-		state.scene.add(voxel)
-		state.objects.push(voxel)
+		const position = {x, y, z} as THREE.Vector3
+		addVoxel(state, position, state.cubeMaterials[block as string], block as string)
 	})
 }
 
