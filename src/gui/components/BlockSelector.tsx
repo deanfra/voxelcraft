@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { blockSwatches } from '../../config';
 import { sample } from '../../generators/slabs';
+import {blockSelectorWrap} from '../styles';
 import BlockSelectorButton from './BlockSelectorButton';
 
 type Props = {
@@ -21,13 +22,12 @@ const BlockSelector = (props: Props) => {
 		props.onClick(randomBlock)
 	}
 
-	return <>
-		<div className="flex space-between flex-wrap">
+	return <div className={blockSelectorWrap}>
 		<BlockSelectorButton name='random' selected={false} onclick={random} />
 		{blockSwatches.map(({name}) =>
 			<BlockSelectorButton name={name} selected={selectedBlock === name} onclick={onclick} />
-		)}</div><br />
-	</>
+		)}
+	</div>
 }
 
 export default BlockSelector

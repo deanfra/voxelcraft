@@ -99,6 +99,7 @@ function init() {
 		return {
 			...acc,
 			[cur.name]: new THREE.MeshLambertMaterial({
+				transparent: !!cur.transparent,
 				map: new THREE.TextureLoader().load('textures/' + cur.name + '.png'),
 			}),
 		}
