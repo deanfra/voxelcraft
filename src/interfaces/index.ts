@@ -1,17 +1,19 @@
 import * as THREE from 'three'
+import { Object3D } from 'three';
 
 export type Vector = { x: number, y: number, z: number, block?: string }
 export type VectorLookup = { [key: number]:{ [key: number]:{ [key: number]: boolean }}}
 export type MaterialSwatch = {name: string, type: string, label: string, transparent?: boolean};
 export type Materials = {[key:string]: THREE.MeshLambertMaterial};
-export type Mesh = { position: Vector, name: string }
 export type State = {
   cubeMaterials: Materials;
   mirrorX: boolean;
+  selectedVoxel: string;
+  selectedBlock: string;
   modalOpen: boolean;
-  objects: Mesh[];
-  scene: THREE.Scene;
+  objects: Object3D[];
   render: () => void
+  scene: THREE.Scene;
 }
 
 export type Template = {

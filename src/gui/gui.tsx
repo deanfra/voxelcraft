@@ -33,6 +33,7 @@ function GUI({state}: Props) {
 	const [showCastlePanel, setShowCastlePanel] = useState(false)
 	const [showHousePanel, setShowHousePanel] = useState(false)
 	const [showSlabsPanel, setShowSlabsPanel] = useState(false)
+	const [selectedVoxel, setSelectedVoxel] = useState(state.selectedVoxel)
 
 	const untoggleAll = () => {setShowCastlePanel(false); setShowHousePanel(false); setShowSlabsPanel(false)}
 	const toggleCastlePanel = () => {untoggleAll(); setShowCastlePanel(!showCastlePanel)}
@@ -70,7 +71,20 @@ function GUI({state}: Props) {
 		<>
 			<menu className={`${panelClass}`}>
 				<h3 className={h3Class}>📦 Place Block</h3>
-				<BlockSelectorGui />
+				<button
+					className={`${btnClass} ${selectedVoxel === 'block' && btnHoverClass}`}
+					onTouchEnd={() => {setSelectedVoxel('block'); state.selectedVoxel = 'block'}}
+					onClick={() => {setSelectedVoxel('block'); state.selectedVoxel = 'block'}}>
+					Block
+				</button>
+				<button
+					className={`${btnClass} ${selectedVoxel === 'stairs' && btnHoverClass}`}
+					onTouchEnd={() => {setSelectedVoxel('stairs'); state.selectedVoxel = 'stairs'}}
+					onClick={() => {setSelectedVoxel('stairs'); state.selectedVoxel = 'stairs'}}>
+					Stairs
+				</button>
+
+				<BlockSelectorGui state={state} />
 				<button className={btnToggleClass(mirrorX)} onTouchEnd={clickMirrorX} onClick={clickMirrorX}>
 					Mirror
 				</button>

@@ -2,9 +2,10 @@ import * as THREE from 'three'
 import slabs from '../generators/slabs'
 import house from '../generators/house'
 import castle from '../generators/castle'
-import { State, Vector, VectorLookup, Mesh, PanelConfig } from '../interfaces'
+import { State, Vector, VectorLookup, PanelConfig } from '../interfaces'
 import { arrayToObject } from './array'
 import addVoxel from '../factories/voxel'
+import { Object3D } from 'three'
 
 type VectorUnit = number
 type BlockUnit = number
@@ -17,8 +18,12 @@ export const fillBlocks = (blocks: Vector[], state: State) => {
 }
 
 export const clearBlocks = (state: State) => {
-	state.objects.forEach((o:Mesh) => {
-		if (o.name !== 'plane') state.scene.remove(o as THREE.Object3D)
+	const blocks = state.objects
+		.slice(1) // removes plane
+		.map(o => !!o.name ? o : o.parent as Object3D)
+
+	blocks.forEach(o => {
+		state.scene.remove(o)
 	})
 
 	state.objects.splice(1, state.objects.length - 1)

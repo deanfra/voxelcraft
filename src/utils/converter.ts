@@ -1,14 +1,16 @@
-import {Vector, Mesh} from '../interfaces'
+import { Object3D } from 'three'
+import {Vector} from '../interfaces'
 import {toBlock} from './blocks'
 
 // let offsetY = 0
 let wrappingCharacters = 540 // the summon code around the blocks
 let commandLimit = 32500 - wrappingCharacters // the max characters per-iteration
 
-const toCommand = (objects: Mesh[]) => {
+const toCommand = (objects: Object3D[]) => {	
 	const vectors: Vector[] = objects
-		.filter((o: Mesh) => o.name !== 'plane')
-		.map((o: Mesh) => ({...o.position, block: o.name}))
+		.slice(1) // removes plane
+		.map(o => !!o.name ? o : o.parent as Object3D) // detect groups
+		.map(o => ({...o.position, block: o.name}))
 
 	const blocks: Vector[] = vectors.map(({x, y, z, block}) => ({
 		x: toBlock(x),
@@ -16,9 +18,6 @@ const toCommand = (objects: Mesh[]) => {
 		z: toBlock(z),
 		block,
 	}))
-
-	// get the lowest Y value
-	// offsetY = coordinates.map((b) => toBlock(b.y)).sort((a, b) => a - b)[0] || 0
 
 	const blockSets = getBlockStrings(blocks)
 	const output: string[] = blockSets.map((strings: string[]) => getCommand(strings))

@@ -7,7 +7,7 @@ import * as THREE from 'three'
 import {OrbitControls} from './jsm/controls/OrbitControls'
 import {blockSwatches} from './config'
 import GUI from './gui/gui'
-import { State, Mesh, Materials } from './interfaces/index'
+import { State, Materials } from './interfaces/index'
 import { Object3D } from 'three'
 import addVoxel from './factories/voxel'
 import addStair from './factories/stair'
@@ -23,9 +23,11 @@ let rollOverMesh: THREE.Mesh
 let rollOverMaterial: THREE.MeshBasicMaterial
 let cubeMaterials: Materials = {}
 
-let objects: Mesh[] = []
+let objects: Object3D[] = []
 let mirrorX = false
 let modalOpen = false
+let selectedVoxel = 'block'
+let selectedBlock = 'cobblestone'
 
 let touchTimer: NodeJS.Timeout
 let touchTime: number
@@ -35,7 +37,7 @@ let touchY: number
 // Record mouse movement
 const mouseMovement = {x: 0, y: 0, moveX:0, moveY: 0}
 
-let state: State = {scene, render, objects, cubeMaterials, mirrorX, modalOpen}
+let state: State = {scene, render, objects, cubeMaterials, mirrorX, modalOpen, selectedVoxel, selectedBlock}
 
 init()
 render()
@@ -119,7 +121,6 @@ function init() {
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight
 	camera.updateProjectionMatrix()
-
 	canvas.setSize(window.innerWidth, window.innerHeight)
 }
 
@@ -216,19 +217,25 @@ function onDocumentMouseUp(event: MouseEvent) {
 			}
 		} else {
 			// GET MATERIAL
-			const selectBlock = document.querySelector('#GUISelectedBlock') as HTMLInputElement
-			const selectedMaterial = selectBlock.value
+			const selectedMaterial = state.cubeMaterials[state.selectedBlock]
 			const position = getIntersectPosition(intersect)
-			addVoxel(state, position, state.cubeMaterials[selectedMaterial], selectedMaterial)
-			// addStair(state, position, 'oak_stairs')
+			if(state.selectedVoxel==='block') {
+				addVoxel(state, position, selectedMaterial, state.selectedBlock)
+			} else {
+				addStair(state, position, 'oak_stairs')
+			}
 
 			if (doMirrorX) {
 				// Mirror X
 				const x = intersect.point.x
 				intersect.point.x = x - x * 2
 				const position = getIntersectPosition(intersect)
-				addVoxel(state, position, state.cubeMaterials[selectedMaterial], selectedMaterial)
-			// addStair(state, position, 'oak_stairs')
+
+				if(state.selectedVoxel==='block') {
+					addVoxel(state, position, selectedMaterial, state.selectedBlock)
+				} else {
+					addStair(state, position, 'oak_stairs')
+				}
 			}
 		}
 	}

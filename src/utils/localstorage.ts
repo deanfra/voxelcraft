@@ -1,5 +1,6 @@
+import { Object3D } from 'three'
 import {exampleStorage} from '../config'
-import { Mesh, Template } from '../interfaces'
+import { Template } from '../interfaces'
 
 type LocalStore = {
 	saved: Template[]
@@ -8,11 +9,12 @@ type LocalStore = {
 const namespace = 'voxelcraft__storage'
 const newStore = exampleStorage
 
-const saveToLocalStorage = (objects: Mesh[]): void => {
+const saveToLocalStorage = (objects: Object3D[]): void => {
 	const title = prompt('Enter your template name') as string
 	const store = fetchAllFromLocalStorage()
 	const positions = objects
-		.filter((o) => o.name !== 'plane')
+		.slice(1) // removes plane
+		.map(o => !!o.name ? o : o.parent as Object3D) // detect groups
 		.map(({position: {x, y, z}, name}) => ({x, y, z, block: name}))
 
 	const template: Template = {
