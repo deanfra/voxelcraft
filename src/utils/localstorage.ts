@@ -14,7 +14,7 @@ const saveToLocalStorage = (objects: Object3D[]): void => {
 	const store = fetchAllFromLocalStorage()
 	const positions = objects
 		.slice(1) // removes plane
-		.map(o => !!o.name ? o : o.parent as Object3D) // detect groups
+		.map(o => o.parent && o.parent.name ? o.parent : o) // detect named groups
 		.map(({position: {x, y, z}, name}) => ({x, y, z, block: name}))
 
 	const template: Template = {

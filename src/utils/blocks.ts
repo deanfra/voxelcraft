@@ -5,15 +5,22 @@ import castle from '../generators/castle'
 import { State, Vector, VectorLookup, PanelConfig } from '../interfaces'
 import { arrayToObject } from './array'
 import addVoxel from '../factories/voxel'
+import addStair from '../factories/stair'
 import { Object3D } from 'three'
 
 type VectorUnit = number
 type BlockUnit = number
 
 export const fillBlocks = (blocks: Vector[], state: State) => {
-	blocks.forEach(({x, y, z, block}) => {
+	blocks.forEach(({x, y, z, block=""}) => {
 		const position = {x, y, z} as THREE.Vector3
-		addVoxel(state, position, state.cubeMaterials[block as string], block as string)
+		const material = block.split('[')[0]
+
+		if(material === 'oak_stairs') {
+			addStair(state, position, block)
+		} else {
+			addVoxel(state, position, state.cubeMaterials[material], block)
+		}
 	})
 }
 

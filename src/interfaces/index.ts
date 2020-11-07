@@ -10,6 +10,8 @@ export type State = {
   mirrorX: boolean;
   selectedVoxel: string;
   selectedBlock: string;
+  stairHalf: string;
+  stairFacing: string;
   modalOpen: boolean;
   objects: Object3D[];
   render: () => void

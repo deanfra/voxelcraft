@@ -9,7 +9,7 @@ let commandLimit = 32500 - wrappingCharacters // the max characters per-iteratio
 const toCommand = (objects: Object3D[]) => {	
 	const vectors: Vector[] = objects
 		.slice(1) // removes plane
-		.map(o => !!o.name ? o : o.parent as Object3D) // detect groups
+		.map(o => o.parent && o.parent.name ? o.parent : o) // detect groups
 		.map(o => ({...o.position, block: o.name}))
 
 	const blocks: Vector[] = vectors.map(({x, y, z, block}) => ({

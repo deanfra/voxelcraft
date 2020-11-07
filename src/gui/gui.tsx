@@ -10,6 +10,7 @@ import slabsConfig from '../generators/slabsConfig';
 import BlockSelectorGui from './components/BlockSelectorGui';
 import CommandModal from './components/CommandModal'
 import ConfigPanel from './components/ConfigPanel';
+import StairControls from './components/StairControls'
 import TemplateLoader from './components/TemplateLoader'
 import TransformControls from './components/TransformControls'
 
@@ -84,7 +85,9 @@ function GUI({state}: Props) {
 					Stairs
 				</button>
 
-				<BlockSelectorGui state={state} />
+				{selectedVoxel === 'stairs' ? <StairControls state={state} /> : null}
+				{selectedVoxel === 'block' ? <BlockSelectorGui state={state} /> : null}
+
 				<button className={btnToggleClass(mirrorX)} onTouchEnd={clickMirrorX} onClick={clickMirrorX}>
 					Mirror
 				</button>

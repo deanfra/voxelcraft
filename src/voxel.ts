@@ -28,6 +28,8 @@ let mirrorX = false
 let modalOpen = false
 let selectedVoxel = 'block'
 let selectedBlock = 'cobblestone'
+let stairFacing = 'south'
+let stairHalf = 'bottom'
 
 let touchTimer: NodeJS.Timeout
 let touchTime: number
@@ -37,7 +39,7 @@ let touchY: number
 // Record mouse movement
 const mouseMovement = {x: 0, y: 0, moveX:0, moveY: 0}
 
-let state: State = {scene, render, objects, cubeMaterials, mirrorX, modalOpen, selectedVoxel, selectedBlock}
+let state: State = {scene, render, objects, cubeMaterials, mirrorX, modalOpen, selectedVoxel, selectedBlock, stairHalf, stairFacing}
 
 init()
 render()
@@ -222,7 +224,7 @@ function onDocumentMouseUp(event: MouseEvent) {
 			if(state.selectedVoxel==='block') {
 				addVoxel(state, position, selectedMaterial, state.selectedBlock)
 			} else {
-				addStair(state, position, 'oak_stairs')
+				addStair(state, position, `oak_stairs[facing=${state.stairFacing},half=${state.stairHalf}]`)
 			}
 
 			if (doMirrorX) {
@@ -234,7 +236,7 @@ function onDocumentMouseUp(event: MouseEvent) {
 				if(state.selectedVoxel==='block') {
 					addVoxel(state, position, selectedMaterial, state.selectedBlock)
 				} else {
-					addStair(state, position, 'oak_stairs')
+					addStair(state, position, `oak_stairs[facing=${state.stairFacing},half=${state.stairHalf}]`)
 				}
 			}
 		}
