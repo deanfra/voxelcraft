@@ -10,17 +10,16 @@ Possible features and improvements to come:
 
 ### Features
 
-- [ ] _better styling for ui_
 - [ ] Update saved a template (rather than create/delete)
 - [ ] Paint mode
 - [ ] Shape mode
 - [ ] Larger grid area
-- [ ] More UI controls for randomizers
 - [ ] Windows for house & building generation
-- [ ] Stairs (with orientation)
 - [ ] Slabs (with orientation)
 - [ ] Logs with orientation
 - [ ] Mirror Voxels on y/z axis
+- [x] Stairs (with orientation)
+- [x] More UI controls for randomizers
 - [x] Frames for house generation
 - [x] Roofs for house generation
 - [x] Mirror Voxels x
