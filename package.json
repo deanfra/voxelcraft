@@ -49,6 +49,7 @@
     "lint-fix": "eslint src --ext tsx --ext ts --ignore-pattern libs --fix"
   },
   "keywords": [
+    "minecraft",
     "three",
     "three.js",
     "javascript",
