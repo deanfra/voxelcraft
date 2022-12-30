@@ -115,20 +115,6 @@ function GUI({state}: Props) {
         {selectedVoxel === 'stairs' ? <StairControls state={state} /> : null}
         {selectedVoxel === 'block' ? <BlockSelectorGui state={state} /> : null}
 
-        <button
-          className={btnToggleClass(mirrorX)}
-          onTouchEnd={clickMirrorX}
-          onClick={clickMirrorX}
-        >
-          Mirror
-        </button>
-        <button className={btnClass} onTouchEnd={clear} onClick={clear}>
-          Clear
-        </button>
-        <button className={btnFixedClass} onTouchEnd={generate} onClick={generate}>
-          Export
-        </button>
-
         <h3 className={h3Class}>✨ Random</h3>
         {/* refactor */}
         <div role="radiogroup">
@@ -166,6 +152,23 @@ function GUI({state}: Props) {
 
         <h3 className={h3Class}>↘️ Move model</h3>
         <TransformControls state={state} />
+
+        <div className="pb-12">
+          <button
+            className={btnToggleClass(mirrorX)}
+            onTouchEnd={clickMirrorX}
+            onClick={clickMirrorX}>
+            Mirror
+          </button>
+
+          <button className={btnClass} onTouchEnd={clear} onClick={clear}>
+            Clear
+          </button>
+        </div>
+
+        <button className={btnFixedClass} onTouchEnd={generate} onClick={generate}>
+          Export to minecraft
+        </button>
       </menu>
 
       <ConfigPanel

@@ -25,7 +25,7 @@ const TransformControls = (props: Props) => {
   const rotateY = () => pd(transform.rotateYObjects)
 
   return (
-    <div className="pb-20">
+    <div className="pb-5">
       <div className="flex">
         <button className={`${btnClass} flex-1`} onTouchEnd={rotateY} onClick={rotateY}>
           rotate Y

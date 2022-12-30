@@ -22,12 +22,12 @@ export const h2Class = 'text-lg mt-4 mb-3'
 export const h3Class = 'text-md mt-4 mb-3'
 
 // btns
-export const btnHoverClass = 'bg-' + purple
-export const btnClass = `bg-transparent hover:${btnHoverClass} text-white hover:text-white py-1 px-4 border border-${lightGray} hover:border-transparent`
+export const btnHoverClass = `hover:bg-${purple} hover:text-white hover:border-transparent`
+export const btnClass = `bg-transparent text-white py-1 px-4 border border-${lightGray} ${btnHoverClass}`
 export const btnBlockClass = 'border-2 border-transparent hover:border-' + lightGray
 export const btnBlockSelectedClass = 'border-' + purple
 export const btnFixedHoverClass = `hover:border-transparent hover:text-white hover:bg-${darkGreen}`
-export const btnFixedClass = `bg-transparent text-black py-1 px-4 border-black bg-${green} ${btnFixedHoverClass}`
+export const btnFixedClass = `fixed bottom-0 left-0 w-64 bg-transparent text-black py-2 px-4 border-black bg-${green} ${btnFixedHoverClass}`
 
 // inputs
 export const inputClass = `bg-transparent text-white py-1 px-4 border border-${lightGray} w-16`
