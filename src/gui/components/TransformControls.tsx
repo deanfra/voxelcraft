@@ -1,7 +1,8 @@
-import transform from '../../utils/transform'
 import React from 'react'
 import {State} from '../../interfaces'
+import transform from '../../utils/transform'
 import {btnClass, h3Class} from '../styles'
+import {Button} from './Button'
 
 type Props = {
   state: State
@@ -32,37 +33,19 @@ const TransformControls = (props: Props) => {
         </button>
         <br />
       </div>
-      <button className={btnClass} onTouchEnd={left} onClick={left}>
-        - x
-      </button>
-      <button className={btnClass} onTouchEnd={right} onClick={right}>
-        + x
-      </button>
+      <Button onClick={left}>- x</Button>
+      <Button onClick={right}>+ x</Button>
       <br />
-      <button className={btnClass} onTouchEnd={down} onClick={down}>
-        - y
-      </button>
-      <button className={btnClass} onTouchEnd={up} onClick={up}>
-        + y
-      </button>
+      <Button onClick={down}>- y</Button>
+      <Button onClick={up}>+ y</Button>
       <br />
-      <button className={btnClass} onTouchEnd={outward} onClick={outward}>
-        - z
-      </button>
-      <button className={btnClass} onTouchEnd={inward} onClick={inward}>
-        + z
-      </button>
+      <Button onClick={outward}>- z</Button>
+      <Button onClick={inward}>+ z</Button>
       <br />
-      <h3 className={h3Class}>↘️ Move model</h3>
-      <button className={btnClass} onTouchEnd={flipx} onClick={flipx}>
-        x
-      </button>
-      <button className={btnClass} onTouchEnd={flipy} onClick={flipy}>
-        y
-      </button>
-      <button className={btnClass} onTouchEnd={flipz} onClick={flipz}>
-        z
-      </button>
+      <h3 className={h3Class}>↘️ Flip model</h3>
+      <Button onClick={flipx}>x</Button>
+      <Button onClick={flipy}>y</Button>
+      <Button onClick={flipz}>z</Button>
     </div>
   )
 }

@@ -1,20 +1,21 @@
 import React, {useState} from 'react'
 import ReactDOM from 'react-dom'
 
-import {clearBlocks, generateSlabs, generateHouse, generateCastle} from '../utils/blocks'
-import {PanelConfig, State} from '../interfaces'
 import castleConfig from '../generators/castleConfig'
 import houseConfig from '../generators/houseConfig'
 import slabsConfig from '../generators/slabsConfig'
+import {InteractiveHandler, PanelConfig, State} from '../interfaces'
+import {clearBlocks, generateCastle, generateHouse, generateSlabs} from '../utils/blocks'
 
 import BlockSelectorGui from './components/BlockSelectorGui'
+import {Button} from './components/Button'
 import CommandModal from './components/CommandModal'
 import ConfigPanel from './components/ConfigPanel'
 import StairControls from './components/StairControls'
 import TemplateLoader from './components/TemplateLoader'
 import TransformControls from './components/TransformControls'
 
-import {btnClass, btnFixedClass, btnHoverClass, h3Class, panelClass} from './styles'
+import {btnActiveClass, btnClass, btnFixedClass, h3Class, panelClass} from './styles'
 
 type Props = {
   state: State
@@ -71,11 +72,11 @@ function GUI({state}: Props) {
   }
 
   const [showModal, setShowModal] = useState(false)
-  const btnToggleClass = (active: boolean) => `${btnClass} ${active ? btnHoverClass : ''}`
+  const btnToggleClass = (active: boolean) => `${btnClass} ${active ? btnActiveClass : ''}`
 
   // mirrorX
   const [mirrorX, setMirrorX] = useState(state.mirrorX)
-  const clickMirrorX = (e: any) => {
+  const clickMirrorX = (e: InteractiveHandler) => {
     e.preventDefault()
     setMirrorX(!mirrorX)
     state.mirrorX = !mirrorX
@@ -85,32 +86,24 @@ function GUI({state}: Props) {
     <>
       <menu className={`${panelClass}`}>
         <h3 className={h3Class}>📦 Place Block</h3>
-        <button
-          className={`${btnClass} ${selectedVoxel === 'block' && btnHoverClass}`}
-          onTouchEnd={() => {
-            setSelectedVoxel('block')
-            state.selectedVoxel = 'block'
-          }}
+
+        <Button
+          selected={selectedVoxel === 'block'}
           onClick={() => {
             setSelectedVoxel('block')
             state.selectedVoxel = 'block'
-          }}
-        >
+          }}>
           Block
-        </button>
-        <button
-          className={`${btnClass} ${selectedVoxel === 'stairs' && btnHoverClass}`}
-          onTouchEnd={() => {
-            setSelectedVoxel('stairs')
-            state.selectedVoxel = 'stairs'
-          }}
+        </Button>
+
+        <Button
+          selected={selectedVoxel === 'stairs'}
           onClick={() => {
             setSelectedVoxel('stairs')
             state.selectedVoxel = 'stairs'
-          }}
-        >
+          }}>
           Stairs
-        </button>
+        </Button>
 
         {selectedVoxel === 'stairs' ? <StairControls state={state} /> : null}
         {selectedVoxel === 'block' ? <BlockSelectorGui state={state} /> : null}
@@ -123,8 +116,7 @@ function GUI({state}: Props) {
             aria-checked={showHousePanel}
             className={btnToggleClass(showHousePanel)}
             onTouchEnd={toggleHousePanel}
-            onClick={toggleHousePanel}
-          >
+            onClick={toggleHousePanel}>
             House
           </button>
           <button
@@ -132,8 +124,7 @@ function GUI({state}: Props) {
             aria-checked={showCastlePanel}
             className={btnToggleClass(showCastlePanel)}
             onTouchEnd={toggleCastlePanel}
-            onClick={toggleCastlePanel}
-          >
+            onClick={toggleCastlePanel}>
             Castle
           </button>
           <button
@@ -141,8 +132,7 @@ function GUI({state}: Props) {
             aria-checked={showSlabsPanel}
             className={btnToggleClass(showSlabsPanel)}
             onTouchEnd={toggleSlabsPanel}
-            onClick={toggleSlabsPanel}
-          >
+            onClick={toggleSlabsPanel}>
             Slabs
           </button>
         </div>
@@ -154,16 +144,16 @@ function GUI({state}: Props) {
         <TransformControls state={state} />
 
         <div className="pb-12">
-          <button
-            className={btnToggleClass(mirrorX)}
-            onTouchEnd={clickMirrorX}
+          <Button
+            icon={mirrorX ? 'check_box' : 'check_box_outline_blank'}
+            selected={mirrorX}
             onClick={clickMirrorX}>
-            Mirror
-          </button>
+            Mirror mode
+          </Button>
 
-          <button className={btnClass} onTouchEnd={clear} onClick={clear}>
+          <Button icon="delete" onClick={clear} variant="red">
             Clear
-          </button>
+          </Button>
         </div>
 
         <button className={btnFixedClass} onTouchEnd={generate} onClick={generate}>

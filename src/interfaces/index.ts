@@ -1,3 +1,4 @@
+import {MouseEvent, TouchEvent} from 'react'
 import * as THREE from 'three'
 import {Object3D} from 'three'
 
@@ -33,3 +34,7 @@ export type PanelConfig = {
   type: PanelConfigType
   value: PanelConfigValue
 }
+
+export type InteractiveHandler =
+  | MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+  | TouchEvent<HTMLButtonElement | HTMLAnchorElement>

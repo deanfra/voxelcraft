@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>VoxelCraft</title>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-    />
-    <link type="text/css" rel="stylesheet" href="main.css" />
-    <link rel="icon" href="favicon.ico" type="image/ico" />
-  </head>
-  <body>
-    <link
-      href="//fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
 
-    <div id="react" class="relative"></div>
+<head>
+  <title>VoxelCraft</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <link type="text/css" rel="stylesheet" href="main.css" />
+  <link rel="icon" href="favicon.ico" type="image/ico" />
 
-    <div id="info" class="absolute top-0 w-full p-5 text-center z-10">
-      <!-- <strong>1-9</strong>: change texture, <strong>L click</strong>: add voxel, -->
-      <strong>L click</strong>: add voxel, <strong>R click</strong>: remove voxel
-    </div>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <style>
+    .material-symbols-rounded {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48
+    }
+  </style>
+</head>
 
-    <div id="canvas"></div>
+<body>
+  <link href="//fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css" />
+  <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet" />
 
-    <script type="module" src="voxel.js"></script>
-  </body>
+
+  <div id="react" class="relative"></div>
+
+  <div id="info" class="absolute top-0 w-full p-5 text-center z-10">
+    <!-- <strong>1-9</strong>: change texture, <strong>L click</strong>: add voxel, -->
+    <strong>L click</strong>: add voxel, <strong>R click</strong>: remove voxel
+  </div>
+
+  <div id="canvas"></div>
+
+  <script type="module" src="voxel.js"></script>
+</body>
+
 </html>
