@@ -2,13 +2,13 @@
   "name": "minecraft-voxel-generator",
   "version": "0.0.1",
   "description": "Minecraft Voxel Generator",
-  "main": "build/voxel.js",
+  "main": "dist/voxel.js",
   "files": [
     "voxel",
     "LICENSE",
     "package.json",
     "README.md",
-    "build"
+    "dist"
   ],
   "directories": {
     "voxel": "voxel"
@@ -42,10 +42,9 @@
     }
   },
   "scripts": {
-    "start": "npm run dev",
     "test": "jest",
     "build": "rollup -c rollup.config.js",
-    "dev": "concurrently --names \"ROLLUP,HTTP\" -c \"bgBlue.bold,bgGreen.bold\" \"rollup -c rollup.config.js -w -m inline\" \"http-server -c-1 -p 8080\"",
+    "start": "concurrently --names \"ROLLUP,HTTP\" -c \"bgBlue.bold,bgGreen.bold\" \"rollup -c rollup.config.js -w -m inline\" \"http-server ./dist -c-1 -p 8080\"",
     "lint-fix": "eslint src --ext tsx --ext ts --ignore-pattern libs --fix"
   },
   "keywords": [
@@ -94,9 +93,9 @@
       "package.json",
       "LICENSE",
       "README.md",
-      "build/voxel.js",
-      "build/index.html",
-      "build/main.css"
+      "dist/voxel.js",
+      "dist/index.html",
+      "dist/main.css"
     ],
     "directories": {}
   },

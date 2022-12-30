@@ -36,13 +36,13 @@ Possible features and improvements to come:
 
 `npm run start`
 
-You can run a dev server on: `localhost:8080/build`
+You can run a dev server on: `localhost:8080`
 
 ### Build
 
 `npm run build`
 
-Assets will be built to `./build`
+Assets will be built to `./dist`
 
 ### Test
 

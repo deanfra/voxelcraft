@@ -1,11 +1,11 @@
-import copy from 'rollup-plugin-copy'
-import babel from 'rollup-plugin-babel'
-import commonjs from 'rollup-plugin-commonjs'
-import typescript from 'rollup-plugin-typescript';
-import resolve from 'rollup-plugin-node-resolve';
-import replace from 'rollup-plugin-replace';
 import react from 'react';
 import reactDom from 'react-dom';
+import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
+import copy from 'rollup-plugin-copy';
+import resolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-replace';
+import typescript from 'rollup-plugin-typescript';
 
 const extensions = [
   '.js', '.jsx', '.ts', '.tsx',
@@ -17,17 +17,17 @@ export default {
 		{
 			format: 'umd',
 			name: 'voxel',
-			file: 'build/voxel.js',
+			file: 'dist/voxel.js',
 			indent: '\t',
 		},
 	],
 	plugins: [
 		copy({
 			targets: [
-				{src: 'src/index.html', dest: 'build'},
-				{src: 'src/main.css', dest: 'build'},
-				{src: 'src/textures', dest: 'build'},
-				{src: 'src/favicon.ico', dest: 'build'},
+				{src: 'src/index.html', dest: 'dist'},
+				{src: 'src/main.css', dest: 'dist'},
+				{src: 'src/textures', dest: 'dist'},
+				{src: 'src/favicon.ico', dest: 'dist'},
 			],
 		}),
 		replace({
