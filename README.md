@@ -2,7 +2,7 @@
 
 [Built upon the three.js voxel painter example](https://threejs.org/examples/webgl_interactive_voxelpainter.html)
 
-Initially built as a simple voxel painter that allows you to export your design to a Minecraft version 1.16 command block.
+Initially built as a simple voxel painter that allows you to export your design to a Minecraft version 1.19 command block.
 
 [Open the app on Netlify](https://voxelcraft.netlify.app/)
 
