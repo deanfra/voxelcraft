@@ -14,7 +14,7 @@ import StairControls from './components/StairControls'
 import TemplateLoader from './components/TemplateLoader'
 import TransformControls from './components/TransformControls'
 
-import {btnClass, btnHoverClass, panelClass, h3Class} from './styles'
+import {btnClass, btnFixedClass, btnHoverClass, h3Class, panelClass} from './styles'
 
 type Props = {
   state: State
@@ -125,7 +125,7 @@ function GUI({state}: Props) {
         <button className={btnClass} onTouchEnd={clear} onClick={clear}>
           Clear
         </button>
-        <button className={btnClass} onTouchEnd={generate} onClick={generate}>
+        <button className={btnFixedClass} onTouchEnd={generate} onClick={generate}>
           Export
         </button>
 

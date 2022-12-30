@@ -92,8 +92,8 @@ export const blockSwatches: MaterialSwatch[] = [
   {name: 'quartz_block', label: 'Quartz Block', type: 'mineral'},
   {name: 'quartz_pillar', label: 'Quartz Pillar', type: 'mineral'},
   {name: 'red_nether_bricks', label: 'Red Nether Bricks', type: 'mineral'},
-  {name: 'smooth_red_sandstone', label: 'Smooth Red Sandstone', type: 'mineral'},
-  {name: 'smooth_sandstone', label: 'Smooth Sandstone', type: 'mineral'},
+  // {name: 'smooth_red_sandstone', label: 'Smooth Red Sandstone', type: 'mineral'},
+  // {name: 'smooth_sandstone', label: 'Smooth Sandstone', type: 'mineral'},
   {name: 'smooth_stone', label: 'Smooth Stone', type: 'mineral'},
   {name: 'stone_bricks', label: 'Stone Bricks', type: 'mineral'},
 

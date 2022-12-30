@@ -1,6 +1,8 @@
 // Built with tailwind styling framework
 
 // color
+export const green = 'green-600'
+export const darkGreen = 'green-900'
 export const purple = 'purple-600'
 export const darkPurple = 'purple-900'
 export const lightGray = 'gray-700'
@@ -24,6 +26,8 @@ export const btnHoverClass = 'bg-' + purple
 export const btnClass = `bg-transparent hover:${btnHoverClass} text-white hover:text-white py-1 px-4 border border-${lightGray} hover:border-transparent`
 export const btnBlockClass = 'border-2 border-transparent hover:border-' + lightGray
 export const btnBlockSelectedClass = 'border-' + purple
+export const btnFixedHoverClass = `hover:border-transparent hover:text-white hover:bg-${darkGreen}`
+export const btnFixedClass = `bg-transparent text-black py-1 px-4 border-black bg-${green} ${btnFixedHoverClass}`
 
 // inputs
 export const inputClass = `bg-transparent text-white py-1 px-4 border border-${lightGray} w-16`
