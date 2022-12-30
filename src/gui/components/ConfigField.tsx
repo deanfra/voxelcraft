@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
-import {btnClass, btnHoverClass, inputClass} from '../styles'
+import {PanelConfigType, PanelConfigValue} from '../../interfaces/index'
+import {inputClass} from '../styles'
 import BlockSelector from './BlockSelector'
 import BlockSelectorButton from './BlockSelectorButton'
-import {PanelConfigValue, PanelConfigType} from '../../interfaces/index'
+import {Button} from './Button'
 
 type Props = {
   id: string
@@ -23,13 +24,9 @@ const ConfigField = ({id, value, type, onChange}: Props) => {
   return (
     <>
       {type === 'boolean' && (
-        <button
-          onClick={() => change(!valueState)}
-          onTouchEnd={() => change(!valueState)}
-          className={`${btnClass} ${valueState ? btnHoverClass : ''}`}
-        >
+        <Button selected={valueState as boolean} onClick={() => change(!valueState)}>
           {valueState ? 'YES' : 'NO'}
-        </button>
+        </Button>
       )}
       {type === 'number' && (
         <input

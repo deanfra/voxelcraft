@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {PanelConfig} from '../../interfaces'
-import {btnClass, drawerClass, h3Class, panelClass, panelClassHidden, configLabel} from '../styles'
+import {configLabel, drawerClass, h3Class, panelClass, panelClassHidden} from '../styles'
+import {Button} from './Button'
 import ConfigField from './ConfigField'
 
 type Props = {
@@ -39,13 +40,9 @@ const ConfigPanel = ({config, title, actionLabel, action, visible, onClose}: Pro
           </label>
         </p>
       ))}
-      <button
-        className={`${btnClass} float-right`}
-        onTouchEnd={() => action(configState)}
-        onClick={() => action(configState)}
-      >
+      <Button extraClass="float-right" onClick={() => action(configState)}>
         {actionLabel}
-      </button>
+      </Button>
     </menu>
   )
 }

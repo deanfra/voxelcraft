@@ -108,36 +108,21 @@ function GUI({state}: Props) {
         {selectedVoxel === 'stairs' ? <StairControls state={state} /> : null}
         {selectedVoxel === 'block' ? <BlockSelectorGui state={state} /> : null}
 
-        <h3 className={h3Class}>✨ Random</h3>
-        {/* refactor */}
-        <div role="radiogroup">
-          <button
-            role="radio"
-            aria-checked={showHousePanel}
-            className={btnToggleClass(showHousePanel)}
-            onTouchEnd={toggleHousePanel}
-            onClick={toggleHousePanel}>
+        <h3 className={h3Class}>✨ Random model</h3>
+
+        <div className="flex">
+          <Button flex={true} selected={showHousePanel} onClick={toggleHousePanel}>
             House
-          </button>
-          <button
-            role="radio"
-            aria-checked={showCastlePanel}
-            className={btnToggleClass(showCastlePanel)}
-            onTouchEnd={toggleCastlePanel}
-            onClick={toggleCastlePanel}>
+          </Button>
+          <Button flex={true} selected={showCastlePanel} onClick={toggleCastlePanel}>
             Castle
-          </button>
-          <button
-            role="radio"
-            aria-checked={showSlabsPanel}
-            className={btnToggleClass(showSlabsPanel)}
-            onTouchEnd={toggleSlabsPanel}
-            onClick={toggleSlabsPanel}>
+          </Button>
+          <Button flex={true} selected={showSlabsPanel} onClick={toggleSlabsPanel}>
             Slabs
-          </button>
+          </Button>
         </div>
 
-        <h3 className={h3Class}>💾 Load/Save</h3>
+        <h3 className={h3Class}>💾 Load / Save model</h3>
         <TemplateLoader state={state} />
 
         <h3 className={h3Class}>↘️ Move model</h3>

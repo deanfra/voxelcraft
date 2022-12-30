@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {State} from '../../interfaces'
-import {blockSelectorWrap, btnClass} from '../styles'
+import {blockSelectorWrap} from '../styles'
+import {Button} from './Button'
 
 type Props = {
   state: State
@@ -37,20 +38,12 @@ const StairControls = ({state}: Props) => {
 
   return (
     <div className={`${blockSelectorWrap} h-auto mb-4 flex`}>
-      <button
-        className={btnClass}
-        onTouchEnd={() => changeDir(direction)}
-        onClick={() => changeDir(direction)}
-      >
+      <Button flex={true} onClick={() => changeDir(direction)}>
         facing {direction}
-      </button>
-      <button
-        className={btnClass}
-        onTouchEnd={() => changeDir(half)}
-        onClick={() => changeHalf(half)}
-      >
+      </Button>
+      <Button flex={true} onClick={() => changeHalf(half)}>
         {half} down
-      </button>
+      </Button>
     </div>
   )
 }

@@ -1,8 +1,9 @@
-import storage from '../../utils/localstorage'
-import {clearBlocks, fillBlocks} from '../../utils/blocks'
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {State, Template} from '../../interfaces'
+import {clearBlocks, fillBlocks} from '../../utils/blocks'
+import storage from '../../utils/localstorage'
 import {btnClass, listItemClass} from '../styles'
+import {Button} from './Button'
 
 type LoaderProps = {
   state: State
@@ -72,10 +73,10 @@ const TemplateLoader = (props: LoaderProps) => {
           del={(id: string) => del(id)}
         />
       ))}
-      <li className={listItemClass}>
-        <button className={`${btnClass} flex-1`} onTouchEnd={save} onClick={save}>
-          + Save
-        </button>
+      <li className={`${listItemClass} mt-3`}>
+        <Button flex={true} icon="save" onClick={save}>
+          Save model
+        </Button>
       </li>
     </ul>
   )
