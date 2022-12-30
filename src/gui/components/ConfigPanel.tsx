@@ -27,6 +27,7 @@ const ConfigPanel = ({config, title, actionLabel, action, visible, onClose}: Pro
   const randomise = () => {
     const randomisedConfig = randomiseConfig(configState)
     setConfigState(randomisedConfig)
+    action(randomisedConfig)
   }
 
   return (

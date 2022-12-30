@@ -1,14 +1,14 @@
-import toCommand from '../../utils/converter'
-import CommandCode from './CommandCode'
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {State} from '../../interfaces'
+import toCommand from '../../utils/converter'
 import {
   h2Class,
+  modalCloseClass,
   modalClosedClass,
   modalInnerClass,
   modalOpenedClass,
-  modalCloseClass,
 } from '../styles'
+import CommandCode from './CommandCode'
 
 type Props = {
   state: State
@@ -26,10 +26,10 @@ const CommandModal = ({state, show, onClose}: Props) => {
 
   return (
     <div className={show ? modalOpenedClass : modalClosedClass}>
-      <div className={modalInnerClass}>
-        <h2 className={h2Class}>{`🎁 Your command block code${
-          generated.length > 1 ? 's' : ''
-        }`}</h2>
+      <div className={modalInnerClass} style={{height: '100%'}}>
+        <h2 className={h2Class}>{`🎁 Your ${
+          generated.length > 1 ? generated.length : ''
+        } command block code${generated.length > 1 ? 's' : ''}`}</h2>
         <button title="Close" className={modalCloseClass} onTouchEnd={onClose} onClick={onClose}>
           Close
         </button>

@@ -127,15 +127,16 @@ function GUI({state}: Props) {
         <h3 className={h3Class}>↘️ Move model</h3>
         <TransformControls state={state} />
 
-        <div className="pb-12">
+        <div className="pb-12 flex">
           <Button
+            flex={true}
             icon={mirrorX ? 'check_box' : 'check_box_outline_blank'}
             selected={mirrorX}
             onClick={clickMirrorX}>
-            Mirror mode
+            Mirror
           </Button>
 
-          <Button icon="delete" onClick={clear} variant="red">
+          <Button flex={true} icon="delete" onClick={clear} variant="red">
             Clear
           </Button>
         </div>

@@ -27,42 +27,50 @@ const TransformControls = (props: Props) => {
 
   return (
     <div className="pb-5">
-      <div className="flex">
+      <div className="flex pb-2">
         <Button flex={true} icon="cached" onClick={rotateY}>
           Rotate Y
         </Button>
       </div>
-      <Button icon="remove" onClick={left}>
-        X
-      </Button>
-      <Button icon="add" onClick={right}>
-        X
-      </Button>
-      <br />
-      <Button icon="remove" onClick={down}>
-        Y
-      </Button>
-      <Button icon="add" onClick={up}>
-        Y
-      </Button>
-      <br />
-      <Button icon="remove" onClick={outward}>
-        Z
-      </Button>
-      <Button icon="add" onClick={inward}>
-        Z
-      </Button>
-      <br />
+      <div className="flex">
+        <Button flex={true} icon="remove" onClick={left}>
+          X
+        </Button>
+        <Button flex={true} icon="add" onClick={right}>
+          X
+        </Button>
+      </div>
+
+      <div className="flex">
+        <Button flex={true} icon="remove" onClick={down}>
+          Y
+        </Button>
+        <Button flex={true} icon="add" onClick={up}>
+          Y
+        </Button>
+      </div>
+
+      <div className="flex">
+        <Button flex={true} icon="remove" onClick={outward}>
+          Z
+        </Button>
+        <Button flex={true} icon="add" onClick={inward}>
+          Z
+        </Button>
+      </div>
+
       <h3 className={h3Class}>↘️ Flip model</h3>
-      <Button icon="flip" onClick={flipx}>
-        X
-      </Button>
-      <Button icon="flip" onClick={flipy}>
-        Y
-      </Button>
-      <Button icon="flip" onClick={flipz}>
-        Z
-      </Button>
+      <div className="flex">
+        <Button flex={true} icon="flip" onClick={flipx}>
+          X
+        </Button>
+        <Button flex={true} icon="flip" onClick={flipy}>
+          Y
+        </Button>
+        <Button flex={true} icon="flip" onClick={flipz}>
+          Z
+        </Button>
+      </div>
     </div>
   )
 }
