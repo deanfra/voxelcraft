@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {PanelConfigType, PanelConfigValue} from '../../interfaces/index'
 import {inputClass} from '../styles'
 import BlockSelector from './BlockSelector'
@@ -20,6 +20,11 @@ const ConfigField = ({id, value, type, onChange}: Props) => {
     setValueState(newValue)
     onChange(id, newValue)
   }
+
+  useEffect(() => {
+    // Externally affected value changes (like the randomiser)
+    setValueState(value)
+  }, [value])
 
   return (
     <>

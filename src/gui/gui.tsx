@@ -15,7 +15,7 @@ import StairControls from './components/StairControls'
 import TemplateLoader from './components/TemplateLoader'
 import TransformControls from './components/TransformControls'
 
-import {btnActiveClass, btnClass, btnFixedClass, h3Class, panelClass} from './styles'
+import {btnFixedClass, h3Class, panelClass} from './styles'
 
 type Props = {
   state: State
@@ -72,7 +72,6 @@ function GUI({state}: Props) {
   }
 
   const [showModal, setShowModal] = useState(false)
-  const btnToggleClass = (active: boolean) => `${btnClass} ${active ? btnActiveClass : ''}`
 
   // mirrorX
   const [mirrorX, setMirrorX] = useState(state.mirrorX)

@@ -31,11 +31,13 @@ export const btnClass = `bg-transparent text-white py-2 px-4 border outline-0 bo
 export const btnRedHoverClass = `hover:bg-${darkRed}`
 export const btnRedClass = `${btnClass} bg-${red} border-${darkRed} ${btnRedHoverClass}`
 
+export const btnGreenHoverClass = `hover:border-transparen hover:bg-${darkGreen}`
+export const btnGreenClass = `bg-transparent py-2 px-4 border-black bg-${green} ${btnGreenHoverClass}`
+
 export const btnBlockClass = 'border-2 border-transparent hover:border-' + lightGray
 export const btnBlockSelectedClass = `border-${purple}`
 
-export const btnFixedHoverClass = `hover:border-transparent hover:text-white hover:bg-${darkGreen}`
-export const btnFixedClass = `fixed bottom-0 left-0 w-64 bg-transparent text-black py-2 px-4 border-black bg-${green} ${btnFixedHoverClass}`
+export const btnFixedClass = `fixed bottom-0 left-0 w-64 ${btnGreenClass}`
 
 // inputs
 export const inputClass = `bg-transparent text-white py-1 px-4 border border-${lightGray} w-16`

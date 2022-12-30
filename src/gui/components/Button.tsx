@@ -1,6 +1,6 @@
 import React, {FC} from 'react'
 import {InteractiveHandler} from '../../interfaces'
-import {btnActiveClass, btnClass, btnRedClass} from '../styles'
+import {btnActiveClass, btnClass, btnRedClass, btnGreenClass} from '../styles'
 
 type Props = {
   extraClass?: string
@@ -8,7 +8,7 @@ type Props = {
   icon?: string
   onClick: (e: InteractiveHandler) => void
   selected?: boolean
-  variant?: 'red'
+  variant?: 'red' | 'green'
 }
 
 export const Button: FC<Props> = ({
@@ -21,7 +21,7 @@ export const Button: FC<Props> = ({
   variant,
 }) => {
   const selectedClass = selected === true && btnActiveClass
-  const variantClass = variant === 'red' && btnRedClass
+  const variantClass = (variant === 'red' && btnRedClass) || (variant === 'green' && btnGreenClass)
   const flexClass = flex === true && 'flex-1'
   const className = `${btnClass} ${selectedClass} ${variantClass} ${flexClass} ${extraClass}`
 

@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {randomiseConfig} from '../../generators/configRandomiser'
 import {PanelConfig} from '../../interfaces'
 import {configLabel, drawerClass, h3Class, panelClass, panelClassHidden} from '../styles'
 import {Button} from './Button'
@@ -23,6 +24,11 @@ const ConfigPanel = ({config, title, actionLabel, action, visible, onClose}: Pro
     setConfigState(newConfig)
   }
 
+  const randomise = () => {
+    const randomisedConfig = randomiseConfig(configState)
+    setConfigState(randomisedConfig)
+  }
+
   return (
     <menu className={`${panelClass} ${drawerClass} ${visible ? '' : panelClassHidden}`}>
       <h3 className={h3Class}>
@@ -31,7 +37,6 @@ const ConfigPanel = ({config, title, actionLabel, action, visible, onClose}: Pro
           ⨯
         </button>
       </h3>
-
       {configState.map(({id, label, value, type}) => (
         <p key={`config-${id}`} className="mb-2">
           <label className={configLabel}>
@@ -40,7 +45,15 @@ const ConfigPanel = ({config, title, actionLabel, action, visible, onClose}: Pro
           </label>
         </p>
       ))}
-      <Button extraClass="float-right" onClick={() => action(configState)}>
+      <Button flex={true} icon="shuffle" onClick={randomise}>
+        Random
+      </Button>
+      <Button
+        flex={true}
+        icon="auto_fix"
+        variant="green"
+        extraClass="float-right"
+        onClick={() => action(configState)}>
         {actionLabel}
       </Button>
     </menu>
