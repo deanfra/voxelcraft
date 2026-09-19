@@ -6,6 +6,7 @@ import copy from 'rollup-plugin-copy';
 import resolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import typescript from 'rollup-plugin-typescript';
+import livereload from 'rollup-plugin-livereload'
 
 const extensions = [
   '.js', '.jsx', '.ts', '.tsx',
@@ -34,6 +35,7 @@ export default {
 			// Fixes Error: "Uncaught ReferenceError: process is not defined"
       'process.env.NODE_ENV': JSON.stringify( 'production' )
     }),
+		livereload(),
 		resolve(),
 		typescript(),
 		commonjs({

@@ -30,7 +30,9 @@ const getBlockStrings = (blocks: Vector[]): string[][] => {
   let blockSets: string[][] = []
 
   blocks.forEach(({x, y, z, block}) => {
-    const string = `{id:command_block_minecart,Command:'setblock ~${x} ~${y} ~${z} ${block}'}`
+    const string = `{id:command_block_minecart,Command:"setblock ~${x} ~${y} ~${z} ${block}"}`
+    // From single to double
+    // const string = `{id:command_block_minecart,Command:'setblock ~${x} ~${y} ~${z} ${block}'}`
 
     if (blockSet.join(',').length + string.length > commandLimit) {
       // if this new command exceeds the command limit, make a new command
@@ -48,7 +50,8 @@ const getBlockStrings = (blocks: Vector[]): string[][] => {
   return blockSets
 }
 
-const getCommand = (strings: string[]): string =>
+/*
+const getCommand_v19 = (strings: string[]): string =>
   'summon falling_block ~ ~1 ~ {Time:1,BlockState:{Name:redstone_block},Passengers:[' +
   '{id:falling_block,Passengers:[' +
   '{id:falling_block,Time:1,BlockState:{Name:activator_rail},Passengers:[' +
@@ -58,5 +61,14 @@ const getCommand = (strings: string[]): string =>
   ',' +
   '{id:command_block_minecart,Command:\'setblock ~ ~1 ~ command_block{auto:1,Command:"fill ~ ~ ~ ~ ~-3 ~ air"}\'},' +
   "{id:command_block_minecart,Command:'kill @e[type=command_block_minecart,distance=..1]'}]}]}]}"
+*/
+
+// V26
+const getCommand = (strings: string[]): string =>
+  'summon falling_block ~ ~1 ~ {BlockState:{id:redstone_block},Passengers:[{id:falling_block,BlockState:{id:activator_rail}},' +
+  strings.join(',') +
+  ',' +
+  '{id:command_block_minecart,Command:"setblock ~ ~1 ~ command_block{Command:\\\"fill ~ ~ ~ ~ ~-3 ~ air\\\",auto:1}"},' +
+  '{id:command_block_minecart,Command:"execute align xyz run kill @e[type=command_block_minecart,dy=0]"}]}'
 
 export default toCommand
